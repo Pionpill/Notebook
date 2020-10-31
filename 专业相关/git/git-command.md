@@ -235,6 +235,15 @@
   - <span class=command> git commit -m "message" </span> 提交删除文件
   - <span class=command> git push -u origin master </span> 向GitHub仓库(origin)提交分支(master)
 
+<h3> 常见问题 </h3>
+<hr>
+
+> <span class="hint"> GitHub同步过程常见问题解决 </span>
+  - 仓库历史不匹配 <span class="hint"> refusing to merge unrelated histories </span>
+    - 解决链接：[记Git报错-refusing to merge unrelated histories](https://blog.csdn.net/u012145252/article/details/80628451)
+    - 解决方案：<span class="command"> --allow-unrelated-history </span> 在pull后面加入该指令
+      - <span class="command"> $git pull origin master --allow-unrelated-histories </span>
+
 
 <h2> Github 常用指令 </h2>
 <h3> 指令列表 </h3>
