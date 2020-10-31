@@ -1,6 +1,6 @@
 # **NOTES**
 ## **introduction**
-- This file contains some personal notes about my collage lessons and  self-study technology  
+- This file contains some personal notes about my collage lessons and  self-study technology like markdown grammer  
 - Most of them are writen in chinese and only a few file is writen by all english
 - Gald to receive feedbacks if you have any suggestions or find some mistakes
 
