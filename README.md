@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # **NOTES**
 ## **introduction**
 - This file contains some personal notes about my collage lessons and  self-study technology  
@@ -23,3 +24,7 @@
 - submit to <font color=cyan>GPLv3</font> licence please
 
 2020.10.31.20.00
+=======
+# Notes
+my personal notes about collage lessons and some self-study technology
+>>>>>>> c6f6af8388340c52ce83195454a96662cf397bc2
