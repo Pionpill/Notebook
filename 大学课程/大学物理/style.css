@@ -1,0 +1,20 @@
+.imp{
+    font-weight: 700;
+    color: lightseagreen;
+}
+
+.book{
+    font-weight: 700px;
+    color: lightslategray;
+}
+
+.focus{
+    color: orange;
+}
+
+.writer{
+    border:solid  grey;
+    font-weight: 700px;
+    margin-top: 3em;
+    text-align: center;
+}
