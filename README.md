@@ -4,6 +4,12 @@
 - Most of them are writen in chinese and only a few file is writen by all english
 - Gald to receive feedbacks if you have any suggestions or find some mistakes
 
+## **branch**
+- the main branch includes thorough notes 
+  - update <font color=cyan>monthly</font>
+- the Pionpill branch includes changes every day I write
+  - update when adding new content <font color=cyan>daily</font>
+
 ## **file type**
 - almost all the notes are writen by <font color=cyan>markdown </font> 
 - the majority of the note files contain some <font color=cyan>html & css </font>grammer to make struct and layout looking better
