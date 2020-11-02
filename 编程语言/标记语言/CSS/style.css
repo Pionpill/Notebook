@@ -1,0 +1,36 @@
+.format {
+  font-weight: bold;
+  color: aquamarine;
+  padding-left: 1em;
+}
+
+h1:first-of-type {
+  font-weight: bold;
+  padding-bottom: 1ex;
+  padding-top: 1em;
+  text-align: center;
+}
+
+h1:not(:first-of-type) {
+  font-weight: bold;
+  padding-top: 3em;
+  padding-bottom: 1ex;
+  text-align: center;
+}
+
+h2 {
+  font-weight: bold;
+  padding-top: 1em;
+  padding-bottom: 1ex;
+}
+
+.main-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  padding-top: 2em;
+}
+
+.pic{
+  padding-top: 1em;
+  padding-bottom: 1ex;
+}
