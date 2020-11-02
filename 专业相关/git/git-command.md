@@ -97,6 +97,7 @@
   - <span class='command'> git checkout -b "name" </span> 创建+切换分支
   - <span class='command'> git merge "name" </span> 合并某分支到当前分支
   - <span class='command'> git branch -d "name" <name> </span> 删除分支
+    - <span class="hint"> 只有在commit之后才能创建并使用branch </span>
   - 合并到主分支例子
     1. <span class='command'> git checkout -b dev </span> 创建分支dev
     2. 在dev分支上进行一通操作
