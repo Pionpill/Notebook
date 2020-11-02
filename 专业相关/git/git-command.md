@@ -97,7 +97,10 @@
   - <span class='command'> git checkout -b "name" </span> 创建+切换分支
   - <span class='command'> git merge "name" </span> 合并某分支到当前分支
   - <span class='command'> git branch -d "name" <name> </span> 删除分支
+<<<<<<< HEAD
     - <span class="hint"> 只有在commit之后才能创建并使用branch </span>
+=======
+>>>>>>> b91b95d5875bb058bc14aad1796ab66299ccc7e2
   - 合并到主分支例子
     1. <span class='command'> git checkout -b dev </span> 创建分支dev
     2. 在dev分支上进行一通操作
@@ -239,7 +242,7 @@
 <h3> 常见问题 </h3>
 <hr>
 
-> <span class="hint"> GitHub同步过程常见问题解决 </span>
+> <span class="hint"> GitHub同步常见问题解决 </span>
   - 仓库历史不匹配 <span class="hint"> refusing to merge unrelated histories </span>
     - 解决链接：[记Git报错-refusing to merge unrelated histories](https://blog.csdn.net/u012145252/article/details/80628451)
     - 解决方案：<span class="command"> --allow-unrelated-history </span> 在pull后面加入该指令
