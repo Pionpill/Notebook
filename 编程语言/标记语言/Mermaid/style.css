@@ -46,3 +46,9 @@ h4{
     border-radius: 7px;
     box-shadow: 0 5px 5px #ffffff60;
 }
+
+.speaker{
+    font-weight: 500;
+    color: grey;
+    float: right;
+}
