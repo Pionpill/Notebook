@@ -1,4 +1,5 @@
 # **basic grammer**
+参考文献 [CSDN](https://www.runoob.com/python3/python3-basic-syntax.html)
 
 ## **keyword**
 > 'False', 'None', 'True', 'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield'
@@ -119,20 +120,20 @@ print( y, end=" " )
 * one function : from somemodule import somefunction
 * some function : from somemodule import firstfunc, secondfunc, thirdfunc
 * all functions : from somemodule import *
-```python
-import sys
-print('================Python import mode==========================')
-print ('命令行参数为:')
-for i in sys.argv:
-    print (i)
-print ('\n python 路径为',sys.path)
-```
-```python
-from sys import argv,path  #  导入特定的成员
-print('================python from import===================================')
-print('path:',path) # 因为已经导入path成员，所以此处引用时不需要加sys.path
-```
+    ```python
+    import sys
+    print('================Python import mode==========================')
+    print ('命令行参数为:')
+    for i in sys.argv:
+        print (i)
+    print ('\n python 路径为',sys.path)
+    ```
+    ```python
+    from sys import argv,path  #  导入特定的成员
+    print('================python from import===================================')
+    print('path:',path) # 因为已经导入path成员，所以此处引用时不需要加sys.path
+    ```
 <br>
 
 ## **command line parameter**
-> -h
+> -h     : print this help message and exit

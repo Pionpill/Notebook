@@ -113,16 +113,16 @@ print ("6 - c 的值为：", c)
 ## **logical operator**
 * similar to Boolean operation    
 
-| operator | example |
-| :------: | :-----: |
-|   and    | x and y |
-|    or    | x or y  |
+| operator | example |              description              |
+| :------: | :-----: | :-----------------------------------: |
+|   and    | x and y | if x=false return false else return y |
+|    or    | x or y  |   if x=true return x else return y    |
 |   not    |  not x  |
-|          |         |
+|          |         |                                       |
 <br>
 
 ## **member operator**
-| operator |       description        |
+| operator |        expression        |
 | :------: | :----------------------: |
 |    in    |  如果在序列中，返回true  |
 |  not in  | 如果在不序列中，返回true |
@@ -199,7 +199,7 @@ else:
 |         operator         |   description    |
 | :----------------------: | :--------------: |
 |            **            |       指数       |
-|          ~ + -           | 位翻转，一元加减  |
+|          ~ + -           | 位翻转，一元加减 |
 |         * / % //         |                  |
 |           + -            |                  |
 |          >> <<           |                  |
@@ -208,7 +208,7 @@ else:
 |        < <= > >=         |                  |
 |          == !=           |                  |
 | = %= /= //= -= += *= **= |                  |
-|        is is not         |    身份运算符     |
+|        is is not         |    身份运算符    |
 |        in not in         |    成员运算符    |
 |        not and or        |    逻辑运算符    |
 |                          |                  |
