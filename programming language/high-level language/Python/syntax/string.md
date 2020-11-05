@@ -89,3 +89,30 @@
   | (var)  | map                                    |
   |  m.n   | m:min width n:precision                |
   |        |                                        |
+
+## **"""**
+- Three quotes make a string do linefeed when printing as same as in source code
+  ```python
+  para_str = """这是一个多行字符串的实例
+  多行字符串可以使用制表符
+  """
+  print (para_str)
+
+  # out
+  这是一个多行字符串的实例
+  多行字符串可以使用制表符
+  ```
+
+## **f-string**
+- grammer：f' {expression}content '
+- expression will be jundged by python
+  ```python
+  # Python 3.6
+  >>> x = 1
+  >>> print(f'{x+1}')   
+  2
+  # Python 3.8
+  >>> x = 1
+  >>> print(f'{x+1=}')   
+  'x+1=2'
+  ```
