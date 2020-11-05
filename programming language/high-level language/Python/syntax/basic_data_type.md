@@ -1,5 +1,5 @@
 # **basic data type**
-参考文献 [CSDN](https://www.runoob.com/python3/python3-basic-syntax.html)
+参考文献 [runoob](https://www.runoob.com/python3/python3-basic-syntax.html)
 
 ## **state & assign**
 > variates must be assigned when using
