@@ -1,0 +1,59 @@
+h1{
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h2{
+    margin-top: 2em;
+    font-weight: bold;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+h3{
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1ex;
+    text-transform: capitalize;
+}
+
+h4{
+    font-weight: 600;
+}
+
+.name{
+    font-weight: bold;
+    color: yellowgreen;
+}
+
+.command{
+    font-weight: bold;
+    color: cyan;
+    opacity: 0.6;
+    padding-right: 1ex;
+}
+
+.feedback{
+    font-weight: 600;
+    color: tan;
+    padding-right: 1ex;
+}
+
+.hint{
+    font-weight: 400;
+    color: grey;
+}
+
+.pic{
+    margin-top: 1ex;
+    margin-bottom: 1em;
+    border-radius: 7px;
+    box-shadow: 0 5px 5px #ffffff60;
+}
+
+.speaker{
+    font-weight: 500;
+    color: grey;
+    float: right;
+}
