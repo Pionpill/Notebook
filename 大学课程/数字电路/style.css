@@ -11,19 +11,7 @@
     color: grey;
 }
 
-.pic{
-    padding-top: 1ex;
-    padding-bottom: 1em;
-}
-
-.table_center{
-    text-align: center;
-}
-
-.table_center .thead .tr .th{
-    text-align: center;
-}
-
-.table_center .tbody .tr .td{
-    text-align: center;
+.imp{
+    color: #33a3dc;
+    font-weight: bold;
 }
