@@ -1,4 +1,29 @@
+.abbr{
+    font-weight: bold;
+    color: lightseagreen;
+}
+
+.all_abbr{
+    color: lightseagreen; 
+}
+
+.note{
+    color: grey;
+}
+
 .pic{
     padding-top: 1ex;
     padding-bottom: 1em;
+}
+
+.table_center{
+    text-align: center;
+}
+
+.table_center .thead .tr .th{
+    text-align: center;
+}
+
+.table_center .tbody .tr .td{
+    text-align: center;
 }
