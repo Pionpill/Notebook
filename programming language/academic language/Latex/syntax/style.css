@@ -1,0 +1,58 @@
+h1 {
+  text-transform: uppercase;
+  font-size     : 32px;
+  font-weight   : bold;
+  text-align    : center;
+}
+
+h2 {
+  text-transform: capitalize;
+  font-size     : 28px;
+  margin-top    : 2em;
+  font-weight   : bold;
+  text-align    : center;
+}
+
+h3 {
+  font-size     : 24px;
+  font-weight   : bold;
+  margin-top    : 1em;
+  margin-bottom : 1ex;
+  padding-bottom: 1ex;
+  border-bottom : 1px solid #ffffff60;
+}
+
+h4 {
+  font-size      : 16px;
+  font-weight    : 600;
+  margin-top     : 1em;
+}
+
+.macro {
+  font-weight: bold;
+  color      : #c586c0;
+}
+
+.command {
+  font-weight: bold;
+  color      : cyan;
+  opacity    : 0.6;
+}
+
+.attribute {
+  font-weight  : 600;
+  color        : tan;
+  padding-right: 1ex;
+}
+
+.hint {
+  font-weight: 400;
+  color      : grey;
+}
+
+.pic {
+  margin-top   : 1ex;
+  margin-bottom: 1em;
+  border-radius: 7px;
+  box-shadow   : 0 5px 5px #ffffff60;
+}
