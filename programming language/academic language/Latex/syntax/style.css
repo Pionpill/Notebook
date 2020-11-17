@@ -18,7 +18,7 @@ h3 {
   font-weight   : bold;
   margin-top    : 1em;
   margin-bottom : 1ex;
-  padding-bottom: 1ex;
+  padding-bottom: 0.5ex;
   border-bottom : 1px solid #ffffff60;
 }
 
