@@ -1,4 +1,10 @@
-.smallpic{
-    padding-top: 1em;
+.smallpic {
+    padding-top   : 1em;
     padding-bottom: 1ex;
+}
+
+.box {
+    border : solid 1px white;
+    padding: 0.5ex 3ex;
+    margin : 0;
 }
