@@ -8,3 +8,8 @@
     padding: 0.5ex 3ex;
     margin : 0;
 }
+
+.imp{
+    color: lightgreen;
+    font-weight: 600;
+}
