@@ -99,8 +99,6 @@
   - <span class='command'> git branch -d "name" <name> </span> 删除分支
 <<<<<<< HEAD
     - <span class="hint"> 只有在commit之后才能创建并使用branch </span>
-=======
->>>>>>> b91b95d5875bb058bc14aad1796ab66299ccc7e2
   - 合并到主分支例子
     1. <span class='command'> git checkout -b dev </span> 创建分支dev
     2. 在dev分支上进行一通操作
