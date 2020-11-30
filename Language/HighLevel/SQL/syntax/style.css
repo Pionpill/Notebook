@@ -1,0 +1,68 @@
+h1 {
+    text-transform: uppercase;
+    font-size     : 32px;
+    font-weight   : bold;
+    text-align    : center;
+  }
+  
+  h2 {
+    text-transform: capitalize;
+    font-size     : 28px;
+    margin-top    : 2em;
+    font-weight   : bold;
+    text-align    : center;
+  }
+  
+  h3 {
+    font-size     : 24px;
+    font-weight   : bold;
+    margin-top    : 1em;
+    margin-bottom : 1ex;
+    padding-bottom: 0.5ex;
+    border-bottom : 1px solid #ffffff60;
+  }
+  
+  h4 {
+    font-size  : 16px;
+    font-weight: 600;
+  }
+  
+  .include {
+    font-weight: bold;
+    color      : #c586c0;
+  }
+  
+  .func {
+    font-weight: bold;
+    color      : cyan;
+    opacity    : 0.6;
+  }
+  
+  .operator {
+    font-weight: bold;
+    color      : rgb(76, 194, 30);
+    opacity    : 0.6;
+  }
+  
+  .element {
+    font-weight  : 600;
+    color        : peru;
+    padding-right: 1ex;
+  }
+  
+  .class {
+    font-weight: bold;
+    color      : dodgerblue;
+  }
+  
+  .hint {
+    font-weight: 400;
+    color      : grey;
+  }
+  
+  .pic {
+    margin-top   : 1ex;
+    margin-bottom: 1em;
+    border-radius: 7px;
+    box-shadow   : 0 5px 5px #ffffff60;
+  }
