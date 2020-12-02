@@ -98,7 +98,7 @@
     SELECT * FROM Websites ORDER BY alexa DESC;
     ```
 
-<h3> 1.4 INSERT INTO 关键字  </h3>
+<h3> 1.4 INSERT INTO 插入指令  </h3>
 
 > 中文参考 <a href=https://www.runoob.com/sql/sql-insert.html> 菜鸟教程 </a>
 
@@ -119,4 +119,44 @@
     -- 举例 --
     INSERT INTO Websites (name, url, alexa, country)
     VALUES ('百度','https://www.baidu.com/','4','CN');
+    ```
+
+
+<h3> 1.5 UPDATE 更新指令  </h3>
+
+> 中文参考 <a href=https://www.runoob.com/sql/sql-update.html> 菜鸟教程 </a>
+
+<h4> 作用 </h4>
+
+  - UPDATE 语句用于更新表中的记录
+
+<h4> 语法 </h4>
+
+  - update 命令
+    ```SQL
+    -- 语法 --
+    UPDATE table_name SET column1=value1,column2=value2,... WHERE some_column=some_value;
+    -- WHERE 子句规定哪条记录或者哪些记录需要更新。如果您省略了 WHERE 子句，所有的记录都将被更新！！！
+    -- 举例 --
+    UPDATE Websites SET alexa='5000', country='USA' WHERE name='菜鸟教程';
+    ```
+
+
+<h3> 1.5 DELETE 删除指令  </h3>
+
+> 中文参考 <a href=https://www.runoob.com/sql/sql-delete.html> 菜鸟教程 </a>
+
+<h4> 作用 </h4>
+
+  - DELETE 语句用于删除表中的行
+
+<h4> 语法 </h4>
+
+  - update 命令
+    ```SQL
+    -- 语法 --
+    DELETE FROM table_name WHERE some_column=some_value;
+    -- 不说明 WHERE 语句将删除所有行，但表属性保持不变
+    -- 举例 --
+    DELETE FROM Websites WHERE name='Facebook' AND country='USA';
     ```
