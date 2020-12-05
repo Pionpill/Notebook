@@ -251,8 +251,8 @@
   
   - 用法举例
     ```js
-    ^a{4}$          //aaaa                            
-    ^a{2,4}$        // aa,aaa或aaaa                   
+    ^a{4}$          //aaaa
+    ^a{2,4}$        // aa,aaa或aaaa
     ^a{2,}$         // 包含多于两个a的字符串           
     ^a{2,}          // 如：aardvark和aaab，但apple不行 
     a{2,}           // 如：baad和aaa，但Nantucket不行  
