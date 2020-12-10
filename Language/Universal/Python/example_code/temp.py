@@ -1,2 +1,3 @@
-import math
-print('常量 PI 的值近似为： {!r}。'.format(math.pi))
+import plotly.graph_objects as go
+fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
+fig.show()
