@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.6.10)  22 NOV 2020 23:28
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.6.10)  17 DEC 2020 01:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -354,8 +354,7 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 130.
 \l_MT_below_shortintertext_sep=\dimen257
 \xmathstrut@box=\box58
 \xmathstrut@dim=\dimen258
-)
-No file temp.aux.
+) (./temp.aux)
 \openout1 = `temp.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -374,7 +373,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
-ABD: EverySelectfont initializing macros
+ ABD: EverySelectfont initializing macros
 LaTeX Info: Redefining \selectfont on input line 8.
 
 Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
@@ -480,8 +479,8 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 9032 strings out of 479418
- 234509 string characters out of 5888105
+ 9034 strings out of 479418
+ 234527 string characters out of 5888105
  515301 words of memory out of 5000000
  26451 multiletter control sequences out of 15000+600000
  534158 words of font info for 46 fonts, out of 8000000 for 9000
