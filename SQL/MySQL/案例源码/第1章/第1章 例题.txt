@@ -1,0 +1,13 @@
+CREATE TABLE students
+(
+	student_id INT UNSIGNED,
+	name VARCHAR(30),
+	sex CHAR(1),
+	birth DATE,
+	PRIMARY KEY (student_id)
+);
+
+INSERT INTO students (student_id, name, sex, birth) VALUES (41048101, 'Lucy Green', '1', '1990-02-14');
+
+
+SELECT name FROM students WHERE student_id = 41048101;

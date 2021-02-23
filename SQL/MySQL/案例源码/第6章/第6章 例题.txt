@@ -1,0 +1,203 @@
+本章将使用样例表person，创建语句如下：
+CREATE TABLE person
+(
+id     INT UNSIGNED NOT NULL AUTO_INCREMENT,
+name   CHAR(40) NOT NULL DEFAULT '',
+age    INT NOT NULL DEFAULT 0,
+info   CHAR(50) NULL,
+PRIMARY KEY (id)
+);
+向表中所有字段插入值的方法有两种：一种是指定所有字段名，另一种是完全不指定字段名。
+【例6.1】在person表中，插入一条新记录，id值为1，name值为Green，age值为21，info值为Lawyer，SQL语句如下：
+执行插入操作之前，使用SELECT语句查看表中的数据：
+ SELECT * FROM person;
+Empty set (0.00 sec)
+结果显示当前表为空，没有数据，接下来执行插入操作：
+ INSERT INTO person (id ,name, age , info)
+      VALUES (1,'Green', 21, 'Lawyer');
+Query OK, 1 row affected (0.00 sec)
+语句执行完毕，查看执行结果：
+ SELECT * FROM person;
++----+--------+-----+------------+
+| id | name  | age | info      |
++----+--------+-----+------------+
+|  1 | Green |  21 | Lawyer   |
++----+--------+-----+------------+
+可以看到插入记录成功。在插入数据时，指定了person表的所有字段，因此将为每一个字段插入新的值。
+INSERT语句后面的列名称顺序可以不是person表定义时的顺序。即插入数据时，不需要按照表定义的顺序插入，只要保证值的顺序与列字段的顺序相同就可以，如【例6.2】所示。
+【例6.2】在person表中，插入一条新记录，id值为2，name值为Suse，age值为22，info值为dancer，SQL语句如下：
+ INSERT INTO person (age ,name, id , info)
+      VALUES (22, 'Suse', 2, 'dancer');
+语句执行完毕，查看执行结果：
+ SELECT * FROM person;
++----+--------+-----+------------+
+| id | name  | age | info      |
++----+--------+-----+------------+
+|  1 | Green |  21 | Lawyer  |
+|  2 | Suse  |  22 | dancer  |
++----+--------+-----+------------+
+由结果可以看到，INSERT语句成功插入了一条记录。
+使用INSERT插入数据时，允许列名称列表column_list为空，此时，值列表中需要为表的每一个字段指定值，并且值的顺序必须和数据表中字段定义时的顺序相同，如【例6.3】所示。
+【例6.3】在person表中，插入一条新记录，id值为3，name值为Mary，age值为24，info值为Musician，SQL语句如下：
+ INSERT INTO person 
+     VALUES (3,'Mary', 24, 'Musician');
+Query OK, 1 row affected (0.00 sec)
+语句执行完毕，查看执行结果：
+ SELECT * FROM person;
++----+--------+-----+------------+
+| id | name   | age | info    |
++----+--------+-----+------------+
+|  1 | Green |  21 | Lawyer  |
+|  2 | Suse  |  22 | dancer  |
+|  3 | Mary  |  24 | Musician|
++----+--------+-----+------------+
+【例6.4】在person表中，插入一条新记录，name值为Willam，age值为20，info值为sports man，SQL语句如下：
+ INSERT INTO person (name, age,info)
+     VALUES('Willam', 20, 'sports man');
+Query OK, 1 row affected (0.00 sec)
+提示信息表示插入一条记录成功。使用SELECT查询表中的记录，查询结果如下：
+ SELECT * FROM person;
++----+--------+-----+------------+
+| id | name  | age | info      |
++----+--------+-----+-------------+
+|  1 | Green |  21 | Lawyer    |
+|  2 | Suse  |  22 | dancer    |
+|  3 | Mary  |  24 | Musician  |
+|  4 | Willam | 20  | sports man |
++----+--------+-----+----------------+
+【例6.5】在person表中，插入一条新记录，name值为laura，age值为25，SQL语句如下：
+ INSERT INTO person (name, age ) VALUES ('Laura', 25);
+语句执行完毕，查看执行结果，
+ SELECT * FROM person;
++----+--------+-----+------------+
+| id | name   | age | info     |
++----+--------+-----+------------+
+|  1 | Green |  21 | Lawyer   |
+|  2 | Suse  |  22 | dancer   |
+|  3 | Mary  |  24 | Musician  |
+|  4 | Willam |  20 | sports man |
+|  5 | Laura  |  25 | NULL    |
++----+----------+-----+------------+
+
+【例6.6】在person表中，在name、age和info字段指定插入值，同时插入3条新记录，SQL语句如下：
+INSERT INTO person(name, age, info)
+VALUES ('Evans',27, 'secretary'),
+('Dale',22, 'cook'),
+('Edison',28, 'singer');
+语句执行结果如下：
+ INSERT INTO person(name, age, info)
+     VALUES ('Evans',27, 'secretary'),
+     ('Dale',22, 'cook'),
+     ('Edison',28, 'singer');
+语句执行完毕，查看执行结果：
+  SELECT * FROM person;
++----+-----------+-----+------------+
+| id | name    | age | info     |
++----+-----------+------+------------+
+|  1 | Green   |  21 | Lawyer  |
+|  2 | Suse    |  22 | dancer   |
+|  3 | Mary    |  24 | Musician |
+|  4 | Willam  |  20 | sports man|
+|  5 | Laura   |  25 | NULL    |
+|  6 | Evans   |  27 | secretary  |
+|  7 | Dale    |  22 | cook      |
+|  8 | Edison  |  28 | singer     |
++----+-----------+------+--------------+
+【例6.7】在person表中，不指定插入列表，同时插入2条新记录，SQL语句如下：
+INSERT INTO person 
+VALUES (9,'Harry',21, 'magician'), 
+(NULL,'Harriet',19, 'pianist');
+语句执行结果如下：
+ INSERT INTO person
+     VALUES (9,'Harry',21, 'magician'),
+     (NULL,'Harriet',19, 'pianist');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+语句执行完毕，查看执行结果：
+ SELECT * FROM person;
+
+【例6.8】从person_old表中查询所有的记录，并将其插入到person表中。
+首先，创建一个名为person_old的数据表，其表结构与person结构相同，SQL语句如下：
+CREATE TABLE person_old
+(
+id     INT UNSIGNED NOT NULL AUTO_INCREMENT,
+name   CHAR(40) NOT NULL DEFAULT '',
+age    INT NOT NULL DEFAULT 0,
+info   CHAR(50) NULL,
+PRIMARY KEY (id)
+);
+向person_old表中添加两条记录：
+ INSERT INTO person_old
+     VALUES (11,'Harry',20, 'student'), (12,'Beckham',31, 'police');
+
+ SELECT * FROM person_old;
++----+-------------+-----+---------+
+| id | name     | age | info     |
++----+----------+-------+----------+
+| 11 | Harry   |  20  | student |
+| 12 | Beckham |  31 | police   |
++----+-----------+------+----------+
+可以看到，插入记录成功，peson_old表中现在有两条记录。接下来将person_old表中所有的记录插入person表中，SQL语句如下：
+INSERT INTO person(id, name, age, info)
+SELECT id, name, age, info FROM person_old;
+语句执行结果如下：
+ INSERT INTO person(id, name, age, info)
+     SELECT id, name, age, info FROM person_old;
+语句执行完毕，查看执行结果：
+ SELECT * FROM person;
+
+【例6.9】在person表中，更新id值为11的记录，将age字段值改为15，将name字段值改为LiMing，SQL语句如下：
+UPDATE person SET age = 15, name='LiMing' WHERE id = 11;
+更新操作执行前可以使用SELECT语句查看当前的数据：
+ SELECT * FROM person WHERE id=11;
++----+-------+-----+---------+
+| id | name  | age | info    |
++----+-------+-----+---------+
+| 11 | Harry |  20 | student |
++----+-------+-----+---------+
+由结果可以看到更新之前，id等于11的记录的name字段值为harry，age字段值为20，下面使用UPDATE语句更新数据，语句执行结果如下：
+ UPDATE person SET age = 15, name='LiMing' WHERE id = 11;
+语句执行完毕，查看执行结果：
+ SELECT * FROM person WHERE id=11;
++----+--------+-----+---------+
+| id | name   | age | info   |
++----+--------+-----+---------+
+| 10 | LiMing |  15 | student |
++----+--------+-----+---------+
+
+【例6.10】在person表中，更新age值为19~22的记录，将info字段值都改为student，SQL语句如下：
+UPDATE person SET info='student'  WHERE id  BETWEEN 19 AND 22;
+更新操作执行前可以使用SELECT语句查看当前的数据：
+ SELECT * FROM person WHERE age BETWEEN 19 AND 22;
+可以看到，这些age字段值在19~22之间的记录的info字段值各不相同。下面使用UPDATE语句更新数据，语句执行结果如下：
+ UPDATE person SET info='student' WHERE age BETWEEN 19 AND 22;
+语句执行完毕，查看执行结果：
+ SELECT * FROM person WHERE age BETWEEN 19 AND 22;
+
+【例6.11】在person表中，删除id等于11的记录，SQL语句如下：
+执行删除操作前，使用SELECT语句查看当前id=11的记录：
+ SELECT * FROM person WHERE id=11;
+可以看到，现在表中有id=11的记录，下面使用DELETE语句删除该记录，语句执行结果如下：
+ DELETE FROM person WHERE id = 11;
+语句执行完毕，查看执行结果：
+ SELECT * FROM person WHERE id=11;
+查询结果为空，说明删除操作成功。
+【例6.12】在person表中，使用DELETE语句同时删除多条记录，在前面UPDATE语句中将age字段值在19~22之间的记录的info字段值修改为student，在这里删除这些记录，SQL语句如下：
+DELETE FROM person WHERE age BETWEEN 19 AND 22;
+执行删除操作前，使用SELECT语句查看当前的数据：
+ SELECT * FROM person WHERE age BETWEEN 19 AND 22;
+可以看到，这些age字段值在19~22之间的记录存在表中。下面使用DELETE删除这些记录：
+ DELETE FROM person WHERE age BETWEEN 19 AND 22;
+语句执行完毕，查看执行结果：
+ SELECT * FROM person WHERE age BETWEEN 19 AND 22;
+查询结果为空，删除多条记录成功。
+【例6.13】删除person表中所有记录，SQL语句如下：
+DELETE FROM person;
+执行删除操作前，使用SELECT语句查看当前的数据：
+ SELECT * FROM person;
+结果显示person表中还有4条记录，执行DELETE语句删除这4条记录：
+ DELETE FROM person;
+语句执行完毕，查看执行结果：
+ SELECT * FROM person;
+查询结果为空，删除表中所有记录成功，现在person表中已经没有任何数据记录。
+如果想删除表中的所有记录，还可以使用TRUNCATE TABLE语句，TRUNCATE将直接删除原来的表并重新创建一个表，其语法结构为TRUNCATE TABLE table_name。TRUNCATE直接删除表而不是删除记录，因此执行速度比DELETE快。

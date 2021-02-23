@@ -1,0 +1,81 @@
+/*样例表*/
+CREATE TABLE student
+(
+  s_id  INT,
+  name  VARCHAR(40)
+);
+
+CREATE TABLE stu_info
+(
+  s_id   INT,
+  glass  VARCHAR(40),
+  addr   VARCHAR(90)
+);
+
+【例8.1】在t表格上创建一个名为view_t的视图，代码如下：
+CREATE TABLE t (qty INT, price INT);         /*创建基本表t*/
+INSERT INTO t VALUES(3, 50);                 /*插入记录*/
+CREATE VIEW view_t AS SELECT quantity, price, quantity *price FROM t;    /*创建视图view_t*/
+SELECT * FROM view_t;
+
+
+【例8.2】在t表格上创建一个名为view_t2的视图，代码如下：
+CREATE VIEW view_t2(qty, price, total ) AS SELECT quantity, price, quantity *price FROM t;
+SELECT * FROM view_t2;
+
+
+【例8.3】在表student和表stu_info上创建视图stu_glass，代码如下：
+INSERT INTO student VALUES(1,'wanglin1'),(2,'gaoli'),(3,'zhanghai');                /*插入记录*/
+INSERT INTO stu_info VALUES(1, 'wuban','henan'),(2,'liuban','hebei'),(3,'qiban','shandong');
+
+CREATE VIEW stu_glass (id,name, glass) AS SELECT student.s_id,student.name ,stu_info.glass FROM student ,stu_info WHERE student.s_id=stu_info.s_id;
+
+SELECT * FROM stu_glass;
+
+
+【例8.4】通过DESCRIBE语句查看视图view_t的定义，代码如下：
+DESCRIBE view_t;
+
+
+【例8.5】下面将通过一个例子来学习使用SHOW TABLE STATUS命令查看视图信息，代码如下：
+SHOW TABLE STATUS LIKE 'view_t' \G;
+SHOW TABLE STATUS LIKE 't' \G;
+
+【例8.6】SHOW CREATE VIEW查看视图的详细定义，代码如下：
+SHOW CREATE VIEW view_t \G;
+
+
+【例8.7】在views表中查看视图的详细定义，代码如下：
+SELECT * FROM information_schema.views \G;
+
+
+【例8.8】修改视图view_t，代码如下：
+DESC view_t;
+CREATE OR REPLACE VIEW view_t AS SELECT * FROM t;
+DESC view_t;
+
+【例8.9】使用ALTER语句修改视图view_t，代码如下：
+DESC view_t;
+ALTER VIEW view_t AS SELECT quantity FROM t; 
+DESC view_t;
+
+【例8.10】使用UPDATE语句更新视图view_t，代码如下：
+SELECT * FROM view_t;          /*查看更新之前的视图*/
+SELECT * FROM t;               /*查看更新之前的表*/
+UPDATE view_t SET quantity=5;  /*更新视图*/
+SELECT * FROM t;               /*查看更新之后的表*/
+SELECT * FROM view_t;          /*查看更新之后的视图*/
+SELECT * FROM view_t2;
+
+【例8.11】使用INSERT语句在基本表t中插入一条记录，代码如下：
+INSERT INTO t VALUES (3,5);
+SELECT * FROM t;
+SELECT * FROM view_t2;
+
+【例8.12】删除stu_glass视图，代码如下：
+DROP VIEW IF EXISTS stu_glass;
+SHOW CREATE VIEW stu_glass;
+
+
+
+
