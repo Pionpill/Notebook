@@ -10,3 +10,7 @@ function strlen(str) {
     }
     return len;
 }
+
+function temp(){
+    return 3/2;
+}
