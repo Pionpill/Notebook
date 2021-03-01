@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var user = prompt("请输入你的用户名：");
+        if (!!user) {
+            var ok = confirm("你输入的用户名为:\n" + user + "\n请确认。");
+            if (ok) {
+                alert("欢迎你：\n" + user);
+            } else {
+                user = prompt("请输入你的名字：");
+                alert("欢迎你！"+ user);
+            }
+        }else{
+            user = prompt("请输入你的用户名:");
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

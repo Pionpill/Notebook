@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标准 DOM 示例</title>
+    <script>
+        window.onload = function(){
+            var tag = document.getElementsByTagName("ul")[0];
+            var a = tag.childNodes;
+            alert(a[0].nodeName);
+        }
+    </script>
+</head>
+
+<body>
+    <h1>标准DOM</h1>
+    <p>这是一份简单的<strong>文档对象模型</strong></p>
+    <ul>
+        <li>1.xxxxxxxxxxxxxxxxx</li>
+        <li>2.xxxxxxxxxxxxxxxxx</li>
+    </ul>
+</body>
+
+</html>

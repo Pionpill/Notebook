@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>window.open()</title>
+    <script>
+        var url = 'www.baidu.com';
+        var features = 'height=400, width=800, top=10, left=10, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no';
+        document.write('<a href="http://www.sina.com.cn/" target="newW">切换到新浪首页</a>');
+        var me = window.open(url,"newW",features);
+        setTimeout(function(){
+            me.close();
+        },60000);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
