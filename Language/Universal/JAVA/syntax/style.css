@@ -1,0 +1,79 @@
+h1 {
+    text-transform: uppercase;
+    font-size     : 32px;
+    font-weight   : bold;
+    text-align    : center;
+}
+
+h2 {
+    text-transform: capitalize;
+    font-size     : 28px;
+    margin-top    : 2em;
+    font-weight   : bold;
+    text-align    : center;
+}
+
+h3 {
+    font-size     : 20px;
+    font-weight   : bold;
+    margin-top    : 3ex;
+    margin-bottom : 1ex;
+    padding-bottom: 0.5ex;
+    border-bottom : 1px solid #ffffff60;
+}
+
+.cri {
+    font-weight: bold;
+    color      : SeaGreen;
+}
+
+h4 {
+    font-size  : 14px;
+    font-weight: 600;
+    margin-top : 1ex;
+}
+
+.ptc {
+    color      : Cyan;
+    font-weight: bold;
+}
+
+.abbr {
+    font-weight: bold;
+    color      : Aquamarine;
+    opacity    : 0.6;
+}
+
+.attribute {
+    font-weight  : 600;
+    color        : tan;
+    padding-right: 1ex;
+}
+
+.hint {
+    font-size  : 12px;
+    font-weight: 400;
+    color      : grey;
+}
+
+.pic {
+    margin-top   : 1ex;
+    margin-bottom: 1em;
+    border-radius: 7px;
+    box-shadow   : 0 5px 5px #ffffff60;
+}
+
+.img {
+    display       : inline;
+    mix-blend-mode: multiply;
+}
+
+.var {
+    color      : steelblue;
+    font-weight: 500;
+}
+
+.imp {
+    color      : LightCoral;
+    font-weight: 500;
+}
