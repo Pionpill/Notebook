@@ -19,6 +19,5 @@ public class TestStaticMethod {
         Citizen.f1();
         Citizen citizen = new Citizen();
         citizen.f2();
-        citizen.f1();
     }
 }
