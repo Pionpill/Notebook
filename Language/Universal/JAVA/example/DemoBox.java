@@ -18,7 +18,7 @@ class Box{
 class BoxWeight extends Box{
     double weight;
     BoxWeight(double w,double h,double d,double m){
-        width=0; height=0; depth=0; weight=m;
+        width=w; height=h; depth=d; weight=m;
     }
 }
 
