@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        div{margin:len;}
+        #red{border: solid 1px red;}
+        #blue{border:solid 1px blue;}
+    </style>
+    <script>
+        window.onload = function() {
+            var ok = document.getElementById("ok");
+            ok.onclick = function() {
+                var red = document.getElementById("red");
+                var blue = document.getElementById("blue");
+                blue.appendChild(red);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="red">Red Box</div>
+    <div id="blue">Blue Box</div>
+    <button id="ok">Move</button>
+</body>
+</html>
