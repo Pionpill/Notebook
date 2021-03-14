@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style tpye="text/css">
+        #box {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            padding: 4px;
+            border: solid 4px #59f182;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+
+    </div>
+    <script>
+        // 初始化拖放对象
+        var box = document.getElementById("box");
+        box.style.position = "absolute";
+        // 初始化变量，标准化事件对象
+        var mx, my, ox, oy;
+        function e(event) {
+            if (!event) {       // 兼容 IE 浏览器
+                event = window.event;
+                event.target = event.srcElement;
+                event.layerX = event.offsetX;
+                event.layerY = event.offsetY;
+            }
+            event.mx = event.pageX || event.clientX + document.body.scrollLeft;
+            event.my = event.pageY || event.clientY + document.body.scrollTop;
+            return event;
+        }
+        // 定义鼠标事件处理函数
+        document.onmousedown = function (event) {
+            event = e(event);
+            o = event.target;
+            ox = parseInt(o.offsetLeft);
+            oy = parseInt(o.offsetTop);
+            mx = event.mx;
+            my = event.my;
+            document.onmousemove = move;
+            document.onmouseup = stop;
+        }
+        function move(event) {
+            event = e(event);
+            o.style.left = ox + event.mx - mx + "px";
+            o.style.top = oy + event.my - my + "px";
+        }
+        function stop(event) {
+            event = e(event);
+            ox = parseInt(o.offsetLeft);
+            oy = parseInt(o.offsetTop);
+            mx = event.mx;
+            my = event.my;
+            o = document.onmousemove = document.onmouseup = null;
+        }
+    </script>
+</body>
+
+</html>

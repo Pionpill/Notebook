@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="p1">为对象注册多个事件</p>
+    <script>
+        var p1 = document.getElementById("p1");
+        p1.addEventListener("mouseover",function(){
+            this.style.background="blue";
+        },true);
+        p1.addEventListener("mouseout",function(){
+            this.style.background="red";
+        },true);
+    </script>
+</body>
+
+</html>
