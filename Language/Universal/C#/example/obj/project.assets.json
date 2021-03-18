@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\C#.csproj",
-      "projectName": "C#",
-      "projectPath": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\C#.csproj",
+      "projectUniqueName": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj",
+      "projectName": "temp",
+      "projectPath": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj",
       "packagesPath": "C:\\Users\\pionpill\\.nuget\\packages\\",
-      "outputPath": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\obj\\",
+      "outputPath": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\example\\temp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pionpill\\AppData\\Roaming\\NuGet\\NuGet.Config",
