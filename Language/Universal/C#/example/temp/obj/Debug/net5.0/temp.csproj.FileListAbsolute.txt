@@ -1,0 +1,16 @@
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.exe
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.deps.json
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.runtimeconfig.json
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.runtimeconfig.dev.json
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.dll
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\ref\temp.dll
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.pdb
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.csprojAssemblyReference.cache
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.GeneratedMSBuildEditorConfig.editorconfig
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.AssemblyInfoInputs.cache
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.AssemblyInfo.cs
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.csproj.CoreCompileInputs.cache
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.dll
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\ref\temp.dll
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.pdb
+D:\IDE\Programs\VS_Code_Programs\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.genruntimeconfig.cache
