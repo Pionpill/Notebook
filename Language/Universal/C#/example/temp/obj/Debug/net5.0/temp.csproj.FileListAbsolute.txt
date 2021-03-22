@@ -1,0 +1,16 @@
+D:\vs_code\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.exe
+D:\vs_code\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.deps.json
+D:\vs_code\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.runtimeconfig.json
+D:\vs_code\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.runtimeconfig.dev.json
+D:\vs_code\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.dll
+D:\vs_code\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\ref\temp.dll
+D:\vs_code\Notes\Language\Universal\C#\example\temp\bin\Debug\net5.0\temp.pdb
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.csprojAssemblyReference.cache
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.GeneratedMSBuildEditorConfig.editorconfig
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.AssemblyInfoInputs.cache
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.AssemblyInfo.cs
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.csproj.CoreCompileInputs.cache
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.dll
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\ref\temp.dll
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.pdb
+D:\vs_code\Notes\Language\Universal\C#\example\temp\obj\Debug\net5.0\temp.genruntimeconfig.cache
