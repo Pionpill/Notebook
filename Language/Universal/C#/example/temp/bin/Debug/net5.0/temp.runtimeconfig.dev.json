@@ -1,8 +1,13 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
+<<<<<<< HEAD
       "C:\\Users\\pionpill\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\pionpill\\.nuget\\packages"
+=======
+      "C:\\Users\\msi\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\msi\\.nuget\\packages"
+>>>>>>> e43532654c27e0da79a27a008a3712ea2b969cc9
     ]
   }
 }
