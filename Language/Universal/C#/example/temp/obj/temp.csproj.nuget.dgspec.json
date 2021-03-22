@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\IDE\\Programs\\VS_Code_Programs\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj": {}
+    "D:\\vs_code\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj": {}
   },
   "projects": {
-    "D:\\IDE\\Programs\\VS_Code_Programs\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj": {
+    "D:\\vs_code\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\IDE\\Programs\\VS_Code_Programs\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj",
+        "projectUniqueName": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj",
         "projectName": "temp",
-        "projectPath": "D:\\IDE\\Programs\\VS_Code_Programs\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj",
-        "packagesPath": "C:\\Users\\msi\\.nuget\\packages\\",
-        "outputPath": "D:\\IDE\\Programs\\VS_Code_Programs\\Notes\\Language\\Universal\\C#\\example\\temp\\obj\\",
+        "projectPath": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\example\\temp\\temp.csproj",
+        "packagesPath": "C:\\Users\\pionpill\\.nuget\\packages\\",
+        "outputPath": "D:\\vs_code\\Notes\\Language\\Universal\\C#\\example\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\msi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pionpill\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -54,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
