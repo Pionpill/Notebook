@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\msi\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\msi\\.nuget\\packages"
+      "C:\\Users\\pionpill\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\pionpill\\.nuget\\packages"
     ]
   }
 }
