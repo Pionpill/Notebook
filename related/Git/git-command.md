@@ -250,25 +250,25 @@
 <h2> Github 常用指令 </h2>
 <h3> 指令列表 </h3>
 
-| 指令                            | 说明                                                                      |
-| ------------------------------- | ------------------------------------------------------------------------- |
-| git init                        | 新建一个空仓库                                                            |
-| git status                      | 查看状态                                                                  |
-| git branch                      | 查看所有分支                                                              |
-| git branch newname              | 创建名为newname的分支                                                     |
-| git checkout newname            | 切换到newname分支上                                                       |
-| git add .                       | 添加当前目录下所有文件                                                    |
-| git rm -r xxx.txt              | 删除xxx文件                                                               |
-| git commit -m'注释'             | 提交添加的文件并备注说明                                                  |
-| git remote add origin address   | 连接到远程仓库address                                                     |
-| git push origin master          | 将本地文件推送到远程文件                                                  |
-| git pull origin master          | 将远程仓库文件更新到本地文件                                              |
-| git remote -v                   | 查看远程仓库                                                              |
+| 指令                                 | 说明                                                                        |
+| ------------------------------------ | --------------------------------------------------------------------------- |
+| git init                             | 新建一个空仓库                                                              |
+| git status                           | 查看状态                                                                    |
+| git branch                           | 查看所有分支                                                                |
+| git branch newname                   | 创建名为newname的分支                                                       |
+| git checkout newname                 | 切换到newname分支上                                                         |
+| git add .                            | 添加当前目录下所有文件                                                      |
+| git rm -r xxx.txt                    | 删除xxx文件                                                                 |
+| git commit -m'注释'                  | 提交添加的文件并备注说明                                                    |
+| git remote add origin address        | 连接到远程仓库address                                                       |
+| git push origin master               | 将本地文件推送到远程文件                                                    |
+| git pull origin master               | 将远程仓库文件更新到本地文件                                                |
+| git remote -v                        | 查看远程仓库                                                                |
 | git fetch origin <br> master:newname | 本地新建一个分支，<br>将远程origin仓库的master分支代码下载到本地newname分支 |
-| git diff newname                | 比较本地代码与刚刚从远程下载下来的代码的区别                              |
-| git merge newname               | 把newname分支合并到当前分支上                                             |
-| git branch -d newname           | 删除newname分支                                                           |
-| git log                         | 查看 变更日志                                                             |
-| git reset --hard                | 版本号前六位，回到指定版本                                                |
-| git pull origin master          | 将master分支上的内容拉到本地上                                            |
-|                                 |                                                                           |
+| git diff newname                     | 比较本地代码与刚刚从远程下载下来的代码的区别                                |
+| git merge newname                    | 把newname分支合并到当前分支上                                               |
+| git branch -d newname                | 删除newname分支                                                             |
+| git log                              | 查看 变更日志                                                               |
+| git reset --hard                     | 版本号前六位，回到指定版本                                                  |
+| git pull origin master               | 将master分支上的内容拉到本地上                                              |
+|                                      |                                                                             |
