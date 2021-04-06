@@ -271,4 +271,3 @@
 | git log                              | 查看 变更日志                                                               |
 | git reset --hard                     | 版本号前六位，回到指定版本                                                  |
 | git pull origin master               | 将master分支上的内容拉到本地上                                              |
-|                                      |                                                                             |
