@@ -44,3 +44,9 @@
   28. sth give after they die 遗产
   29. festival to celebrate …………
   30. to move along the path around the ……object
+
+## 4.12
+
+- 人称：  
+  - nation：germany, british  
+  - 首字母+尾音
