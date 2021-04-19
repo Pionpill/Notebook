@@ -4,3 +4,6 @@
 *.gz
 *.toc
 *.cache
+~$*.doc
+~$*.docx
+*.tmp
