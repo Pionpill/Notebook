@@ -7,3 +7,5 @@
 ~$*.doc
 ~$*.docx
 *.tmp
+*.props
+Language/Universal/C#/example/temp/obj/Debug/net5.0
