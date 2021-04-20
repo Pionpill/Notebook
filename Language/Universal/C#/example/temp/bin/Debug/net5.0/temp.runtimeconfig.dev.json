@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "C:\\Users\\pionpill\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\pionpill\\.nuget\\packages"
-    ]
-  }
-}
