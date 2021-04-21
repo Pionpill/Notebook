@@ -6,10 +6,19 @@
 
 # @lc code=start
 class Solution:
+    # def twoSum(self, nums: List[int], target: int) -> List[int]:
+    #     """暴力枚举"""
+    #     for i in range(len(nums) - 1):
+    #         base = nums[i]
+    #         for j in range(i + 1, len(nums)):
+    #             if base + nums[j] == target:
+    #                 return [i, j]
+
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        for i in range(len(nums) - 1):
-            base = nums[i]
-            for j in range(i + 1, len(nums)):
-                if base + nums[j] == target:
-                    return [i, j]
-# @lc code=end
+        """哈希表法"""
+        hashTable = dict()
+        for index, value in enumerate(nums):
+            if target - value in hashTable:
+                return [hashTable[target - value], index]
+            hashTable[nums[index]] = index
+            # @lc code=end
