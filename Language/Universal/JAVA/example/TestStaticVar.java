@@ -1,5 +1,3 @@
-package Language.Universal.JAVA.example;
-
 class Incrementable {
     public int num;
     public static int count = 0;

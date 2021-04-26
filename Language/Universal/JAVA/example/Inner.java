@@ -1,5 +1,3 @@
-package Language.Universal.JAVA.example;
-
 class Outer {
     private int index = 100;
 
@@ -15,6 +13,7 @@ class Outer {
             System.out.println(Outer.this.getClass().getNestHost());
         }
     }
+
     void print() {
         Inner i = new Inner();
         i.print();
@@ -22,7 +21,7 @@ class Outer {
 }
 
 public class Inner {
-    public static void main(String args[]){
+    public static void main(String args[]) {
         Outer o = new Outer();
         o.print();
     }

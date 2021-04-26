@@ -1,5 +1,3 @@
-package Language.Universal.JAVA.example;
-
 import java.util.*;
 import java.text.*;
 

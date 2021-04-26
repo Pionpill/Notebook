@@ -1,12 +1,12 @@
-package Language.Universal.JAVA.example;
-
 class Citizen {
     private static String country = "china";
     private String name = "Tom";
-    public static void f1(){
+
+    public static void f1() {
         System.out.println(country);
     }
-    public void f2(){
+
+    public void f2() {
         f1();
         System.out.println(country);
         System.out.println(name);
@@ -14,7 +14,7 @@ class Citizen {
 }
 
 public class TestStaticMethod {
-    public static void main(String[] arg){
+    public static void main(String[] arg) {
         new TestStaticMethod();
         Citizen.f1();
         Citizen citizen = new Citizen();

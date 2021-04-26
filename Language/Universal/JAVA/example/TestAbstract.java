@@ -1,9 +1,8 @@
-package Language.Universal.JAVA.example;
-
 abstract class Animal {
     void sleep() {
         System.out.println("animals sleep!");
     }
+
     abstract void run();
 }
 
@@ -22,7 +21,8 @@ public class TestAbstract {
         d.sleep();
         d.run();
     }
-    public static void main (String arg[]){
+
+    public static void main(String arg[]) {
         Dog d = new Dog();
         TestAbstract.f(d);
     }

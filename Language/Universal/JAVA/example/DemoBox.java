@@ -1,5 +1,3 @@
-package Language.Universal.JAVA.example;
-
 class Box {
     double width;
     double height;

@@ -1,5 +1,3 @@
-package Language.Universal.JAVA.example;
-
 public class LambdaDemo {
     public static void main(String args[]) {
         int n = 144;
