@@ -1,54 +1,54 @@
-h1{
-    font-weight: bold;
-    text-align: center;
+h1 {
+    font-weight   : bold;
+    text-align    : center;
     text-transform: uppercase;
 }
 
-h2{
-    margin-top: 2em;
-    font-weight: bold;
-    text-align: center;
+h2 {
+    margin-top    : 2em;
+    font-weight   : bold;
+    text-align    : center;
     text-transform: capitalize;
 }
 
-h3{
-    font-weight: bold;
-    margin-top: 1em;
-    margin-bottom: 1ex;
+h3 {
+    font-weight   : bold;
+    margin-top    : 1em;
+    margin-bottom : 1ex;
     text-transform: capitalize;
 }
 
-h4{
+h4 {
     font-weight: 600;
 }
 
-.command{
-    font-weight: bold;
-    color: cyan;
-    opacity: 0.6;
+.command {
+    font-weight  : bold;
+    color        : cyan;
+    opacity      : 0.6;
     padding-right: 1ex;
 }
 
-.feedback{
-    font-weight: 600;
-    color: tan;
+.feedback {
+    font-weight  : 600;
+    color        : tan;
     padding-right: 1ex;
 }
 
-.hint{
+.hint {
     font-weight: 400;
-    color: grey;
+    color      : grey;
 }
 
-.pic{
-    margin-top: 1ex;
+.pic {
+    margin-top   : 1ex;
     margin-bottom: 1em;
     border-radius: 7px;
-    box-shadow: 0 5px 5px #ffffff60;
+    box-shadow   : 0 5px 5px #ffffff60;
 }
 
-.speaker{
+.speaker {
     font-weight: 500;
-    color: grey;
-    float: right;
+    color      : grey;
+    float      : right;
 }
