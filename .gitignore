@@ -9,3 +9,8 @@
 *.tmp
 *.props
 *.exe
+# Latex
+*.bib
+*.aux
+*.log
+*.gz
