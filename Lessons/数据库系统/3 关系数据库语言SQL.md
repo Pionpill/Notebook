@@ -99,10 +99,5 @@
 
 <h2> 3 数据定义 </h2>
 
-> 具体 SQL Server 语句参考 Notes\Language\SQL\SQLServer\syntax
-
-<h3> 3.1 模式定义 </h3>
-
-  - 模式定义即定义一个存储控件
-  - SQL3 标准模式定义语句为 `CREATE SCHEMA` 但基本上没有数据库这样用
-  - 一般数据库采用 `CREATE DATABASE <数据库名>`
+> [SQL Server 笔记](https://github.com/Pionpill/Notes/blob/Pionpill/Language/SQL/SQLServer/syntax/1.%20%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E6%95%B0%E6%8D%AE%E8%A1%A8.md)   
+> [MySQL 笔记](https://github.com/Pionpill/Notes/blob/Pionpill/Language/SQL/MySQL/syntax/1.%20%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E6%95%B0%E6%8D%AE%E8%A1%A8.md)
