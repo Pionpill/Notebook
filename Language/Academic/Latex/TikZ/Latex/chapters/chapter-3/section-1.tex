@@ -1,0 +1,50 @@
+\chapter{百科}
+\section{属性百科}
+
+属性\footnote{这里借用了 css 的概念}在这里指 TikZ 中一些可选项(option)对应的通用值。
+
+\subsection{通用属性}
+
+通用属性，即常见的属性，其属性名和值是大部分同类语言都具备的。
+
+\subsubsection{常见通用属性意义}
+
+\begin{table}[H]
+    \centering
+    \caption{常见通用属性意义}
+    \label{table:常见通用属性意义}
+    \setlength{\tabcolsep}{5mm}
+    \begin{tabular}{c|ccc}
+        \toprule
+        \textbf{属性} & \textbf{值} & \textbf{意义} & \textbf{举例}\\
+        \midrule
+        dimension & 数字 & 一般为长度，可自定义单位 & line width = <dimension>\\
+        angle & 数字 & 旋转角度，单位为度 & rotate = <angle> \\
+        scaling & 数字 & 缩放比例 & scale = <scaling  > \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+\subsection{TikZ 特有属性}
+
+特有属性，即属性和对应的值是 TikZ 所特定的，TikZ 专有这些值。
+
+\subsubsection{对齐：alignment option }
+
+\begin{table}[H]
+    \centering
+    \caption{属性：alignment option}
+    \label{table:alignment option}
+    \setlength{\tabcolsep}{8mm}
+    \begin{tabular}{c|cc|c}
+        \toprule
+        \textbf{值} & \textbf{意义} & \textbf{值} & \textbf{意义} \\
+        \midrule
+        left & 左对齐 & flush left & 左对齐(禁止拆分单词) \\
+        right & 右对齐 & flush right & 右对齐(禁止拆分单词) \\
+        center & 居中对齐 & flush center & 居中对齐(禁止拆分单词) \\
+        justify & 拉长 & none & 禁止之前的对齐属性 \\
+        \bottomrule
+    \end{tabular}
+\end{table}

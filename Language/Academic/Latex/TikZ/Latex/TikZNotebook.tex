@@ -1,7 +1,8 @@
 % ========================= 配置 =========================
-\documentclass{PionpillNotebook}
-\usetikzlibrary{intersections,through}
-\usetikzlibrary{calc}
+\documentclass{PionpillNote-book}
+
+
+\import{style}{tikz-style.tex}
 % ========================= 信息 =========================
 
 \title{Pionpill's TikZ Notebook}
@@ -26,13 +27,13 @@
 \setcounter{page}{1}
 
 % ========================= 正文 =========================
-\chapter{案例}
-次章节源于 TikZ 手册\footnote{TikZ Github 仓库：\url{TikZ Github：https://github.com/pgf-tikz/pgf
-}} 的学习
-
-\newpage
 
 \import{chapters/chapter-1}{section-1.tex}
+\import{chapters/chapter-1}{section-5.tex}
+
+\import{chapters/chapter-2}{section-1.tex}
+
+\import{chapters/chapter-3}{section-1.tex}
 
 
 
@@ -50,12 +51,9 @@
 
 
 
-
-
-
-\begin{thebibliography}{1}
+% \begin{thebibliography}{1}
 % \bibitem{1} Wray J, Green G G R. Neural networks, approximation theory, and finite precision computation[J]. Neural networks, 1995, 8(1): 31-37.
 % \bibitem{2} Ham F M, Kostanic I. Principles of neurocomputing for science and engineering[M]. McGraw-Hill Higher Education, 2000.
-\end{thebibliography}
+% \end{thebibliography}
 
 \end{document}

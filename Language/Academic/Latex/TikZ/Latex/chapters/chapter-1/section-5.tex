@@ -1,0 +1,616 @@
+\section{流程图：Diagrams as Simple Graphs}
+\subsection{效果预览}
+这个案例的最终效果如下
+\begin{figure}[H]
+    \centering
+    \tikz [>={Stealth[round]}, black!50, text=black, thick,
+        every new ->/.style = {shorten >=1pt},
+        graphs/every graph/.style = {edges=rounded corners},
+        skip loop/.style = {to path={-- ++(0,#1) -| (\tikztotarget)}},
+        hv path/.style = {to path={-| (\tikztotarget)}},
+        vh path/.style = {to path={|- (\tikztotarget)}},
+        nonterminal/.style = {
+            rectangle, minimum size=6mm, very thick, draw=red!50!black!50, top color=white,bottom color=red!50!black!20, font=\itshape, text height=1.5ex,text depth=.25ex},
+        terminal/.style = {
+            rounded rectangle, minimum size=6mm, very thick, draw=black!50, top color=white,bottom color=black!20, font=\ttfamily, text height=1.5ex, text depth=.25ex},
+        shape = coordinate
+    ]
+    \graph [grow right sep, branch down=7mm, simple] {
+        / -> unsigned integer[nonterminal] -- p1 -> "." [terminal] -- p2 -> digit[terminal] -- p3 -- p4 -- p5 -> E[terminal] -- q1 ->[vh path]
+        {[nodes={yshift=7mm}]
+            "+"[terminal], q2, "-"[terminal]
+        } -> [hv path]
+        q3 -- /unsigned integer [nonterminal] -- p6 -> /;
+        p1 ->[skip loop=5mm] p4;
+        p3 ->[skip loop=-5mm] p2;
+        p5 ->[skip loop=-11mm] p6;
+        q1 -- q2 -- q3; % make these edges plain
+    };
+    \caption{流程图效果预览}
+\end{figure}
+
+\subsection{节点设置}
+\subsubsection{节点样式}
+
+可以使用关键词 /.style 设置一个同一的样式
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[
+                nonterminal/.style={
+                rectangle,
+                minimum size=6mm,
+                very thick,
+                draw=red!50!black!50, 
+                top color=white, 
+                bottom color=red!50!black!20, 
+                font=\itshape
+            }]
+            \node [nonterminal] {unsigned integer};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[
+            nonterminal/.style={
+            rectangle,
+            minimum size=6mm,
+            very thick,
+            draw=red!50!black!50, 
+            top color=white, 
+            bottom color=red!50!black!20, 
+            font=\itshape
+        }]
+        \node [nonterminal] {unsigned integer};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{基本节点样式}
+\end{figure}
+
+使用 rounded corner 进行圆角设置：
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[
+            node distance = 5mm, terminal/.style = {
+                rectangle,minimum size=6mm,rounded corners = 3mm,
+                very thick, draw = black!50,
+                top color = white, bottom color = black!20,
+                font = \ttfamily
+            }]
+            \node (dot) [terminal] {.};
+            \node (digit) [terminal,right=of dot] {digit};
+            \node (E) [terminal,right=of digit] {E};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[
+        node distance = 5mm, terminal/.style = {
+            rectangle,minimum size=6mm,rounded corners = 3mm,
+            very thick, draw = black!50,
+            top color = white, bottom color = black!20,
+            font = \ttfamily
+        }]
+        \node (dot) [terminal] {.};
+        \node (digit) [terminal,right=of dot] {digit};
+        \node (E) [terminal,right=of digit] {E};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{节点样式：圆角}
+\end{figure}
+
+使用 shapes.misc 包的圆角设置:rounded rectangle
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \usetikzlibrary {positioning}
+        \begin{tikzpicture}[node distance=5mm,
+            terminal/.style={
+                rounded rectangle,
+                minimum size=6mm,
+                very thick,draw=black!50,
+                top color=white,bottom color=black!20,
+                font=\ttfamily
+            }]
+            \node (dot) [terminal] {.};
+            \node (digit) [terminal,right=of dot] {digit};
+            \node (E) [terminal,right=of digit] {E};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \usetikzlibrary {positioning}
+    \begin{tikzpicture}[node distance=5mm,
+        terminal/.style={
+            rounded rectangle,
+            minimum size=6mm,
+            very thick,draw=black!50,
+            top color=white,bottom color=black!20,
+            font=\ttfamily
+        }]
+        \node (dot) [terminal] {.};
+        \node (digit) [terminal,right=of dot] {digit};
+        \node (E) [terminal,right=of digit] {E};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{rounded 圆角节点}
+\end{figure}
+
+在上述的几个例子中，我们发现 . 与 其他字符并没有对齐，. 看起来更像 ·。这是由于每个节点内容拥不同的高度与字母深度。可以使用 text height, text depth 来进行调整
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[
+            node distance=5mm, text height=1.5ex, text depth = .25ex,
+            terminal/.style={
+                rounded rectangle,
+                minimum size=6mm,
+                very thick,draw=black!50,
+                top color=white,bottom color=black!20,
+                font=\ttfamily
+            }]
+            \node (dot) [terminal] {.};
+            \node (digit) [terminal,right=of dot] {digit};
+            \node (E) [terminal,right=of digit] {E};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[
+        node distance=5mm, text height=1.5ex, text depth = .25ex,
+        terminal/.style={
+            rounded rectangle,
+            minimum size=6mm,
+            very thick,draw=black!50,
+            top color=white,bottom color=black!20,
+            font=\ttfamily
+        }]
+        \node (dot) [terminal] {.};
+        \node (digit) [terminal,right=of dot] {digit};
+        \node (E) [terminal,right=of digit] {E};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{文字对齐}
+\end{figure}
+
+\subsubsection{节点位置}
+使用位置选项 position options 设置节点相对位置
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.7\linewidth}
+        \centering
+        \begin{tikzpicture}[node distance=5mm and 5mm]
+            \node (ui1) [nonterminal] {unsigned integer};
+            \node (dot) [terminal,right=of ui1] {.};
+            \node (digit) [terminal,right=of dot] {digit};
+            \node (E) [terminal,right=of digit] {E};
+            \node (plus) [terminal,above right=of E] {+};
+            \node (minus) [terminal,below right=of E] {-};
+            \node (ui2) [nonterminal,below right=of plus] {unsigned integer};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.6\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[node distance=5mm and 5mm]
+        \node (ui1) [nonterminal] {unsigned integer};
+        \node (dot) [terminal,right=of ui1] {.};
+        \node (digit) [terminal,right=of dot] {digit};
+        \node (E) [terminal,right=of digit] {E};
+        \node (plus) [terminal,above right=of E] {+};
+        \node (minus) [terminal,below right=of E] {-};
+        \node (ui2) [nonterminal,below right=of plus] {unsigned integer};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{节点位置}
+\end{figure}
+
+精确控制偏移距离的方法之一：使用 xshift yshift
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1,node distance = 5mm and 5mm]
+            \node (E) [terminal] {E};
+            \node (plus) [terminal,above right=of E,xshift=5mm] {+};
+            \node (minus) [terminal,below right=of E,xshift=5mm] {-};
+            \node (ui2) [nonterminal,below right=of plus,xshift=5mm] {unsigned integer};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1,node distance = 5mm and 5mm]
+        \node (E) [terminal] {E};
+        \node (plus) [terminal,above right=of E,xshift=5mm] {+};
+        \node (minus) [terminal,below right=of E,xshift=5mm] {-};
+        \node (ui2) [nonterminal,below right=of plus,xshift=5mm] {unsigned integer};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{节点位置精确控制}
+\end{figure}
+
+\subsubsection{节点连线}
+tikz 中的节点连接，尤其是非直线连接是一件非常复杂的事情。
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[node distance=5mm and 5mm]
+            \node (dot) [terminal] {.};
+            \node (digit) [terminal,right=of dot] {digit};
+            \node (E) [terminal,right=of digit] {E};
+            \path (dot) edge[->] (digit) % simple edges
+                (digit) edge[->] (E);
+            \draw [->]
+                % start right of digit.east, that is, at the point that is the
+                % linear combination of digit.east and the vector (2mm,0pt). We
+                % use the ($ ... $) notation for computing linear combinations
+                ($ (digit.east) + (2mm,0) $)
+                % Now go down
+                -- ++(0,-.5)
+                % And back to the left of digit.west
+                -| ($ (digit.west) - (2mm,0) $);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[node distance=5mm and 5mm]
+        \node (dot) [terminal] {.};
+        \node (digit) [terminal,right=of dot] {digit};
+        \node (E) [terminal,right=of digit] {E};
+        \path (dot) edge[->] (digit) % simple edges
+            (digit) edge[->] (E);
+        \draw [->]
+            % start right of digit.east, that is, at the point that is the linear combination of digit.east and the vector (2mm,0pt). We use the ($ ... $) notation for computing linear combinations
+            ($ (digit.east) + (2mm,0) $)
+            % Now go down
+            -- ++(0,-.5)
+            % And back to the left of digit.west
+            -| ($ (digit.west) - (2mm,0) $);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{节点连线}
+\end{figure}
+
+在此基础上，tikz 引入了 edge 参数来简化折线。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[
+            node distance=5mm and 5mm,skip loop/.style={to path={-- ++(0,-.5) -| (\tikztotarget)}}]
+            \node (dot) [terminal] {.};
+            \node (digit) [terminal,right=of dot] {digit};
+            \node (E) [terminal,right=of digit] {E};
+            \path (dot) edge[->] (digit) % simple edges
+                (digit) edge[->] (E)
+                ($ (digit.east) + (2mm,0) $)
+                        edge[->,skip loop] ($ (digit.west) - (2mm,0) $);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[
+        node distance=5mm and 5mm,skip loop/.style={to path={-- ++(0,-.5) -| (\tikztotarget)}}]
+        \node (dot) [terminal] {.};
+        \node (digit) [terminal,right=of dot] {digit};
+        \node (E) [terminal,right=of digit] {E};
+        \path (dot) edge[->] (digit) % simple edges
+            (digit) edge[->] (E)
+            ($ (digit.east) + (2mm,0) $)
+                    edge[->,skip loop] ($ (digit.west) - (2mm,0) $);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{简化的节点连线}
+\end{figure}
+
+\subsection{矩阵布局}
+矩阵式布局与 latex 自身的数学公式布局十分相似
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.7\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \matrix[row sep=1mm,column sep=5mm] {
+                % First row:
+                & & & & \node [terminal] {+}; & \\
+                % Second row:
+                \node [nonterminal] {unsigned integer}; &
+                \node [terminal] {.}; &
+                \node [terminal] {digit}; &
+                \node [terminal] {E}; &&
+                \node [nonterminal] {unsigned integer}; \\
+                % Third row:
+                & & & & \node [terminal] {-}; & \\
+            };
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.6\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \matrix[row sep=1mm,column sep=5mm] {
+            % First row:
+            & & & & \node [terminal] {+}; & \\
+            % Second row:
+            \node [nonterminal] {unsigned integer}; &
+            \node [terminal] {.}; &
+            \node [terminal] {digit}; &
+            \node [terminal] {E}; &&
+            \node [nonterminal] {unsigned integer}; \\
+            % Third row:
+            & & & & \node [terminal] {-}; & \\
+        };
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{矩阵布局}
+\end{figure}
+
+使用了矩阵布局后，连线将变得非常简单
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.7\linewidth}
+        \centering
+        \begin{tikzpicture}
+            [point/.style={circle,inner sep=0pt,minimum size=2pt,fill=red},skip loop/.style={to path={-- ++(0,#1) -| (\tikztotarget)}}]
+            \matrix[row sep=1mm,column sep=2mm] {
+                % First row:
+                & & & & & & & & & & & \node (plus) [terminal] {+};\\
+                % Second row:
+                \node (p1) [point] {}; & \node (ui1) [nonterminal] {unsigned integer}; &
+                \node (p2) [point] {}; & \node (dot) [terminal] {.}; &
+                \node (p3) [point] {}; & \node (digit) [terminal] {digit}; &
+                \node (p4) [point] {}; & \node (p5) [point] {}; &
+                \node (p6) [point] {}; & \node (e) [terminal] {E}; &
+                \node (p7) [point] {}; & &
+                \node (p8) [point] {}; & \node (ui2) [nonterminal] {unsigned integer}; &
+                \node (p9) [point] {}; & \node (p10) [point] {};\\
+                % Third row:
+                & & & & & & & & & & & \node (minus)[terminal] {-};\\
+            };
+            \path (p4) edge [->,skip loop=-5mm] (p3)
+                    (p2) edge [->,skip loop=5mm] (p6);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.8\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        [point/.style={circle,inner sep=0pt,minimum size=2pt,fill=red},skip loop/.style={to path={-- ++(0,#1) -| (\tikztotarget)}}]
+        \matrix[row sep=1mm,column sep=2mm] {
+            % First row:
+            & & & & & & & & & & & \node (plus) [terminal] {+};\\
+            % Second row:
+            \node (p1) [point] {}; & \node (ui1) [nonterminal] {unsigned integer}; &
+            \node (p2) [point] {}; & \node (dot) [terminal] {.}; &
+            \node (p3) [point] {}; & \node (digit) [terminal] {digit}; &
+            \node (p4) [point] {}; & \node (p5) [point] {}; &
+            \node (p6) [point] {}; & \node (e) [terminal] {E}; &
+            \node (p7) [point] {}; & &
+            \node (p8) [point] {}; & \node (ui2) [nonterminal] {unsigned integer}; &
+            \node (p9) [point] {}; & \node (p10) [point] {};\\
+            % Third row:
+            & & & & & & & & & & & \node (minus)[terminal] {-};\\
+        };
+        \path (p4) edge [->,skip loop=-5mm] (p3)
+                (p2) edge [->,skip loop=5mm] (p6);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{矩阵布局与连线}
+\end{figure}
+
+\subsection{连线}
+\subsubsection{连接节点}
+使用 graph 命令(path graph 的简写) 绘制连线 
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.7\linewidth}
+        \centering
+        \begin{tikzpicture}
+            [point/.style={circle,inner sep=0pt,minimum size=2pt,fill=red},
+                skip loop/.style={to path={-- ++(0,#1) -| (\tikztotarget)}},
+                hv path/.style={to path={-| (\tikztotarget)}},
+                vh path/.style={to path={|- (\tikztotarget)}}]
+            \matrix[row sep=1mm,column sep=2mm] {
+                % First row:
+                & & & & & & & & & & & \node (plus) [terminal] {+};\\
+                % Second row:
+                \node (p1) [point] {}; & \node (ui1) [nonterminal] {unsigned integer}; &
+                \node (p2) [point] {}; & \node (dot) [terminal] {.}; &
+                \node (p3) [point] {}; & \node (digit) [terminal] {digit}; &
+                \node (p4) [point] {}; & \node (p5) [point] {}; &
+                \node (p6) [point] {}; & \node (e) [terminal] {E}; &
+                \node (p7) [point] {}; & &
+                \node (p8) [point] {}; & \node (ui2) [nonterminal] {unsigned integer}; &
+                \node (p9) [point] {}; & \node (p10) [point] {};\\
+                % Third row:
+                & & & & & & & & & & & \node (minus)[terminal] {-};\\
+            };
+            \graph {
+                (p1) -> (ui1) -- (p2) -> (dot) -- (p3) -> (digit) -- (p4)
+                    -- (p5) -- (p6) -> (e) -- (p7) -- (p8) -> (ui2) -- (p9) -> (p10);
+                (p4) -> [skip loop=-5mm] (p3);
+                (p2) -> [skip loop=5mm] (p5);
+                (p6) -> [skip loop=-11mm] (p9);
+                (p7) -> [vh path] (plus) -> [hv path] (p8);
+                (p7) -> [vh path] (minus) -> [hv path] (p8);
+            };
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.8\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        [point/.style={circle,inner sep=0pt,minimum size=2pt,fill=red},
+            skip loop/.style={to path={-- ++(0,#1) -| (\tikztotarget)}},
+            hv path/.style={to path={-| (\tikztotarget)}},
+            vh path/.style={to path={|- (\tikztotarget)}}]
+        \matrix[row sep=1mm,column sep=2mm] {
+            ......
+        };
+        \graph {
+            (p1) -> (ui1) -- (p2) -> (dot) -- (p3) -> (digit) -- (p4)
+                -- (p5) -- (p6) -> (e) -- (p7) -- (p8) -> (ui2) -- (p9) -> (p10);
+            (p4) -> [skip loop=-5mm] (p3);
+            (p2) -> [skip loop=5mm] (p5);
+            (p6) -> [skip loop=-11mm] (p9);
+            (p7) -> [vh path] (plus) -> [hv path] (p8);
+            (p7) -> [vh path] (minus) -> [hv path] (p8);
+        };
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{graph 连线}
+\end{figure}
+
+\subsubsection{连线样式}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.7\linewidth}
+        \centering
+        \begin{tikzpicture}
+            [>={Stealth[round]},thick,black!50,text=black,
+                every new ->/.style={shorten >=1pt},
+                graphs/every graph/.style={edges=rounded corners},
+                point/.style={circle,inner sep=0pt,minimum size=2pt,fill=red},
+                skip loop/.style={to path={-- ++(0,#1) -| (\tikztotarget)}},
+                hv path/.style={to path={-| (\tikztotarget)}},
+                vh path/.style={to path={|- (\tikztotarget)}}]
+            \matrix[row sep=1mm,column sep=2mm] {
+                % First row:
+                & & & & & & & & & & & \node (plus) [terminal] {+};\\
+                % Second row:
+                \node (p1) [point] {}; & \node (ui1) [nonterminal] {unsigned integer}; &
+                \node (p2) [point] {}; & \node (dot) [terminal] {.}; &
+                \node (p3) [point] {}; & \node (digit) [terminal] {digit}; &
+                \node (p4) [point] {}; & \node (p5) [point] {}; &
+                \node (p6) [point] {}; & \node (e) [terminal] {E}; &
+                \node (p7) [point] {}; & &
+                \node (p8) [point] {}; & \node (ui2) [nonterminal] {unsigned integer}; &
+                \node (p9) [point] {}; & \node (p10) [point] {};\\
+                % Third row:
+                & & & & & & & & & & & \node (minus)[terminal] {-};\\
+            };
+            \graph [use existing nodes] {
+                p1 -> ui1 -- p2 -> dot -- p3 -> digit -- p4 -- p5 -- p6 -> e -- p7 -- p8 -> ui2 -- p9 -> p10;
+                p4 ->[skip loop=-5mm] p3;
+                p2 ->[skip loop=5mm] p5;
+                p6 ->[skip loop=-11mm] p9;
+                p7 ->[vh path] { plus, minus } -> [hv path] p8;
+            };
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.8\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        [>={Stealth[round]},thick,black!50,text=black,
+            every new ->/.style={shorten >=1pt},
+            graphs/every graph/.style={edges=rounded corners},
+            point/.style={circle,inner sep=0pt,minimum size=2pt,fill=red},
+            skip loop/.style={to path={-- ++(0,#1) -| (\tikztotarget)}},
+            hv path/.style={to path={-| (\tikztotarget)}},
+            vh path/.style={to path={|- (\tikztotarget)}}]
+        \matrix[row sep=1mm,column sep=2mm] {
+            ......
+        };
+        \graph [use existing nodes] {
+            p1 -> ui1 -- p2 -> dot -- p3 -> digit -- p4 -- p5 -- p6 -> e -- p7 -- p8 -> ui2 -- p9 -> p10;
+            p4 ->[skip loop=-5mm] p3;
+            p2 ->[skip loop=5mm] p5;
+            p6 ->[skip loop=-11mm] p9;
+            p7 ->[vh path] { plus, minus } -> [hv path] p8;
+        };
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{连线样式}
+\end{figure}
+
+\subsection{Graph 指令}
+使用 graph 节点可以快速绘制简单的流程图
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.6\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \tikz \graph [grow right=2cm] {unsigned integer -> d -> digit -> E};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.6\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \tikz \graph [grow right=2cm] {unsigned integer -> d -> digit -> E};
+        \end{lstlisting}
+    \end{minipage}
+    \caption{graph 指令绘图}
+\end{figure}
+
+声明 grow right sep 指明让节点在前一节点右方生成
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.7\linewidth}
+        \centering
+        \tikz \graph [grow right sep] {
+            unsigned integer[nonterminal] -> "."[terminal] -> digit[terminal] -> E[terminal]
+        };
+    \end{minipage}
+    \begin{minipage}{0.8\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \tikz \graph [grow right sep] {
+        unsigned integer[nonterminal] -> "."[terminal] -> digit[terminal] -> E[terminal]
+    };
+        \end{lstlisting}
+    \end{minipage}
+    \caption{}
+\end{figure}
+
+创建分支
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.7\linewidth}
+        \centering
+        \tikz \graph [grow right sep] {
+            unsigned integer [nonterminal] ->
+            "." [terminal] ->
+            digit [terminal] ->
+            E [terminal] ->
+            {
+                "+" [terminal],
+                "" [coordinate],
+                "-" [terminal]
+            } ->
+            ui2/unsigned integer [nonterminal]
+        };
+    \end{minipage}
+    \begin{minipage}{0.6\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \tikz \graph [grow right sep] {
+        unsigned integer [nonterminal] ->
+        "." [terminal] ->
+        digit [terminal] ->
+        E [terminal] ->
+        {
+            "+" [terminal],
+            "" [coordinate],
+            "-" [terminal]
+        } ->
+        ui2/unsigned integer [nonterminal]
+    };
+        \end{lstlisting}
+    \end{minipage}
+    \caption{}
+\end{figure}

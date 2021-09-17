@@ -1,6 +1,6 @@
 % ========================= 基础配置 =========================
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{PionpillNotebook}[2021/08/24 version 1.0]
+\ProvidesClass{PionpillNote-book}[2021/08/24 version 1.0]
 
 % ========================= 纸张大小 =========================
 \LoadClass[oneside,a4paper,UTF8,linespread=1.25,zihao=5]{ctexbook}
@@ -36,12 +36,12 @@
 \RequirePackage{cleveref}               % 载入自动引用宏包
 \RequirePackage{environ}                % 环境包
 \RequirePackage{import}                 % 内容分离
+\RequirePackage{indentfirst}            % 段落缩进
 
 % 扩展的表格宏包和插图宏包
 % \RequirePackage{subfig}
 % \RequirePackage{longtable}
 % 扩展的数学宏包
-\RequirePackage{bm} %用\bm{}命令生成伪粗体
 % \RequirePackage{upgreek}%用\uppi 调用正体的圆周率
 % \RequirePackage{mathrsfs}%\mathscr{}调用傅里叶变换,拉普拉斯变换的符号
 
@@ -79,6 +79,10 @@
 \crefname{table}{表}{表}
 \crefname{equation}{式}{式}
 \renewcommand{\eqref}[1]{\labelcref{#1}~\namecref{#1}}
+% 设置脚注格式
+\edef\footnoterule{\vfil\footnoterule}
+% 设置首行缩进
+\setlength{\parindent}{2em}
 % 未知有什么用
 \let\lvert\relax\let\rvert\relax\let\lVert\relax\let\rVert\relax
 \let\sum\relax\let\prod\relax
@@ -90,34 +94,6 @@
 \renewcommand*{\bottomfraction}{0.8}
 \renewcommand*{\floatpagefraction}{0.85}
 \renewcommand{\headrulewidth}{0pt}
-
-% Get details from author input
-\newcommand{\fullname}[1]{\def\@fullname{#1}}
-\newcommand{\documenttitle}[1]{\def\@documenttitle{#1}}
-\newcommand{\address}[1]{\def\@address{#1}}
-\newcommand{\phone}[1]{\def\@phone{#1}}
-\newcommand{\email}[1]{\def\@email{#1}}
-
-\newcommand{\homepage}[1]{\def\@homepage{#1}}
-\newcommand{\github}[1]{\def\@github{#1}}
-\newcommand{\linkedin}[1]{\def\@linkedin{#1}}
-\newcommand{\twitter}[1]{\def\@twitter{#1}}
-\newcommand{\flickr}[1]{\def\@flickr{#1}}
-\newcommand{\instagram}[1]{\def\@instagram{#1}}
-\newcommand{\wechat}[1]{\def\@wechat{#1}}
-
-\newcommand{\greeting}[1]{\def\@greeting{#1}}
-\newcommand{\farewell}[1]{\def\@farewell{#1}}
-\newcommand{\recipient}[2]{\def\@recipientname{#1}\def\@recipientaddress{#2}}
-
-\NewDocumentCommand{\name}{o m o}{%
-	\def\@name{#2}
-	\IfNoValueTF{#1}
-	{\IfNoValueTF{#3}{\fullname{\@name}}{\fullname{\@name,~#3}}}
-	{\IfNoValueTF{#3}{\fullname{#1~\@name}}{\fullname{#1~\@name,~#3}}}
-}
-
-
 % ========================= 特殊环境 =========================
 
 
@@ -125,8 +101,8 @@
 % ========================= 基础格式 =========================
 % ========== 字体设置 ==========
 % \setCJKmainfont[Mapping=fullwidth-stop]{SimSun}
-\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
-\setmainfont{Times New Roman}
+% \setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+% \setmainfont{Times New Roman}
 \def\bianhao#1{\gdef\@bianhao{#1}}
 \def\tihao#1{\gdef\@tihao{#1}}
 \def\timu#1{\gdef\@timu{#1}}
@@ -142,7 +118,7 @@
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
 
-\titlecontents{chapter}[4em]{\bfseries \zihao{4} \vspace{10pt}}{\contentslabel{4em}}{\hspace*{-4em}}{~\titlerule*[0.6pc]{$ $}}
+\titlecontents{chapter}[20em]{\filcenter \bfseries \zihao{3} \vspace{10pt}}{\contentslabel{2em}}{\hspace*{-4em}}{~\titlerule*[0.6pc]{$ $}}
 \titlecontents{section}[2em]{\bfseries \zihao{-4} \vspace{10pt}}{\contentslabel{2em}}{\hspace*{-4em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
 \titlecontents{subsection}[4em]{\zihao{-4}}{\contentslabel{2em}}{\hspace*{-2em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
 \titlecontents{subsubsection}[7em]{\zihao{5}}{\contentslabel{3em}}{\hspace*{-2em}}{~\titlerule*[0.6pc]{$.$}~\contentspage}
@@ -240,66 +216,3 @@
 		#1
 	}
 }{}
-
-% ========================= 页面格式 =========================
-\newcommand{\pipe}{\ifhmode\hspace{1em}\fi}
-% \newcommand{\foottext}[1]{\textsc{\footnotesize#1}}
-% \renewcommand{\baselinestretch}{1.2}
-
-% ========== 扉页 ==========
-\newif\ifcoverletter
-\coverlettertrue
-
-\newcommand{\hidecoverletter}{
-	\coverletterfalse
-}
-
-\NewEnviron{coverletter}{
-	\ifcoverletter
-		% Construct topmatter
-		\tmrheader
-		\hrulefill
-		\tmrtitle
-		\thispagestyle{empty}
-		
-		\BODY
-        
-		\tmrfooter
-		% Construct bottom matter
-		% \tmrclosing
-	\fi
-}
-
-\newcommand{\tmrheader}{
-	\begin{center}
-	
-	% Author name
-	{\Huge\textbf{\@name}\\}
-	
-	% Address & phone number
-	\textit{\faicon{map-marker}
-	\@address\quad\faicon{mobile} \@phone}\\
-	
-	% Social/online accounts
-	{\small
-		\mbox{\faEnvelope~\href{mailto:\@email}{\@email}}
-		\ifdefined\@homepage\mbox{\pipe\faHome~\href{http://\@homepage}{\@homepage}}\fi
-		\ifdefined\@github\mbox{\pipe\faGithubSquare~\href{https://github.com/\@github}{\@github}}\fi%
-		\ifdefined\@linkedin\mbox{\pipe\faLinkedinSquare~\href{https://www.linkedin.com/in/\@linkedin}{\@linkedin}}\fi
-		\ifdefined\@twitter\mbox{\pipe\faTwitterSquare~\href{https://twitter.com/\@twitter}{\@twitter}}\fi
-		\ifdefined\@instagram\mbox{\pipe\faInstagram~\href{https://www.instagram.com/\@instagram}{\@twitter}}\fi
-		\ifdefined\@flickr\mbox{\pipe\faFlickr~\href{https://www.flickr.com/photos/\@flickr}{\@flickr}}\fi
-		\ifdefined\@wechat\mbox{\pipe\faWechat~\@wechat}\fi
-	}	
-	\end{center}
-}
-
-
-
-% Makes recipient section from details & dates letter
-\newcommand{\tmrtitle}{ 
-	
-    \textbf{\@recipientname}\hfill\textit{\today}\\
-  	\@recipientaddress \\\\\\
-	\@greeting,
-}
