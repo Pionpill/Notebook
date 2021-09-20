@@ -37,6 +37,7 @@
 \RequirePackage{environ}                % 环境包
 \RequirePackage{import}                 % 内容分离
 \RequirePackage{indentfirst}            % 段落缩进
+\RequirePackage{threeparttable}         % 三线表环境
 
 % 扩展的表格宏包和插图宏包
 % \RequirePackage{subfig}
@@ -83,9 +84,6 @@
 \edef\footnoterule{\vfil\footnoterule}
 % 设置首行缩进
 \setlength{\parindent}{2em}
-% 未知有什么用
-\let\lvert\relax\let\rvert\relax\let\lVert\relax\let\rVert\relax
-\let\sum\relax\let\prod\relax
 
 
 % ========================= 新的命令 =========================

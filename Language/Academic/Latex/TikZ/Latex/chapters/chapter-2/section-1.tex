@@ -678,7 +678,938 @@ Node 的最简单用法是在一些坐标点周围添加文字。与此同时，
     \end{figure}
 \end{itemize}
 
+\subsubsection{节点变换}
+常用的节点的变换(transform)修饰有缩放与旋转。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[every node/.style = draw]
+            \draw (0,0) grid (2,2);
+            \draw (1,0) node {A};
+            \draw (1,1) node [rotate = 90] {B};
+            \draw (1,2) node [rotate = 45,scale = 2] {C};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[every node/.style = draw]
+        \draw (0,0) grid (2,2);
+        \draw (1,0) node {A};
+        \draw (1,1) node [rotate = 90] {B};
+        \draw (1,2) node [rotate = 45,scale = 2] {C};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Node:节点变换}
+\end{figure}
+
+\subsubsection{节点复用}
+
+节点复用，即在使用过节点后，再使用节点。使用 also 关键字，即可启用之前定义过的节点。复用的节点无法添加文字。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \node [circle,draw] (a) {Hello};
+            \node also [label=above:world] (a);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \node [circle,draw] (a) {Hello};
+        \node also [label=above:world] (a);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Node:also}
+\end{figure}
+
+类似的，也可以使用 [late options = \{\}] 达到同样的效果。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \node [draw,circle] (a) {Hello};
+            \path [late options = {name=a,label=above:world}];
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \node [draw,circle] (a) {Hello};
+        \path [late options = {name=a,label=above:world}];
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Node:late option}
+\end{figure}
+
 \subsection{节点布局}
 \subsubsection{定位}
 
-节点的未知往往由与之相关的坐标决定，默认以坐标为中心生成节点，同时也可在坐标周围生成节点。
+节点的位置往往由与之相关的坐标决定，默认以坐标为中心生成节点，同时也可在坐标周围生成节点。
+
+\begin{itemize}
+    \item 节点锚点 \\
+    锚点：[anchor = <anchor name>]：锚点属性决定了节点将在坐标的哪个方向生成。\\
+    这里 anchor 的意思是坐标位于节点的方向。
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) node [anchor = north] {north};
+                \draw (1,1) node [anchor = south west] {south west};
+                \draw (0,0) rectangle (1,1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+        
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:锚点}
+    \end{figure}
+
+    \item 偏移 \\
+    偏移：[<offset>]：无需属性名，效果与 anchor 类似，但是能更精确地控制偏移量。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \fill (0,0) circle (2pt) node [above] {above};
+                \fill (0,-1) circle (2pt) node [above=5pt] {above};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \fill (0,0) circle (2pt) node [above] {above};
+        \fill (0,-1) circle (2pt) node [above=5pt] {above};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:偏移}
+    \end{figure}
+\end{itemize}
+
+\subsubsection{高阶布局}
+
+除了简单的定位，还可以使用 positioning 包来进行更为高阶的定位操作。在启动了该包后，原本的 <dimension> 参数将被提升为 <specification>。<specification> 参数通常由两部分组成：<shifting part> + <of-part>
+
+<shifting part> 为主要控制参数，通常有三种形式：
+
+\begin{itemize}
+    \item <dimension> 形式 \\
+    这种形式在 <dimension> 参数的基础上，还可以使用数学式。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) grid (2,2);
+                \node at (1,1) [above = 2pt+3pt,fill=white] {above};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) grid (2,2);
+        \node at (1,1) [above = 2pt+3pt,fill=white] {above};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:高阶布局-数学形式}
+    \end{figure}
+
+    \item <number> 形式 \\
+    这种形式可以不包含单位，其他和上面那个差别不大。
+    
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) grid (2,2);
+                \node at (1,1) [above = .2,fill=white] {above};  
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) grid (2,2);
+        \node at (1,1) [above = .2,fill=white] {above};  
+        % south border of the node is now 2mm above (1,1)
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:高阶布局-数字形式}
+    \end{figure}
+
+    \item and 组合形式 \\
+    可以通过 and 将多个偏移修饰组合，这里 and 的作用并不明显，下一节将详细说明。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) grid (2,2);
+                \node at (1,1) [above = .2 and 2mm,fill=white] {above};  
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) grid (2,2);
+        \node at (1,1) [above = .2 and 2mm,fill=white] {above};  
+        % south border of the node is also 2mm above (1,1)
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:高阶布局-组合形式}
+    \end{figure}
+\end{itemize}
+
+<of-part> 可以进行相对定位，注意点如下：
+
+\begin{itemize}
+    \item 以坐标为参照的定位 \\
+    通过 of 关键字可以调用坐标点的方位进行相对定位。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) grid (2,2);
+                \node (point) [draw] at (1,1) {point};
+                \node [above = 5mm of point.north east,draw] {north east};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) grid (2,2);
+        \node (point) [draw] at (1,1) {point};
+        \node [above = 5mm of point.north east,draw] {north east};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:of-part 坐标定位}
+    \end{figure}
+
+    定位逻辑：首先找到 point 的 north east 位置，然后向 above 方向移动了 5mm。\\
+    不止于坐标，一般别名都可以作为定位对象。
+
+    \item 距离测算 \\
+    默认状态下的偏移距离为边界之间的距离，而不是中心距。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[every node/.style = draw]
+                \draw (0,0) grid (2,2);
+                \node (point1) at (1,1) {point1};
+                \node (point2) [above = 1cm of point1] {point2};
+                \node (point3) [below = 1cm of point1.center] {point3};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[every node/.style = draw]
+        \draw (0,0) grid (2,2);
+        \node (point1) at (1,1) {point1};
+        \node (point2) [above = 1cm of point1] {point2};
+        \node (point3) [below = 1cm of point1.center] {point3};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:距离测算}
+    \end{figure}
+
+    发现没什么好办法获得中心距。
+
+    \item 网格距 \\
+    网格距使用 on grid 将全部距离都定位在网格上，以获得中心距。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[every node/.style = draw]
+                \draw (0,0) grid (2,3);
+                \node (a1) at (0,0) {normal};
+                \node (a2) [above = 1 of a1] {1cm};
+                \node (a3) [above = 1 of a2] {1cm};
+                \begin{scope}[on grid]
+                    \node (b1) at (2,0) {grid};
+                    \node (b2) [above = 1 of b1] {1cm};
+                    \node (b3) [above = 1 of b2] {1cm};
+                \end{scope}
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[every node/.style = draw]
+        \draw (0,0) grid (2,3);
+        \node (a1) at (0,0) {normal};
+        \node (a2) [above = 1 of a1] {1cm};
+        \node (a3) [above = 1 of a2] {1cm};
+        \begin{scope}[on grid]
+            \node (b1) at (2,0) {grid};
+            \node (b2) [above = 1 of b1] {1cm};
+            \node (b3) [above = 1 of b2] {1cm};
+        \end{scope}
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:on gird}
+    \end{figure}
+    
+    \item and 组合形式 \\
+    上文已说过 and 可以添加多个修饰，这里来看一下用不用 and 的区别。
+    
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.3\linewidth}
+            \centering
+            \begin{tikzpicture}[every node/.style = draw]
+                \begin{scope}[node distance = 5mm]
+                    \node (a) at (2,3) {a};
+                    \node [left=of a] {1}; \node [right=of a] {2};
+                    \node [above=of a] {3}; \node [below=of a] {4};
+                    \node [above left=of a] {5}; \node [above right=of a] {6};
+                    \node [below left=of a] {7}; \node [below right=of a] {8};
+                \end{scope}
+                \begin{scope}[node distance = 5mm and 5mm]
+                    \node (a) at (2,0) {a};
+                    \node [left=of a] {1}; \node [right=of a] {2};
+                    \node [above=of a] {3}; \node [below=of a] {4};
+                    \node [above left=of a] {5}; \node [above right=of a] {6};
+                    \node [below left=of a] {7}; \node [below right=of a] {8};
+                \end{scope}
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.6\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[every node/.style = draw]
+        \begin{scope}[node distance = 5mm]
+            \node (a) at (2,3) {a};
+            \node [left=of a] {1}; \node [right=of a] {2};
+            \node [above=of a] {3}; \node [below=of a] {4};
+            \node [above left=of a] {5}; \node [above right=of a] {6};
+            \node [below left=of a] {7}; \node [below right=of a] {8};
+        \end{scope}
+        \begin{scope}[node distance = 5mm and 5mm]
+            \node (a) at (2,0) {a};
+            \node [left=of a] {1}; \node [right=of a] {2};
+            \node [above=of a] {3}; \node [below=of a] {4};
+            \node [above left=of a] {5}; \node [above right=of a] {6};
+            \node [below left=of a] {7}; \node [below right=of a] {8};
+        \end{scope}
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:and 详解}
+    \end{figure}
+\end{itemize}
+
+\subsubsection{节点集}
+
+使用 fit 修饰可以将指定的节点圈起来。需要使用 fit 包
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \node (a) at (0,0) {a};
+            \node (b) at (1,1) {b};
+            \node (c) at (0,2) {b};
+            \node[draw=red,inner sep=0pt,thick,ellipse,fit=(a) (b) (c)] {};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \node (a) at (0,0) {a};
+        \node (b) at (1,1) {b};
+        \node (c) at (0,2) {b};
+        \node[draw=red,inner sep=0pt,thick,ellipse,fit=(a) (b) (c)] {};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Node:fit}
+\end{figure}
+
+\subsection{节点交互}
+\subsubsection{曲线上的节点}
+
+节点交互指节点与其他 TikZ 图形之间的组合，例如在线段上某一位置插入节点。
+
+\begin{itemize}
+    \item 节点插入位置\\
+    插入位置：[pos = <fraction>]，按线段长度比插入到对应的位置。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0)  -- (3,1) node [pos = 0] {0} node [pos = 0.5] {0.5} node [pos = 0.9] {0.9};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0)  -- (3,1) node [pos = 0] {0} node [pos = 0.5] {0.5} node [pos = 0.9] {0.9};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:节点插入位置}
+    \end{figure}
+
+    值得注意的是，pos在曲线中代表的并不是长度比，pos 的具体计算方式比较复杂在这里不做说明。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) .. controls +(right:3.5cm) and + (right:3.5cm) .. (0,3) node foreach \x in {0,0.125,...,1} [pos = \x,scale =3,radius = 1pt] {.};
+                \draw (0,-2) |- (3,-1) node[pos=0]{0} node[pos=0.5]{1/2} node[pos=0.9]{9/10};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) .. controls +(right:3.5cm) and + (right:3.5cm) .. (0,3) node foreach \x in {0,0.125,...,1} [pos = \x,scale =3,radius = 1pt] {.};
+        \draw (0,-2) |- (3,-1) node[pos=0]{0} node[pos=0.5]{1/2} node[pos=0.9]{9/10};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:pos 位置}
+    \end{figure}
+
+    \item 节点自动位置 \\
+    自动位置：[auto = <direction>] 这个修饰将节点自动生成在线段的某一方位，如果设置了 auto 的值，则为 auto 方向，如果没有设置，则为最近一个设置的方向，如果设置了 none，则禁用 auto。其具体的规则请查阅TikZ官方文档。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+                \node (a) at (-1,-2) {a};
+                \node (b) at ( 1,-2) {b};
+                \node (c) at ( 2,-1) {c};
+                \node (d) at ( 2, 1) {d};
+                \node (e) at ( 1, 2) {e};
+                \node (f) at (-1, 2) {f};
+                \node (g) at (-2, 1) {g};
+                \node (h) at (-2,-1) {h};
+                \foreach \from/\to in {a/b,b/c,c/d,d/e,e/f,f/g,g/h,h/a}
+                \draw [->] (\from) -- (\to)
+                node[midway,fill=red!20] {\from--\to};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale=.8,auto=left,every node/.style={circle,fill=blue!20}]
+        \node (a) at (-1,-2) {a};
+        \node (b) at ( 1,-2) {b};
+        \node (c) at ( 2,-1) {c};
+        \node (d) at ( 2, 1) {d};
+        \node (e) at ( 1, 2) {e};
+        \node (f) at (-1, 2) {f};
+        \node (g) at (-2, 1) {g};
+        \node (h) at (-2,-1) {h};
+        \foreach \from/\to in {a/b,b/c,c/d,d/e,e/f,f/g,g/h,h/a}
+        \draw [->] (\from) -- (\to)
+        node[midway,fill=red!20] {\from--\to};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:auto}
+    \end{figure}
+
+    \item 方位交换 \\
+    交换：[swap]：与原方向相反，常常配合 auto 使用。需要用的 automate 包。swap 可以用 ' 来代替。
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{1\linewidth}
+            \centering
+            \begin{tikzpicture}[auto]
+                \draw (0.5,0) .. controls (9,6) and (-5,6) .. (3.5,0) 
+                    node foreach \pos in {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1} [pos=\pos,swap,fill=red!20] {\pos}
+                    node foreach \pos in {0.025,0.2,0.4,0.6,0.8,0.975} [pos=\pos,fill=blue!20] {\pos};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.7\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[auto]
+        \draw (0.5,0) .. controls (9,6) and (-5,6) .. (3.5,0) node foreach \pos in {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1} [pos=\pos,swap,fill=red!20] {\pos} node foreach \pos in {0.025,0.2,0.4,0.6,0.8,0.975} [pos=\pos,fill=blue!20] {\pos};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:swap}
+    \end{figure}
+
+    \item 倾斜 \\
+    倾斜：[sloped]：倾斜可以让文本和曲线保持统一方向
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) .. controls +(up:2cm) and + (left:2cm) .. (1,3) node foreach \p in {0.1,0.35,0.7,1} [pos = \p,sloped,above] {\p};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+                \begin{tikzpicture}[scale = 1]
+                    \draw (0,0) .. controls +(up:2cm) and + (left:2cm) .. (1,3) node foreach \p in {0.1,0.35,0.7,1} [pos = \p,sloped,above] {\p};
+                \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:sloped}
+    \end{figure}
+
+    \item 颠倒 \\
+    颠倒：[allow upside down]：强制节点按指定方向生成，这可能对导致文字出现奇怪的朝向。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) .. controls +(up:2cm) and + (left:2cm) .. (1,3) node foreach \p in {0.1,0.35,0.7,1} [pos = \p,sloped,above,allow upside down] {\p};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+                \begin{tikzpicture}[scale = 1]
+                    \draw (0,0) .. controls +(up:2cm) and + (left:2cm) .. (1,3) node foreach \p in {0.1,0.35,0.7,1} [pos = \p,sloped,above,allow upside down] {\p};
+                \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:sloped}
+    \end{figure}
+
+    \item 预定义位置\\
+    TikZ 预定义了几个 pos 对应的位置，可以直接使用其名称。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 0.8]
+                \draw (0,0) .. controls +(up:2cm) and +(left:3cm) .. (1,5)
+                    node[at end] {at end}
+                    node[very near end] {very near end}
+                    node[near end] {near end}
+                    node[midway] {midway}
+                    node[near start] {near start}
+                    node[very near start] {very near start}
+                    node[at start] {at start};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 0.8]
+        \draw (0,0) .. controls +(up:2cm) and +(left:3cm) .. (1,5)
+            node[at end] {at end}
+            node[very near end] {very near end}
+            node[near end] {near end}
+            node[midway] {midway}
+            node[near start] {near start}
+            node[very near start] {very near start}
+            node[at start] {at start};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:预定义位置}
+    \end{figure}
+
+    预定义位置具体位置如下表：
+
+    \begin{table}[H]
+        \centering
+        \caption{Node:预定义位置}
+        \label{table:Node:预定义位置}
+        \setlength{\tabcolsep}{4mm}
+        \begin{tabular}{c|cc|c}
+            \toprule
+            \textbf{位置} & \textbf{对应pos值} & \textbf{位置} & \textbf{对应pos值} \\
+            \midrule
+            at start & 0 & very near start & 0.125 \\
+            near start & 0.25 & midway & 0.5 \\
+            near end & 0.75 & very near end & 0.875 \\
+            at end & 1 &  &  \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+\end{itemize}
+
+\subsubsection{节点之间交互}
+
+节点之间除了默认的连线位置外，还可以使用 node.<anchor> 指定连接的位置。此外，与曲线类似，节点之间的连线也有多种样式。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \path (0,0) node (x) {Hello!}
+                  (3,1) node[circle,draw] (y) {World!};
+            \draw [->,blue] (x.center) -- (y);
+            \draw [->,red] (x) -| node[near start,below] {label} (y);
+            \draw [->,orange] (x) .. controls +(up:1cm) and +(left:1cm) .. node[above,sloped] {label} (y);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \path (0,0) node (x) {Hello!}
+              (3,1) node[circle,draw] (y) {World!};
+        \draw [->,blue] (x.center) -- (y);
+        \draw [->,red] (x) -| node[near start,below] {label} (y);
+        \draw [->,orange] (x) .. controls +(up:1cm) and +(left:1cm) .. node[above,sloped] {label} (y);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Node:节点之间连线}
+\end{figure}
+
+\subsubsection{节点图像}
+
+这里说明一些节点与图像之间的操作，部分操作只说明，但不写例子(写例子将改变全局图像设置),这些操作不是很常用，而且并不是所有的引擎都支持。
+
+\begin{itemize}
+    \item 记录图像
+    \begin{lstlisting}[style = latex]
+    \tikzset{every picture/.append style={remember picture}}
+    \end{lstlisting}
+    记录图像：[remember picture]：记录当前页所有图像位置等信息，这将在 aux 文件中增加对图像信息记录的数据，并不是所有引擎均支持，如果支持，需要编译两次。
+
+    \item 覆盖 \\
+    覆盖：[overlay = <boolean>] \\
+    启用此项，将可以使用其他图像中的节点，前提是对应的图像需要启用 remember picture ，因此也需要编译两次\\
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \tikz[remember picture] \node [circle,fill=red!50] (n1) {};
+            \tikz[remember picture] \node [circle,fill=blue!50] (n2) {};
+            \tikz[remember picture,overlay] \draw[->] (n1)--(n2);
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \tikz[remember picture] \node [circle,fill=red!50] (n1) {};
+    \tikz[remember picture] \node [circle,fill=blue!50] (n2) {};
+    \tikz[remember picture,overlay] \draw[->] (n1)--(n2);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:overlay}
+    \end{figure}
+
+    \item 当前页 \\
+    TikZ 提供了一个特殊的节点 [current page]，这可以让我们在整个页面中进行节点操作。
+    \tikz[remember picture,overlay] \draw [line width=1mm,opacity = 0.25] (current page.center) circle (3cm);
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.9\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \tikz[remember picture,overlay] \draw [line width=1mm,opacity = 0.25] (current page.center) circle (3cm);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:current page}
+    \end{figure}
+
+\end{itemize}
+
+
+
+
+\subsection{节点拓展}
+
+节点拓展包含标签(label)，大头针(pin)，边缘(edge)。他们都是基础写法的一种拓展，以不同的方式达到前文提到过的效果，可作为一种备选项。
+
+\subsubsection{节点标签}
+
+有时候我们需要在节点的周围添加一些文字信息，如果直接通过 {} 添加文字会让节点变大，如果再画一个纯文本的节点，又会消耗许多时间，这个时候就可以使用标签功能。标签的许多修饰与节点一样，不做过多解释。
+
+\begin{itemize}
+    \item 标签\\
+    标签：[label = <text>]：给予文本标签，默认在上方生成
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[circle]
+                \node [draw] (s) [label=$s$] {};
+                \node [draw] (a) [right=of s] {} edge (s);
+                \node [draw] (b) [right=of a] {} edge (a);
+                \node [draw] (t) [right=of b, label=$t$] {} edge (b);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[circle]
+        \node [draw] (s) [label=$s$] {};
+        \node [draw] (a) [right=of s] {} edge (s);
+        \node [draw] (b) [right=of a] {} edge (a);
+        \node [draw] (t) [right=of b, label=$t$] {} edge (b);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:label}
+    \end{figure}
+    
+    \item 标签选项 \\
+    标签选项：label = \{[<options>]<angle>:<text>\}，区别于主节点(main node)，这里将标签称为标签节点 (label node)，与节点类似的，标签节点也可以使用 every [] label/.style 指定默认样式，标签节点参数含义如下。
+    \begin{itemize}
+        \item 位置：[position = <angle>] \hfill (默认：above) \\
+        这里的 <angle> 与 <offset> 相同，但也可以设置具体的角度值。
+
+        \begin{figure}[H]
+            \centering
+            \begin{minipage}{0.35\linewidth}
+                \centering
+                \begin{tikzpicture}[scale = 1]
+                    \node [circle, draw,
+                        label=default,
+                        label=60:$60^\circ$,
+                        label=below:$-90^\circ$,
+                        label=3:$3^\circ$,
+                        label=2:$2^\circ$,
+                        label={[below]180:$180^\circ$},
+                        label={[centered]135:$135^\circ$}] {my circle};
+                \end{tikzpicture}
+            \end{minipage}
+            \begin{minipage}{0.55\linewidth}
+                \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \node [circle, draw,
+            label=default,
+            label=60:$60^\circ$,
+            label=below:$-90^\circ$,
+            label=3:$3^\circ$,
+            label=2:$2^\circ$,
+            label={[below]180:$180^\circ$},
+            label={[centered]135:$135^\circ$}] {my circle};
+    \end{tikzpicture}
+                \end{lstlisting}
+            \end{minipage}
+            \caption{Node-Label:angle}
+        \end{figure}
+
+        \item 绝对位置：[absolute = <boolean>] \hfill (默认：true) \\
+        若启用，采用全局坐标，否则，采用主节点的坐标。
+
+        \begin{figure}[H]
+            \centering
+            \begin{minipage}{0.35\linewidth}
+                \centering
+                \begin{tikzpicture}[rotate=-80,every label/.style={draw,red}]
+                    \node [transform shape,rectangle,draw,label=right:label] at (0,0)  {main node};
+                    \node [transform shape,rectangle,draw,label={[absolute] right:label}] at (0,2) {main node};
+                \end{tikzpicture}
+            \end{minipage}
+            \begin{minipage}{0.55\linewidth}
+                \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[rotate=-80,every label/.style={draw,red}]
+        \node [transform shape,rectangle,draw,label=right:label] at (0,0)  {main node};
+        \node [transform shape,rectangle,draw,label={[absolute] right:label}] at (0,2) {main node};
+    \end{tikzpicture}
+                \end{lstlisting}
+            \end{minipage}
+            \caption{Node-Label:absolute}
+        \end{figure}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{大头针}
+
+大头阵 pin = {[options]<angle>:<text>}：pin 和 label 用法几乎一致，唯一的区别是 pin 会带上与主节点之间的连线。下面只对连线进行说明，其他参考前文。
+
+\begin{itemize}
+    \item 基本用法 \\
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \node [circle,fill=red!20,minimum size = 1cm,pin = 60:$60^\circ$] {};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \node [circle,fill=red!20,minimum size = 1cm,pin = 60:$60^\circ$] {};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node-Pin:基础用法}
+    \end{figure}
+    \item 距离 \\
+    大头阵节点距：[pin distance = <distance>]
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \node [circle,draw,minimum size = 1cm,
+                    pin = right:default,
+                    pin = {[pin distance = 1cm]above right:$1cm$},
+                    pin = {[pin distance = 2cm]above:$2cm$}] {};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \node [circle,draw,minimum size = 1cm,
+            pin = right:default,
+            pin = {[pin distance = 1cm]above right:$1cm$},
+            pin = {[pin distance = 2cm]above:$2cm$}] {};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node-Pin:distance}
+    \end{figure}
+    \item 连线样式 \\
+    连线样式：[pin edge = <options>] 
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \node [circle,draw,minimum size = 1cm,
+                    pin={[pin edge={blue,thick}]right:X},
+                    pin={[pin edge={<-,red,thick}]left:Z},
+                    pin = above:Y] {};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \node [circle,draw,minimum size = 1cm,
+            pin={[pin edge={blue,thick}]right:X},
+            pin={[pin edge={<-,red,thick}]left:Z},
+            pin = above:Y] {};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{}
+    \end{figure}
+
+\item 简化语法\\
+Label 和 Pin 的语法有点复杂，可以启用 quotes 包，简化语法。与原来的 [options]<angle>:<text> 对应，新的语法形式为 "<text>" [options]。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \matrix [row sep = 2mm] {
+                \node [draw,"label"] {A}; \\
+                \node [draw,"label" left] {B}; \\
+                \node [draw,"label" centered] {C}; \\ 
+                \node [draw,"label" color = red!20] {D}; \\
+                \node [draw,"label" {red!20,draw,thick}] {E}; \\
+            };
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \matrix [row sep = 2mm] {
+            \node [draw,"label"] {A}; \\
+            \node [draw,"label" left] {B}; \\
+            \node [draw,"label" centered] {C}; \\ 
+            \node [draw,"label" color = red!20] {D}; \\
+            \node [draw,"label" {red!20,draw,thick}] {E}; \\
+        };
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Node-quotes:基础用法}
+\end{figure}
+
+\end{itemize}
+
+\subsubsection{边缘}
+
+边缘 (edge) 是节点间连线的一种方案，与一般连线不同的是，边缘连线会在所有连线绘制完成后再绘制，同样可以使用 every edge/.style 控制全部边缘样式。
+
+\begin{itemize}
+    \item 边缘基础用法 \\
+    边缘既可以在节点绘制过程中使用，也可以单独绘制。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \node (a) at (0:1) {$a$};
+                \node (b) at (90:1) {$b$} edge [->,red] (a);
+                \node (c) at (180:1) {$c$} edge [->] (a)
+                                            edge [<-] (b);
+                \node (d) at (270:1) {$d$} edge [->] (a)
+                                            edge [dotted] (b)
+                                            edge [<-] (c);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \node (a) at (0:1) {$a$};
+        \node (b) at (90:1) {$b$} edge [->] (a);
+        \node (c) at (180:1) {$c$} edge [->] (a) edge [<-] (b);
+        \node (d) at (270:1) {$d$} edge [->] (a) edge [dotted] (b) edge [<-] (c);
+        % 这种写法效果一样
+        \node foreach \name/\angle in {a/0,b/90,c/180,d/270}
+            (\name) at (\angle:1) {$\name$};
+        \path[->] (b) edge (a) edge (c) edge [-,dotted] (d)
+                (c) edge (a) edge (d)
+                (d) edge (a);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node-Edge:基础用法}
+    \end{figure}
+
+    \item 边缘在 quote 中的写法 \\
+    和其他拓展方法相同，边缘也可以利用 quote 包。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) edge ["left", "right"', "start" near start,  "end"' near end] (4,0);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+                \draw (0,0) edge ["left", "right"', "start" near start,  "end"' near end] (4,0);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Node:}
+    \end{figure}
+\end{itemize}

@@ -1,22 +1,22 @@
 \chapter{百科}
-\section{属性百科}
+\section{参数百科}
 
-属性\footnote{这里借用了 css 的概念}在这里指 TikZ 中一些可选项(option)对应的通用值。
+参数\footnote{这里借用了 css 的概念}在这里指 TikZ 中一些可选项(option)对应的通用值。
 
-\subsection{通用属性}
+\subsection{通用参数}
 
-通用属性，即常见的属性，其属性名和值是大部分同类语言都具备的。
+通用参数，即常见的参数，其参数名和值是大部分同类语言都具备的，只需理解参数意思就可明白如果写值。
 
-\subsubsection{常见通用属性意义}
+\subsubsection{常见通用参数意义}
 
 \begin{table}[H]
     \centering
-    \caption{常见通用属性意义}
-    \label{table:常见通用属性意义}
+    \caption{常见通用参数意义}
+    \label{table:常见通用参数意义}
     \setlength{\tabcolsep}{5mm}
     \begin{tabular}{c|ccc}
         \toprule
-        \textbf{属性} & \textbf{值} & \textbf{意义} & \textbf{举例}\\
+        \textbf{参数} & \textbf{值} & \textbf{意义} & \textbf{举例}\\
         \midrule
         dimension & 数字 & 一般为长度，可自定义单位 & line width = <dimension>\\
         angle & 数字 & 旋转角度，单位为度 & rotate = <angle> \\
@@ -26,15 +26,15 @@
 \end{table}
 
 
-\subsection{TikZ 特有属性}
+\subsection{TikZ 特有参数}
 
-特有属性，即属性和对应的值是 TikZ 所特定的，TikZ 专有这些值。
+特有参数，即参数和对应的值是 TikZ 所特定的，TikZ 专有这些值，参数的值往往需要查表得知。
 
 \subsubsection{对齐：alignment option }
 
 \begin{table}[H]
     \centering
-    \caption{属性：alignment option}
+    \caption{参数：alignment option}
     \label{table:alignment option}
     \setlength{\tabcolsep}{8mm}
     \begin{tabular}{c|cc|c}
@@ -44,7 +44,62 @@
         left & 左对齐 & flush left & 左对齐(禁止拆分单词) \\
         right & 右对齐 & flush right & 右对齐(禁止拆分单词) \\
         center & 居中对齐 & flush center & 居中对齐(禁止拆分单词) \\
-        justify & 拉长 & none & 禁止之前的对齐属性 \\
+        justify & 拉长 & none & 禁止之前的对齐参数 \\
         \bottomrule
     \end{tabular}
+\end{table}
+
+\subsubsection{锚点：anchor name}
+
+锚点主要用在定位与文本对齐上，锚点的值需要视具体的修饰选择。
+
+\begin{table}[H]
+    \centering
+    \caption{锚点:anchor name}
+    \label{table:锚点:anchor name}
+    \setlength{\tabcolsep}{3.8mm}
+    \begin{threeparttable}
+        \begin{tabular}{c|cc|cc}
+            \toprule
+            \textbf{类型} & \textbf{值} & \textbf{意义} & \textbf{值} & \textbf{意义}\\
+            \midrule
+            \multirow{2}{*}{对齐}   & center & 文字中心对齐\tnote{1} & base & 文字底部对齐\tnote{2} \\
+                                    & mid & 文本中心对齐\tnote{3} &  &  \\
+            \midrule
+            \multirow{4}{*}{位置}   & north & 北 & south & 南 \\
+                                    & east & 东 & west & 西 \\
+                                    & north-east & 东北 & south-east & 东南 \\
+                                    & north-west & 西北 & south-west & 西南 \\
+            \midrule
+            \multirow{2}{*}{组合}   & base west & 采用 base 对齐的西方 & base east & 采用 base 对齐的东方\\
+                                    & mid west & 采用 mid 对齐的西方 & mid east & 采用 mid 对齐的东方\\
+            \bottomrule
+        \end{tabular}
+        \begin{tablenotes}
+            \footnotesize
+            \item[1] 单个文字的中心。
+            \item[2] 文字底边对齐，英文四线三格中第三条线对齐。
+            \item[3] 文本整体的中心。
+        \end{tablenotes}
+    \end{threeparttable}
+\end{table}
+
+\subsubsection{偏移：offset}
+
+\begin{table}[H]
+    \centering
+    \caption{偏移:offset}
+    \label{table:偏移:offset}
+    \setlength{\tabcolsep}{9mm}
+    \begin{threeparttable}
+        \begin{tabular}{c|cc|c}
+            \toprule
+            \textbf{值} & \textbf{意义} & \textbf{值} & \textbf{意义}\\
+            \midrule
+            above/below & 上/下 & left/right & 左/右 \\
+            above left/right & 上左/右 & below left/right & 下左/右  \\
+            centered & 中心 & & \\
+            \bottomrule
+        \end{tabular}
+    \end{threeparttable}
 \end{table}
