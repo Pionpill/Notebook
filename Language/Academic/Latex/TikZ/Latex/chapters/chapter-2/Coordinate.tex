@@ -1,0 +1,1242 @@
+\section{Coordinate}
+\subsection{概述}
+
+坐标(coordinate)通常以点的形式出现，在 TikZ 中使用 () 表示一个坐标，一般语法为 
+
+\begin{lstlisting}[style = latex]
+    ([<options>] <coordinate specification>)
+\end{lstlisting}
+其中，coordinate specification 用于确定坐标的位置，可以使用平面直角坐标系或者极坐标系等方式确定。
+
+主要有以下两种方式确定坐标系：
+\begin{itemize}
+    \item 显式(Explicitly) 
+    
+    可以在坐标前显式指出坐标系名，随后跟上关键字 cs(coordinate system),随后给出代表坐标位置的具体键值对。\\
+    语法形式: (<coordinate system> cs: <list of key-value pairs specific to the coordinate system>)
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) grid (3,2);
+                \draw (canvas cs:x=0cm,y=2mm) 
+                    -- (canvas polar cs:radius=2cm,angle=30);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) grid (3,2);
+        \draw (canvas cs:x=0cm,y=2mm) 
+            -- (canvas polar cs:radius=2cm,angle=30);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:Explicitly}
+    \end{figure}
+
+    \item 隐式(Implicitly)
+
+    精确说明坐标系的语法往往太过复杂，一般情况下我们更习惯与使用简化的语法，使用 (x,y) 表示平面直角坐标系点，使用 (radius,angle) 表示极坐标系。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0,0) grid (3,2);
+                \draw (0cm,2mm) -- (30:2cm);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) grid (3,2);
+        \draw (0cm,2mm) -- (30:2cm);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:Implicitly}
+    \end{figure}
+\end{itemize}
+
+可以通过 [options] 给出修饰：
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \draw       (0,0) grid (3,2);
+            \draw       (0,0) -- (1,1);
+            \draw[red]  (0,0) -- ([xshift=3pt] 1,1);
+            \draw       (1,0) -- +(30:2cm);
+            \draw[red]  (1,0) -- +([shift=(135:5pt)] 30:2cm);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw       (0,0) grid (3,2);
+        \draw       (0,0) -- (1,1);
+        \draw[red]  (0,0) -- ([xshift=3pt] 1,1);
+        \draw       (1,0) -- +(30:2cm);
+        \draw[red]  (1,0) -- +([shift=(135:5pt)] 30:2cm);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:修饰}
+\end{figure}
+
+\subsection{坐标系}
+\subsubsection{Canvas,XYZ,Ploar 坐标系}
+
+\begin{itemize}
+    \item \textbf{canvas 坐标系}
+    
+    canvas 是最简单的坐标系，基本上与平面直角坐标系相同，其两个参数 x,y 分别表示偏移量 $d_x,d_y$，对应值均为 <dimension>。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \draw (0,0) grid (3,2);
+                \fill (canvas cs:x=1cm,y=1.5cm) circle (2pt);
+                \fill (canvas cs:x=2cm,y=-5mm+2pt) circle (2pt);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw (0,0) grid (3,2);
+        \fill (canvas cs:x=1cm,y=1.5cm) circle (2pt);
+        \fill (canvas cs:x=2cm,y=-5mm+2pt) circle (2pt);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:canvas}
+    \end{figure}
+
+    上述显示给出了键值对，也可以隐式地只给出值。
+
+    \item \textbf{xyz}
+
+    xyz 坐标系类似于空间直角坐标系，在 canvas 坐标系的基础上增加了 z 轴。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[->]
+                \draw (0,0) -- (xyz cs:x=1);
+                \draw (0,0) -- (xyz cs:y=1);
+                \draw (0,0) -- (xyz cs:z=1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[->]
+        \draw (0,0) -- (xyz cs:x=1);
+        \draw (0,0) -- (xyz cs:y=1);
+        \draw (0,0) -- (xyz cs:z=1);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:xyz cs 显示写法}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[->]
+                \draw (0,0) -- (1,0);
+                \draw (0,0) -- (0,1,0);
+                \draw (0,0) -- (0,0,1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[->]
+        \draw (0,0) -- (1,0);
+        \draw (0,0) -- (0,1,0);
+        \draw (0,0) -- (0,0,1);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:xyz cs 隐式写法}
+    \end{figure}
+
+    值得说明的是 canvas 与 xyz 坐标系并没有非常明确的区分，有时候因为写法的不同，TikZ 常在这两种坐标系之间进行切换，这里仅提一下，没有必要深入了解，具体原理请参考官方手册。
+    
+    此外，如果我们使用 (1,0) 表示 x 方向偏移 1cm,但如果我们使用 (2+3cm,0) 的形式，默认单位则变成了 pt，其真实偏移量为 (2pt+3cm,0) 这适用于所有未显示指明单位的复合形式。
+
+    \item\textbf{canvas polar}
+
+    canvas polar 也即极坐标系，常用的参数有两个，angle = <degrees> 和 radius = <dimension>。其中 angle 值的范围为 [-360,720]。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw (0cm,0cm) -- (30:1cm) -- (60:1cm) -- (90:1cm)
+                        -- (120:1cm) -- (150:1cm) -- (180:1cm);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0cm,0cm) -- (30:1cm) -- (60:1cm) -- (90:1cm)
+                -- (120:1cm) -- (150:1cm) -- (180:1cm);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:canvas polar}
+    \end{figure}
+
+    angle 除了给出具体的单位值，也可以使用方位 (如:north east) 来表示。
+
+    canvas polar 还有两个不常用的值 x/y radius, 当我们给出 radius 时，可以理解为做圆得到距离，而 x/y radius 则表示做椭圆。
+
+    \item \textbf{xyz polar}
+    
+    与一般极坐标系不同的是，xyz polar 坐标系将值最终转译到 xy 坐标系上，即向极坐标转换为直角坐标，这样做的目的好处包括可以定义不同 x,y 的单位长度，或者对坐标系进行变换。其值与 canvas polar 坐标系一致。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[x=1.5cm,y=1cm]
+                \draw[help lines] (0cm,0cm) grid (3cm,2cm);
+
+                \draw (0,0) -- (xyz polar cs:angle=0,radius=1);
+                \draw (0,0) -- (xyz polar cs:angle=30,radius=1);
+                \draw (0,0) -- (xyz polar cs:angle=60,radius=1);
+                \draw (0,0) -- (xyz polar cs:angle=90,radius=1);
+
+                \draw (xyz polar cs:angle=0,radius=2)
+                    -- (xyz polar cs:angle=30,radius=2)
+                    -- (xyz polar cs:angle=60,radius=2)
+                    -- (xyz polar cs:angle=90,radius=2);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[x=1.5cm,y=1cm]
+        \draw[help lines] (0cm,0cm) grid (3cm,2cm);
+
+        \draw (0,0) -- (xyz polar cs:angle=0,radius=1);
+        \draw (0,0) -- (xyz polar cs:angle=30,radius=1);
+        \draw (0,0) -- (xyz polar cs:angle=60,radius=1);
+        \draw (0,0) -- (xyz polar cs:angle=90,radius=1);
+        
+        \draw (xyz polar cs:angle=0,radius=2)
+            -- (xyz polar cs:angle=30,radius=2)
+            -- (xyz polar cs:angle=60,radius=2)
+            -- (xyz polar cs:angle=90,radius=2);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:xyz polar-单位长度}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \tikz[x={(0cm,1cm)},y={(-1cm,0cm)}]
+                \draw (0,0) -- (30:1) -- (60:1) -- (90:1)
+                -- (120:1) -- (150:1) -- (180:1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \tikz[x={(0cm,1cm)},y={(-1cm,0cm)}]
+        \draw (0,0) -- (30:1) -- (60:1) -- (90:1)
+        -- (120:1) -- (150:1) -- (180:1);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:xyz polar-y轴变换}
+    \end{figure}
+
+\end{itemize}
+
+\subsubsection{重心坐标系}
+
+重心坐标系(barycentric cs)通过向量 $v_1,v_2,\cdots,v_n$ 和数值 $\alpha_1,\alpha_2,\cdots,\alpha_n$ 来确定某个点位置，其计算函数如下：
+
+\[ \frac{\alpha_1 v_1 + \alpha_2 v_2 + \cdots + \alpha_n v_n}{\alpha_1 + \alpha_2 + \cdots + \alpha_n} \]
+
+重心坐标系需要先指定重心位置，再通过键值对赋权值。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.8\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \coordinate (content) at (90:3cm);
+            \coordinate (structure) at (210:3cm);
+            \coordinate (form) at (-30:3cm);
+
+            \node [above] at (content) {content oriented};
+            \node [below left] at (structure) {structure oriented};
+            \node [below right] at (form) {form oriented};
+
+            \draw [thick,gray] (content.south) -- (structure.north east) -- (form.north west) -- cycle;
+
+            \small
+            \node at (barycentric cs:content=0.5,structure=0.1 ,form=1) {PostScript};
+            \node at (barycentric cs:content=1 ,structure=0 ,form=0.4) {DVI};
+            \node at (barycentric cs:content=0.5,structure=0.5 ,form=1) {PDF};
+            \node at (barycentric cs:content=0 ,structure=0.25,form=1) {CSS};
+            \node at (barycentric cs:content=0.5,structure=1 ,form=0) {XML};
+            \node at (barycentric cs:content=0.5,structure=1 ,form=0.4) {HTML};
+            \node at (barycentric cs:content=1 ,structure=0.2 ,form=0.8) {\TeX};
+            \node at (barycentric cs:content=1 ,structure=0.6 ,form=0.8) {\LaTeX};
+            \node at (barycentric cs:content=0.8,structure=0.8 ,form=1) {Word};
+            \node at (barycentric cs:content=1 ,structure=0.05,form=0.05) {ASCII};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.8\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \coordinate (content) at (90:3cm);
+        \coordinate (structure) at (210:3cm);
+        \coordinate (form) at (-30:3cm);
+
+        \node [above] at (content) {content oriented};
+        \node [below left] at (structure) {structure oriented};
+        \node [below right] at (form) {form oriented};
+
+        \draw [thick,gray] (content.south) -- (structure.north east) -- (form.north west) -- cycle;
+
+        \small
+        \node at (barycentric cs:content=0.5,structure=0.1 ,form=1) {PostScript};
+        \node at (barycentric cs:content=1 ,structure=0 ,form=0.4) {DVI};
+        \node at (barycentric cs:content=0.5,structure=0.5 ,form=1) {PDF};
+        \node at (barycentric cs:content=0 ,structure=0.25,form=1) {CSS};
+        \node at (barycentric cs:content=0.5,structure=1 ,form=0) {XML};
+        \node at (barycentric cs:content=0.5,structure=1 ,form=0.4) {HTML};
+        \node at (barycentric cs:content=1 ,structure=0.2 ,form=0.8) {\TeX};
+        \node at (barycentric cs:content=1 ,structure=0.6 ,form=0.8) {\LaTeX};
+        \node at (barycentric cs:content=0.8,structure=0.8 ,form=1) {Word};
+        \node at (barycentric cs:content=1 ,structure=0.05,form=0.05) {ASCII};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:barycentric cs}
+\end{figure}
+
+\subsubsection{节点坐标系}
+
+节点坐标系(node cs)主要用于获取不同节点名进行连接等操作。其主要修饰如下：
+
+\begin{itemize}
+    \item name = <node name>
+    
+    指定节点名
+    \item anchor = <anchor>
+    
+    节点的锚点，可理解为连线的初始/结束点。可以省略不写，TikZ 将会自动寻找合适的绘制路径。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.7\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \node (shape) at (0,2) [draw] {|class Shape|};
+                \node (rect) at (-2,0) [draw] {|class Rectangle|};
+                \node (circle) at (2,0) [draw] {|class Circle|};
+                \node (ellipse) at (6,0) [draw] {|class Ellipse|};
+
+                \draw (node cs:name=circle,anchor=north) |- (0,1);
+                \draw (node cs:name=ellipse,anchor=north) |- (0,1);
+                \draw [arrows = -{Triangle[open, angle=60:3mm]}]
+                        (node cs:name=rect,anchor=north)
+                        |- (0,1) -| (node cs:name=shape,anchor=south);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.6\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \node (shape) at (0,2) [draw] {|class Shape|};
+        \node (rect) at (-2,0) [draw] {|class Rectangle|};
+        \node (circle) at (2,0) [draw] {|class Circle|};
+        \node (ellipse) at (6,0) [draw] {|class Ellipse|};
+        
+        \draw (node cs:name=circle,anchor=north) |- (0,1);
+        \draw (node cs:name=ellipse,anchor=north) |- (0,1);
+        \draw [arrows = -{Triangle[open, angle=60:3mm]}]
+                (node cs:name=rect,anchor=north)
+                |- (0,1) -| (node cs:name=shape,anchor=south);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:node cs - anchor}
+    \end{figure}
+
+    \item angle = <degree>
+    
+    除了通过锚点绘制线，也可以通过角度绘制。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \node (start) [draw,shape=ellipse] {start};
+                \foreach \angle in {-90, -80, ..., 90}
+                    \draw (node cs:name=start,angle=\angle)
+                    .. controls +(\angle:1cm) and +(-1,0) .. (2.5,0);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \node (start) [draw,shape=ellipse] {start};
+        \foreach \angle in {-90, -80, ..., 90}
+            \draw (node cs:name=start,angle=\angle)
+            .. controls +(\angle:1cm) and +(-1,0) .. (2.5,0);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:node cs - angle}
+    \end{figure}
+
+在曲线(包括直线)绘制中，TikZ 使用 -- 表示直线，|- 表示竖直和平行线，... 表示曲线，绘制时需要用到 .. controls <contents> .. 语法。+(dx,dy) 表示偏移量。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \draw (0,0) node (x) [draw] {X}
+                    (2,0) node (y) {Y}
+                    (node cs:name=x) .. controls +(1,1) and +(-1,1) .. (node cs:name = y);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) node (x) [draw] {X}
+                (2,0) node (y) {Y}
+                (node cs:name=x) .. controls +(1,1) and +(-1,1) .. (node cs:name = y);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:曲线绘制示例}
+\end{figure}
+
+节点坐标系作为一种经常被使用到的坐标定位方式，在实际使用中经常使用简写方式，可以省略 name 等键。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.7\linewidth}
+        \centering
+        \begin{tikzpicture}[fill=blue!20]
+            \draw[help lines] (-1,-2) grid (6,3);
+            \path (0,0) node(a) [ellipse,rotate=10,draw,fill] {An ellipse}
+                (3,-1) node(b) [circle,draw,fill] {A circle}
+                (2,2) node(c) [rectangle,rotate=20,draw,fill] {A rectangle}
+                (5,2) node(d) [rectangle,rotate=-30,draw,fill] {Another rectangle};
+            \draw[thick] (a.south) -- (b) -- (c) -- (d);
+            \draw[thick,red,->] (a) |- +(1,3) -| (c) |- (b);
+            \draw[thick,blue,<->] (b) .. controls +(right:2cm) and +(down:1cm) .. (d);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.7\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[fill=blue!20]
+        \draw[help lines] (-1,-2) grid (6,3);
+        \path (0,0) node(a) [ellipse,rotate=10,draw,fill] {An ellipse}
+            (3,-1) node(b) [circle,draw,fill] {A circle}
+            (2,2) node(c) [rectangle,rotate=20,draw,fill] {A rectangle}
+            (5,2) node(d) [rectangle,rotate=-30,draw,fill] {Another rectangle};
+        \draw[thick] (a.south) -- (b) -- (c) -- (d);
+        \draw[thick,red,->] (a) |- +(1,3) -| (c) |- (b);
+        \draw[thick,blue,<->] (b) .. controls +(right:2cm) and +(down:1cm) .. (d);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:node cs 隐式写法}
+\end{figure}
+
+\end{itemize}
+
+\subsubsection{切线坐标系}
+
+切线坐标系(tangent cs)需要加载 calc 包。显而易见，它是用来画切线的。其主要键如下：
+
+\begin{itemize}
+    \item node = <node>
+    
+    绘制切线的对象
+    \item point = <point>
+    
+    发射切线的点
+    \item solution = <number>
+    
+    如果有多种切线绘制方案，指定某一种
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) grid (3,2);
+            \coordinate (a) at (3,2);
+            \node [circle,draw] (c) at (1,1) [minimum size=40pt] {$c$};
+            \draw[red] (a) -- (tangent cs:node=c,point={(a)},solution=1) --
+                (c.center) -- (tangent cs:node=c,point={(a)},solution=2) -- cycle;
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw (0,0) grid (3,2);
+        \coordinate (a) at (3,2);
+        \node [circle,draw] (c) at (1,1) [minimum size=40pt] {$c$};
+        \draw[red] (a) -- (tangent cs:node=c,point={(a)},solution=1) --
+            (c.center) -- (tangent cs:node=c,point={(a)},solution=2) -- cycle;
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:tangent cs}
+\end{figure}
+
+\subsubsection{定义新的坐标系}
+
+TikZ 支持定义新的坐标系，语法需要了解 TeX 底层代码，这里仅给出示例。定义新坐标系的语法格式如下：
+\begin{lstlisting}[style = latex]
+    \tikzdeclarecoordinatesystem{<name>}{<code>}
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \makeatletter
+        \define@key{cylindricalkeys}{angle}{\def\myangle{#1}}
+        \define@key{cylindricalkeys}{radius}{\def\myradius{#1}}
+        \define@key{cylindricalkeys}{z}{\def\myz{#1}}
+        \tikzdeclarecoordinatesystem{cylindrical}{
+            \setkeys{cylindricalkeys}{#1}
+            \pgfpointadd{\pgfpointxyz{0}{0}{\myz}}{\pgfpointpolarxy{\myangle}{\myradius}}
+        }
+        \begin{tikzpicture}[z=0.2pt]
+            \draw [->] (0,0,0) -- (0,0,350);
+            \foreach \num in {0,10,...,350}
+                \fill (cylindrical cs:angle=\num,radius=1,z=\num) circle (1pt);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \makeatletter
+    \define@key{cylindricalkeys}{angle}{\def\myangle{#1}}
+    \define@key{cylindricalkeys}{radius}{\def\myradius{#1}}
+    \define@key{cylindricalkeys}{z}{\def\myz{#1}}
+    \tikzdeclarecoordinatesystem{cylindrical}{
+        \setkeys{cylindricalkeys}{#1}
+        \pgfpointadd{\pgfpointxyz{0}{0}{\myz}}{\pgfpointpolarxy{\myangle}{\myradius}}
+    }
+    \begin{tikzpicture}[z=0.2pt]
+        \draw [->] (0,0,0) -- (0,0,350);
+        \foreach \num in {0,10,...,350}
+            \fill (cylindrical cs:angle=\num,radius=1,z=\num) circle (1pt);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:子弟你故意坐标系}
+\end{figure}
+
+\subsection{交叉点坐标}
+\subsubsection{垂线交点}
+
+以下两个参数常用来绘制垂直于坐标轴的线段
+
+\begin{itemize}
+    \item horizontal line through = {(<coordinate>)}
+    
+    经过某点且平行于x轴的直线
+    \item vertical line through = {(<coordinate>)}
+    
+    经过某点且平行于y轴的直线
+\end{itemize}
+
+以上两种方式也可以用 -| 或 |- 的形式隐式代替。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \path (30:1cm) node(p1) {$p_1$} (75:1cm) node(p2) {$p_2$};
+
+            \draw (-0.2,0) -- (1.2,0) node(xline)[right] {$q_1$};
+            \draw (2,-0.2) -- (2,1.2) node(yline)[above] {$q_2$};
+
+            \draw[->] (p1) -- (p1 |- xline);
+            \draw[->] (p2) -- (p2 |- xline);
+            \draw[->] (p1) -- (p1 -| yline);
+            \draw[->] (p2) -- (p2 -| yline);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \path (30:1cm) node(p1) {$p_1$} (75:1cm) node(p2) {$p_2$};
+
+        \draw (-0.2,0) -- (1.2,0) node(xline)[right] {$q_1$};
+        \draw (2,-0.2) -- (2,1.2) node(yline)[above] {$q_2$};
+            
+        \draw[->] (p1) -- (p1 |- xline);
+        \draw[->] (p2) -- (p2 |- xline);
+        \draw[->] (p1) -- (p1 -| yline);
+        \draw[->] (p2) -- (p2 -| yline);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:垂线交点}
+\end{figure}
+
+注意上述的点并没有使用 (),如果比较复杂，则需要加上。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \node (A) at (0,1) {A};
+            \node (B) at (1,1.5) {B};
+            \node (C) at (2,0) {C};
+            \node (D) at (2.5,-2) {D};
+            \draw (A) -- (B) node [midway] {x};
+            \draw (C) -- (D) node [midway] {x};
+            \node at ({$(A)!.5!(B)$} -| {$(C)!.5!(D)$}) {X};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \node (A) at (0,1) {A};
+        \node (B) at (1,1.5) {B};
+        \node (C) at (2,0) {C};
+        \node (D) at (2.5,-2) {D};
+        \draw (A) -- (B) node [midway] {x};
+        \draw (C) -- (D) node [midway] {x};
+        \node at ({$(A)!.5!(B)$} -| {$(C)!.5!(D)$}) {X};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:垂线定位}
+\end{figure}
+
+\subsubsection{任意焦点的坐标}
+
+在获取任意交点坐标之前，需要导入交点包: intersections。这将帮助我们得出交点，但是由于 TeX 底层的精度(相对专业软件)并不高，交点仅适用于绘图作为参考。
+
+需要获得交点的线段必须被命名，以便于后续引用。相关的键如下：
+
+\begin{itemize}
+    \item name path = <name>
+    
+    路径名，在分号之前都有效。
+    \item name path global = <name>
+    
+    全局路径名，在整个绘图环境中都有效。
+    \item name intersections = {<options>}
+    
+    决定线段对象，只有值对应的曲线交点才会被计算。交点则会以 intersection-1 形式命名下去。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[every node/.style={opacity=1, black, above left}]
+                \draw [help lines] grid (3,2);
+                \draw [name path=ellipse] (2,0.5) ellipse (0.75cm and 1cm);
+                \draw [name path=rectangle, rotate=10] (0.5,0.5) rectangle +(2,1);
+                \fill [red, opacity=0.5, name intersections={of=ellipse and rectangle}]
+                    (intersection-1) circle (2pt) node {1}
+                    (intersection-2) circle (2pt) node {2};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[every node/.style={opacity=1, black, above left}]
+        \draw [help lines] grid (3,2);
+        \draw [name path=ellipse] (2,0.5) ellipse (0.75cm and 1cm);
+        \draw [name path=rectangle, rotate=10] (0.5,0.5) rectangle +(2,1);
+        \fill [red, opacity=0.5, name intersections={of=ellipse and rectangle}]
+            (intersection-1) circle (2pt) node {1}
+            (intersection-2) circle (2pt) node {2};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:曲线交点}
+    \end{figure}
+
+    \item intersection/of = <name path 1> and <name path 2>
+    
+    用于指定计算交点的路径。
+    \item intersection/name = <prefix>
+    
+    修改前缀 intersection 为对应的 prefix
+    \item total = <macro>
+    
+    交点的数量将被记录在 TeX 的 <macro> 中。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \clip (-2,-2) rectangle (2,2);
+                \draw [name path=curve 1] (-2,-1) .. controls (8,-1) and (-8,1) .. (2,1);
+                \draw [name path=curve 2] (-1,-2) .. controls (-1,8) and (1,-8) .. (1,2);
+                \fill [name intersections={of=curve 1 and curve 2, name=i, total=\t}]
+                    [red, opacity=0.5, every node/.style={above left, black, opacity=1}]
+                    \foreach \s in {1,...,\t}{(i-\s) circle (2pt) node {\footnotesize\s}};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \clip (-2,-2) rectangle (2,2);
+        \draw [name path=curve 1] (-2,-1) .. controls (8,-1) and (-8,1) .. (2,1);
+        \draw [name path=curve 2] (-1,-2) .. controls (-1,8) and (1,-8) .. (1,2);
+        \fill [name intersections={of=curve 1 and curve 2, name=i, total=\t}]
+            [red, opacity=0.5, every node/.style={above left, black, opacity=1}]
+            \foreach \s in {1,...,\t}{(i-\s) circle (2pt) node {\footnotesize\s}};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:曲线交点}
+    \end{figure}
+
+    \item by = <comma-separated list>
+    
+    这个键允许我们给一些特定的坐标命名，(这不影响 <prefix>-<number>中的名称)。
+    
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \clip (-2,-2) rectangle (2,2);
+                \draw [name path=curve 1] (-2,-1) .. controls (8,-1) and (-8,1) .. (2,1);
+                \draw [name path=curve 2] (-1,-2) .. controls (-1,8) and (1,-8) .. (1,2);
+                \fill [name intersections={of=curve 1 and curve 2, by={a,b}}]
+                    (a) circle (2pt)
+                    (b) circle (2pt);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \clip (-2,-2) rectangle (2,2);
+        \draw [name path=curve 1] (-2,-1) .. controls (8,-1) and (-8,1) .. (2,1);
+        \draw [name path=curve 2] (-1,-2) .. controls (-1,8) and (1,-8) .. (1,2);
+        \fill [name intersections={of=curve 1 and curve 2, by={a,b}}]
+            (a) circle (2pt)
+            (b) circle (2pt);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:曲线交点命名}
+    \end{figure}
+
+    在命名过程中，可以使用类似 for each 中的省略。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \clip (-2,-2) rectangle (2,2);
+                \draw [name path=curve 1] (-2,-1) .. controls (8,-1) and (-8,1) .. (2,1);
+                \draw [name path=curve 2] (-1,-2) .. controls (-1,8) and (1,-8) .. (1,2);
+                \fill [name intersections={
+                    of=curve 1 and curve 2,
+                    by={[label=center:a],[label=center:...],[label=center:i]}}];
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \clip (-2,-2) rectangle (2,2);
+        \draw [name path=curve 1] (-2,-1) .. controls (8,-1) and (-8,1) .. (2,1);
+        \draw [name path=curve 2] (-1,-2) .. controls (-1,8) and (1,-8) .. (1,2);
+        \fill [name intersections={
+            of=curve 1 and curve 2,
+            by={[label=center:a],[label=center:...],[label=center:i]}}];
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:曲线交点遍历命名}
+    \end{figure}
+
+    \item sort by=<path name>
+    
+    默认情形下，交点的顺序为算法计算的顺序，该键可以帮助我们按指定焦点名重新排序。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.25\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \clip (-0.5,-0.75) rectangle (3.25,2.25);
+                \foreach \pathname/\shift in {line/0cm, curve/2cm}{
+                    \tikzset{xshift=\shift}
+                    \draw [->, name path=curve] (1,1.5) .. controls (-1,1) and (2,0.5) .. (0,0);
+                    \draw [->, name path=line] (0,-.5) -- (1,2) ;
+                    \fill [name intersections={of=line and curve,sort by=\pathname, name=i}]
+                        [red, opacity=0.5, every node/.style={left=.25cm, black, opacity=1}]
+                        \foreach \s in {1,2,3}{(i-\s) circle (2pt) node {\footnotesize\s}};
+                    }
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.7\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \clip (-0.5,-0.75) rectangle (3.25,2.25);
+        \foreach \pathname/\shift in {line/0cm, curve/2cm}{
+            \tikzset{xshift=\shift}
+            \draw [->, name path=curve] (1,1.5) .. controls (-1,1) and (2,0.5) .. (0,0);
+            \draw [->, name path=line] (0,-.5) -- (1,2) ;
+            \fill [name intersections={of=line and curve,sort by=\pathname, name=i}]
+                [red, opacity=0.5, every node/.style={left=.25cm, black, opacity=1}]
+                \foreach \s in {1,2,3}{(i-\s) circle (2pt) node {\footnotesize\s}};
+            }
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Coordinate:交点顺序}
+    \end{figure}
+
+\end{itemize}
+
+\subsection{相对坐标}
+\subsubsection{指定相对坐标}
+
+可以使用 ++ 来指定相对坐标(位移), ++(dx,dy) 代表在当前坐标的基础上往 x 和 y 正方向偏移 x，y 距离，这个偏移后的坐标将替换原来的坐标(类似于 C++ 传引用)。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0) -- cycle;
+            \draw (2,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0) -- cycle;
+            \draw (1.5,1.5) -- ++(1,0) -- ++(0,1) -- ++(-1,0) -- cycle;
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw (0,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0) -- cycle;
+        \draw (2,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0) -- cycle;
+        \draw (1.5,1.5) -- ++(1,0) -- ++(0,1) -- ++(-1,0) -- cycle;
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:++}
+\end{figure}
+
+与 ++ 相似的还有 +，不过他不会替换原有的坐标(C++ 传值)。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) -- +(1,0) -- +(1,1) -- +(0,1) -- cycle;
+            \draw (2,0) -- +(1,0) -- +(1,1) -- +(0,1) -- cycle;
+            \draw (1.5,1.5) -- +(1,0) -- +(1,1) -- +(0,1) -- cycle;
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw (0,0) -- +(1,0) -- +(1,1) -- +(0,1) -- cycle;
+        \draw (2,0) -- +(1,0) -- +(1,1) -- +(0,1) -- cycle;
+        \draw (1.5,1.5) -- +(1,0) -- +(1,1) -- +(0,1) -- cycle;
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:+}
+\end{figure}
+
+\subsubsection{旋转相对位移}
+
+有时候我们需要获得曲线的切线或者前进方向，这时可以用 turn 键。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \draw (0,0) -- (1,1) -- ([turn]-45:1cm) -- ([turn]-30:1cm);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+            \tikz \draw (0,0) -- (1,1) -- ([turn]-45:1cm) -- ([turn]-30:1cm);
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:turn}
+\end{figure}
+
+\subsubsection{相对坐标与范围}
+
+当 scope 与 相对偏移 结合时，会发生什么？由于 scope 仅影响内部指令，坐标发生了偏移，但是路径没有发生变换；这可以帮助我们使用 scope 暂时改变坐标方位，但是又不影响原有的路径。(效果类似于 +)
+
+一般情况下，TikZ 默认 scope 不会产生影响，即有没有 scope 没有区别。如果想要达到上述效果，需要使用 current point is local=<boolean> 键。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0);
+            \draw[red] (2,0) -- ++(1,0) { -- ++(0,1) } -- ++(-1,0);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw (0,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0);
+        \draw[red] (2,0) -- ++(1,0) { -- ++(0,1) } -- ++(-1,0);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:scope 与 ++}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw       (0,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0);
+            \draw[red]  (2,0) -- ++(1,0)
+                        { [current point is local] -- ++(0,1) } -- ++(-1,0);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw       (0,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0);
+        \draw[red]  (2,0) -- ++(1,0)
+                    { [current point is local] -- ++(0,1) } -- ++(-1,0);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:current point is local}
+\end{figure}
+
+\subsection{坐标计算}
+
+此章需要使用到 calc 包。
+
+calc 包允许我们对坐标进行一些操作(计算，增减，测量...)
+
+下面这个例子计算出 A 点的位置并进行了位置运算绘制出红点。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (3,2);
+            \node (a) at (1,1) {A};
+            \fill [red] ($(a) + 1/3*(1cm,0)$) circle (2pt);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,2);
+        \node (a) at (1,1) {A};
+        \fill [red] ($(a) + 1/3*(1cm,0)$) circle (2pt);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:calc}
+\end{figure}
+
+\subsubsection{基础语法}
+
+calc 包的通用语法格式如下：
+\begin{lstlisting}[style = latex]
+    ([<options>] $<coordinate computation>$)
+\end{lstlisting}
+
+上述语法借用了 TeX 的 \$\$ 表示数学计算。<coordinate computation> 需遵循如下结构：
+
+\begin{lstlisting}[style = latex]
+    <factor> * <coordinate> <modifiers>
+\end{lstlisting}
+
+\subsubsection{语法：运算}
+
+TikZ 允许我们在 \$\$ 中嵌入数学运算公式(对应 factors)，在写复杂公式时请使用 \{\} 区分长表达式。底层运算原理这里不做介绍，下面是几个示例：
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (3,2);
+            \fill [red] ($2*(1,1)$) circle (2pt);
+            \fill [green] (${1+1}*(1,.5)$) circle (2pt);
+            \fill [blue] ($cos(0)*sin(90)*(1,1)$) circle (2pt);
+            \fill [black] (${3*(4-3)}*(1,0.5)$) circle (2pt);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,2);
+        \fill [red] ($2*(1,1)$) circle (2pt);
+        \fill [green] (${1+1}*(1,.5)$) circle (2pt);
+        \fill [blue] ($cos(0)*sin(90)*(1,1)$) circle (2pt);
+        \fill [black] (${3*(4-3)}*(1,0.5)$) circle (2pt);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:factors}
+\end{figure}
+
+\subsubsection{语法：路径修饰}
+
+路径修饰\footnote{这里是我根据其作用起的名字}(partway modifier)语法格式如下：
+
+\begin{lstlisting}[style = latex]
+    <coordinate>!<number>!<angle>:<second coordinate>
+\end{lstlisting}
+
+以 (1,2)!.75!(3,4) 为例，它表达的是计算 (1,2) 到 (3,4) 间线段距离 3/4 的坐标。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (3,2);
+            \draw (1,0) -- (3,2);
+            \foreach \i in {0,0.2,0.5,0.9,1}
+                \node at ($(1,0)!\i!(3,2)$) {\i};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,2);
+        \draw (1,0) -- (3,2);
+        \foreach \i in {0,0.2,0.5,0.9,1}
+            \node at ($(1,0)!\i!(3,2)$) {\i};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:partway modifier-number}
+\end{figure}
+
+接下来引入角度(angle)，以 (1,2)!.5!60:(2,2) 为例，它表示在找到中点坐标后，以第一个点为原点旋转 60 度。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (3,3);
+            \coordinate (a) at (1,0);
+            \coordinate (b) at (3,2);
+            \draw[->] (a) -- (b);
+            \coordinate (c) at ($ (a)!1! 10:(b) $);
+            \draw[->,red] (a) -- (c);
+            \fill ($ (a)!.5! 10:(b) $) circle (2pt);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,3);
+        \coordinate (a) at (1,0);
+        \coordinate (b) at (3,2);
+        \draw[->] (a) -- (b);
+        \coordinate (c) at ($ (a)!1! 10:(b) $);
+        \draw[->,red] (a) -- (c);
+        \fill ($ (a)!.5! 10:(b) $) circle (2pt);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:partway modifier-angle}
+\end{figure}
+
+来点怪的：
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (4,4);
+            \foreach \i in {0,0.1,...,2}
+                \fill ($(2,2) !\i! \i*180:(3,2)$) circle (2pt);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (4,4);
+        \foreach \i in {0,0.1,...,2}
+            \fill ($(2,2) !\i! \i*180:(3,2)$) circle (2pt);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:partway modifier-angle}
+\end{figure}
+
+修饰可以嵌套，这样可以很好地辅助我们作图：
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (3,2);
+            \draw (0,0) -- (3,2);
+            \draw[red] ($(0,0)!.3!(3,2)$) -- (3,0);
+            \fill[red] ($(0,0)!.3!(3,2)!.7!(3,0)$) circle (2pt);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,2);
+        \draw (0,0) -- (3,2);
+        \draw[red] ($(0,0)!.3!(3,2)$) -- (3,0);
+        \fill[red] ($(0,0)!.3!(3,2)!.7!(3,0)$) circle (2pt);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:partway modifier-嵌套}
+\end{figure}
+
+\subsubsection{语法：距离修饰}
+
+距离修饰(distance modifier)语法格式如下：
+\begin{lstlisting}[style = latex]
+    <coordinate>!<dimension>!<angle>:<second coordinate>
+\end{lstlisting}
+
+可以看出，这与路径修饰语法格式几乎一致，只是将路径修饰的按比例(number)改成了按距离(dimension)。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (3,2);
+            \draw (1,0) -- (3,2);
+            \foreach \i in {0cm,1cm,15mm}
+                \node at ($(1,0)!\i!(3,2)$) {\i};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,2);
+        \draw (1,0) -- (3,2);
+        \foreach \i in {0cm,1cm,15mm}
+            \node at ($(1,0)!\i!(3,2)$) {\i};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:distance modifier}
+\end{figure}
+
+配合旋转修饰：
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (3,2);
+            \coordinate (a) at (1,0);
+            \coordinate (b) at (3,1);
+            \draw (a) -- (b);
+            \coordinate (c) at ($ (a)!.25!(b) $);
+            \coordinate (d) at ($ (c)!1cm!90:(b) $);
+            \draw [<->] (c) -- (d) node [sloped,midway,above] {1cm};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,2);
+        \coordinate (a) at (1,0);
+        \coordinate (b) at (3,1);
+        \draw (a) -- (b);
+        \coordinate (c) at ($ (a)!.25!(b) $);
+        \coordinate (d) at ($ (c)!1cm!90:(b) $);
+        \draw [<->] (c) -- (d) node [sloped,midway,above] {1cm};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:distance modifier}
+\end{figure}
+
+\subsubsection{语法：投影修饰}
+
+投影修饰(projection modifier)语法格式如下：
+\begin{lstlisting}[style = latex]
+    <coordinate>!<projection coordinate>!<angle>:<second coordinate>
+\end{lstlisting}
+
+顾名思义，投影修饰是用来绘制投影(垂线)的。以 (1,2)!(0,5)!(3,4) 为例，从(0,5)点出发，做(1,2)与(3，4)构成的直线的垂线。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \draw [help lines] (0,0) grid (3,2);
+            \coordinate (a) at (0,1);
+            \coordinate (b) at (3,2);
+            \coordinate (c) at (2.5,0);
+            \draw (a) -- (b) -- (c) -- cycle;
+            \draw[red] (a) -- ($(b)!(a)!(c)$);
+            \draw[orange] (b) -- ($(a)!(b)!(c)$);
+            \draw[blue] (c) -- ($(a)!(c)!(b)$);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,2);
+        \coordinate (a) at (0,1);
+        \coordinate (b) at (3,2);
+        \coordinate (c) at (2.5,0);
+        \draw (a) -- (b) -- (c) -- cycle;
+        \draw[red] (a) -- ($(b)!(a)!(c)$);
+        \draw[orange] (b) -- ($(a)!(b)!(c)$);
+        \draw[blue] (c) -- ($(a)!(c)!(b)$);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Coordinate:projection modifier}
+\end{figure}
+
+
+\newpage

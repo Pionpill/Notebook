@@ -1,0 +1,354 @@
+\chapter{语法}
+\section{Basic}
+\subsection{TikZ 的导入与使用}
+
+导入 TikZ 包命令\footnote{本文只说明在 Latex2e 环境下 TikZ 的使用},TikZ 包并没有任何可选项(options)：
+\begin{lstlisting}[style = latex]
+    \usepackage{tikz}
+\end{lstlisting}
+
+在 TikZ 被成功导入后，还可以使用它的进阶包：
+\begin{lstlisting}[style = latex]
+    \usetikzlibrary{<list of libraries>}
+\end{lstlisting}
+这将导入对应的文件\footnote{这涉及到 tex 的语言处理，本人没有深入研究，非专业研究 tex 语言也不建议深究}：tikzlibrary<library>.code.tex。这些进阶包将提供更多的样式，指令等。
+
+\subsection{创建 TikZ 图片}
+\subsubsection{标准 TikZ 环境}
+
+标准的 TikZ 绘图环境如下：
+\begin{lstlisting}[style = latex]
+    \begin{tikzpicture}<animation spec>[<options>]
+        <environment contents>
+    \end{tikzpicture}
+\end{lstlisting}
+所有的 TikZ 绘图指令都应该在此环境内给出，<animation options> 确保动画相关包被导入，[<options>] 则表示应用于全环境的一些修饰。
+
+在绘图过程中，TikZ 会计算每一个坐标(coordinate)的位置以获得图片范围，通常这种以坐标确定边界的方式十分好用，但也可能获得糟糕的效果，比如线条过粗的时候，TikZ 不会考虑线条宽度；再比如绘制曲线时的控制点有时候离主要绘图区域过远会导致图片过大。可以使用 [use as bounding box] 选项来避免这些现象的发生。
+
+TikZ 提供了精确控制图片位置的几种方式如下(通过控制基准线控制图片位置):
+\begin{itemize}
+    \item baseline = <dimension or coordinate or default> \hfill (默认: 0pt)
+    
+    该修饰可改变图片底部位置，值既可以是具体的长度，也可以是点。
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \tikz               \draw(0,0)circle(.5ex);
+            \tikz[baseline=0pt] \draw(1,0)circle(.5ex);
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \tikz               \draw(0,0)circle(.5ex);
+    \tikz[baseline=0pt] \draw(1,0)circle(.5ex);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{baseline:值为具体长度}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[baseline=(X.base)]
+                \node [cross out,draw] (X) {world.};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+        \begin{tikzpicture}[baseline=(X.base)]
+            \node [cross out,draw] (X) {world.};
+        \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{baseline:值为坐标}
+    \end{figure}
+
+    \item execute at begin/end picture = <code>  
+    
+    顾名思义，可以提前/后续执行一些指令。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[execute at end picture={
+                    \begin{pgfonlayer}{background}
+                    \path[fill=yellow,rounded corners]
+                    (current bounding box.south west) rectangle
+                    (current bounding box.north east);
+                    \end{pgfonlayer}
+                }]
+                \node at (0,0) {X};
+                \node at (2,1) {Y};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[execute at end picture={
+        \begin{pgfonlayer}{background}
+        \path[fill=yellow,rounded corners]
+        (current bounding box.south west) rectangle
+        (current bounding box.north east);
+        \end{pgfonlayer}
+    }]
+    \node at (0,0) {X};
+    \node at (2,1) {Y};
+            \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{execute at begin/end picture}
+    \end{figure}
+
+    \item every picture
+    
+    对所有指令起作用，经常使用 every picture/.style = {...} 形式指定全局修饰
+
+\end{itemize}
+
+\subsubsection{简化的 TikZ 指令}
+
+除了使用 \LaTeX 下的标准 TikZ 环境，还可以使用如下简化指令绘图。
+
+\begin{lstlisting}[style = latex]
+    \tikz <animation spec> [<options>] {<path commands>}
+\end{lstlisting}
+
+\subsubsection{图片背景}
+
+通常情况下，TikZ 绘制的图片是透明底色的，由于背景色不经常被使用，相关操作被移到了 background 包下。
+
+\subsection{使用范围(scope)构建图片}
+\subsubsection{scope 环境}
+
+范围(scope)可以将一个图片划分成空间或逻辑上几个区域，通过 scope 可以对指定区域内容进行编辑。创建 scope 环境格式如下:
+
+\begin{lstlisting}[style = latex]
+    \begin{scope}<animations spec>[<options>]
+        <environment contents>
+    \end{scope}
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[ultra thick]
+            \begin{scope}[red]
+                \draw (0mm,10mm) -- (10mm,10mm);
+                \draw (0mm,8mm) -- (10mm,8mm);
+            \end{scope}
+            \draw (0mm,6mm) -- (10mm,6mm);
+            \begin{scope}[green]
+                \draw (0mm,4mm) -- (10mm,4mm);
+                \draw (0mm,2mm) -- (10mm,2mm);
+                \draw[blue] (0mm,0mm) -- (10mm,0mm);
+            \end{scope}
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[ultra thick]
+        \begin{scope}[red]
+            \draw (0mm,10mm) -- (10mm,10mm);
+            \draw (0mm,8mm) -- (10mm,8mm);
+        \end{scope}
+        \draw (0mm,6mm) -- (10mm,6mm);
+        \begin{scope}[green]
+            \draw (0mm,4mm) -- (10mm,4mm);
+            \draw (0mm,2mm) -- (10mm,2mm);
+            \draw[blue] (0mm,0mm) -- (10mm,0mm);
+        \end{scope}
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{scope}
+\end{figure}
+
+scope 适用大部分的全局修饰，常用的几个如下：
+\begin{itemize}
+    \item name = <scope name>  
+    
+    用来指定范围名，方便后文定位。
+    \item every scope
+    
+    指定所有范围的全局样式。
+    \item execute at begin/end scope = <code>
+    
+    与上文提到的用法一致。
+\end{itemize}
+
+\subsubsection{简化 scope}
+
+可以使用 scopes 包来简化 scope 环境的写法。这将用 {} 区分 scope。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            { [ultra thick]
+                { [red]
+                    \draw (0mm,10mm) -- (10mm,10mm);
+                    \draw (0mm,8mm) -- (10mm,8mm);
+                }
+                \draw (0mm,6mm) -- (10mm,6mm);
+            }{ [green]
+                \draw (0mm,4mm) -- (10mm,4mm);
+                \draw (0mm,2mm) -- (10mm,2mm);
+                \draw[blue] (0mm,0mm) -- (10mm,0mm);
+            }
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        { [ultra thick]
+            { [red]
+                \draw (0mm,10mm) -- (10mm,10mm);
+                \draw (0mm,8mm) -- (10mm,8mm);
+            }
+            \draw (0mm,6mm) -- (10mm,6mm);
+        }{ [green]
+            \draw (0mm,4mm) -- (10mm,4mm);
+            \draw (0mm,2mm) -- (10mm,2mm);
+            \draw[blue] (0mm,0mm) -- (10mm,0mm);
+        }
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{scopes 包的使用}
+\end{figure}
+
+某些特定的绘图指令需要在 scope 环境中生效，类似 tikz 指令，TikZ 提供了简化的 scoped 指令。 
+
+\begin{lstlisting}[style = latex]
+    \scoped <animation spec> [<options>] <path command>
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \node [fill=white] at (1,1) {Hello world};
+            \scoped [on background layer]
+                \draw (0,0) grid (3,2);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \node [fill=white] at (1,1) {Hello world};
+        \scoped [on background layer]
+            \draw (0,0) grid (3,2);
+    \end{tikzpicture}
+    \end{lstlisting}
+    \end{minipage}
+    \caption{scpoed 简化范围语言}
+\end{figure}
+
+在 path 指令中，可以使用 \{\} 表示一个范围
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[scale = 1]
+            \draw (0,0) -- (1,1)
+                {[rounded corners] -- (2,0) -- (3,1)}
+                -- (3,0) -- (2,1);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw (0,0) -- (1,1)
+            {[rounded corners] -- (2,0) -- (3,1)}
+            -- (3,0) -- (2,1);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{path中的范围}
+\end{figure}
+
+\subsection{绘制样式}
+\subsubsection{定义与使用样式}
+
+TikZ 提供了 styles 可以方便用户定义一个范围的样式并保存复用。定义样式的格式如下：
+\begin{lstlisting}[style = latex]
+    <StyleName>/.style = {<contents>}
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[help lines/.style={red!50,very thin}]
+            \draw               (0,0) grid +(2,2);
+            \draw[help lines]   (2,0) grid +(2,2);
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[help lines/.style={red!50,very thin}]
+        \draw               (0,0) grid +(2,2);
+        \draw[help lines]   (2,0) grid +(2,2);
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{自定义样式}
+\end{figure}
+
+与 css 类似的，除了在环境中定义样式，还可以提前单独定义。在 \textbackslash tikzset\{\} 中定义，可供全文复用。如果需要在原有的样式基础上修改，则可以使用 <StyleName>/.append style = \{<contents>\} 修改。
+
+TikZ 支持参数化样式，可以使用 \#num 的方式代替值，在使用时给出。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[outline/.style={draw=#1,thick,fill=#1!50}]
+            \node [outline=red] at (0,1) {red};
+            \node [outline=blue] at (0,0) {blue};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[outline/.style={draw=#1,thick,fill=#1!50}]
+        \node [outline=red] at (0,1) {red};
+        \node [outline=blue] at (0,0) {blue};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{自定义参数化样式}
+\end{figure}
+
+在这基础上，TikZ 也提供了默认值。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}[outline/.style={draw=#1,thick,fill=#1!50},
+            outline/.default=black]
+            \node [outline] at (0,1) {default};
+            \node [outline=blue] at (0,0) {blue};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[outline/.style={draw=#1,thick,fill=#1!50},
+        outline/.default=black]
+        \node [outline] at (0,1) {default};
+        \node [outline=blue] at (0,0) {blue};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{默认自定义参数化样式}
+\end{figure}
+
+
+
+\newpage

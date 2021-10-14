@@ -38,6 +38,7 @@
 \RequirePackage{import}                 % 内容分离
 \RequirePackage{indentfirst}            % 段落缩进
 \RequirePackage{threeparttable}         % 三线表环境
+\RequirePackage{enumitem}               % 列表
 
 % 扩展的表格宏包和插图宏包
 % \RequirePackage{subfig}
