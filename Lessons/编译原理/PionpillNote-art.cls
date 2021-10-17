@@ -54,7 +54,7 @@
 \fancyhf{}
 \renewcommand\headrulewidth{0pt}
 \fancyfoot[L]{\today}
-\fancyfoot[C]{Regulations of HammerWorkshop}
+\fancyfoot[C]{编译原理笔记}
 \fancyfoot[R]{ \thepage{} / \pageref{LastPage}}
 % titletoc-目录样式
 \titlecontents{section}[0pt]{\addvspace{2pt}\filright}%
@@ -200,6 +200,18 @@
     backgroundcolor=\color{lightgray!20},           % 背景色
     basicstyle=\footnotesize\ttfamily,                       % 字体大小
 }
+
+% 设置C++代码环境
+\lstnewenvironment{C++}[1][]{
+	\lstset{
+		language=C++,
+		% deletekeywords={disp},                    % 可在此行去除特定关键词的语法高亮		
+		keywordstyle=\color{blue},                  % 设置关键词样式
+		stringstyle=\color[rgb]{0.75,0,0.75},       % 设置字符串样式
+		commentstyle=\songti\color[rgb]{0,0.5,0},   % 设置注释样式
+		#1
+	}
+}{}
 
 % 设置matlab代码环境
 \lstnewenvironment{matlab}[1][]{
