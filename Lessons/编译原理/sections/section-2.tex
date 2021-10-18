@@ -133,3 +133,37 @@ $\Sigma^*$ 的子集 U 和 V 的(连接)积定义为:
 
 \subsubsection{上下文无关法}
 
+文法是描述语言的语法结构的形式规则(即语法规则)。所谓上下文无关法是指这样一种文法：它所定义的语法范畴(语法单位)是完全独立于这种范畴可能出现的环境的。也即遇到某个语法单位时，完全不考虑它的上下文环境，而直接进行处理(例如运算)。下文所指的文法无特别说明都是上下文无关文法。
+
+例如我们将下面自然语言进行文法分析并绘制分析树。
+
+\begin{center}
+    He gave me a book.
+\end{center}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[font = {\small}]
+        \node (1-1) at (0,0) {<句子>};
+        \node (2-1) at (-4,-1.5) {<主语>};
+        \node (2-2) at (-1.5,-1.5) {<谓语>};
+        \node (2-3) at (1,-1.5) {<间接宾语>};
+        \node (2-4) at (3.5,-1.5) {<直接宾语>};
+        \node (3-1) at (-4,-3) {<代词>};
+        \node (3-2) at (-1.5,-3) {<动词>};
+        \node (3-3) at (1,-3) {<代词>};
+        \node (3-4) at (2.6,-3) {<冠词>};
+        \node (3-5) at (4.4,-3) {<名词>};
+        \node (4-1) at (-4,-4.5) {He};
+        \node (4-2) at (-1.5,-4.5) {gave};
+        \node (4-3) at (1,-4.5) {me};
+        \node (4-4) at (2.6,-4.5) {a};
+        \node (4-5) at (4.4,-4.5) {book};
+        \foreach \x in {1,2,3,4}
+            \draw (1-1) -- (2-\x) -- (3-\x) -- (4-\x);
+        \draw (2-4) -- (3-5) -- (4-5);
+    \end{tikzpicture}
+    \caption{语法树：He gave me a book.}
+    \label{语法树：He gave me a book.}
+\end{figure}
+
