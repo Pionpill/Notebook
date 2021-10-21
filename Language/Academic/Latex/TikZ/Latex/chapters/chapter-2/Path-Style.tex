@@ -488,35 +488,622 @@
         \end{minipage}
         \caption{Path Style:double distance between line centers}
     \end{figure}
+\end{itemize}
     
+\subsubsection{线条修饰}
+
+启用 decorations.pathmorphing 包，可以启动多种线条样式。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \node [circular drop shadow={shadow scale=1.05},minimum size=3.13cm,decorate, decoration=zigzag,fill=blue!20,draw,thick,circle] {Hello!};
+        \end{tikzpicture}
+    \end{minipage}
+    \begin{minipage}{0.55\linewidth}
+        \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \node [circular drop shadow={shadow scale=1.05},minimum size=3.13cm,decorate, decoration=zigzag,fill=blue!20,draw,thick,circle] {Hello!};
+    \end{tikzpicture}
+        \end{lstlisting}
+    \end{minipage}
+    \caption{Path Style:decorate}
+\end{figure}
+
+
 \subsection{填充样式}
 
+\subsubsection{填充图案}
 
+TikZ 为我们提供了很多内置的图案用来填充，值得说明的是，这些图案并不能进行大小或方向的修改，除非我们重新定义一种图案。
 
+\begin{itemize}
+    \item pattern = <name>
+    
+    该修饰用来指定填充的图案。需要加载 patterns 包。
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw[pattern=dots] (0,0) circle (1cm);
+                \draw[pattern=fivepointed stars] (0,0) rectangle (3,1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw[pattern=dots] (0,0) circle (1cm);
+        \draw[pattern=fivepointed stars] (0,0) rectangle (3,1);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:pattern}
+    \end{figure}
 
+    这里简单给出几个图案样式值如下表：
 
+    \begin{table}[H]
+        \centering
+        \caption{Path Style:patterns 部分样式}
+        \label{table:Path Style:patterns 部分样式}
+        \setlength{\tabcolsep}{4mm}
+        \begin{tabular}{cc|cc}
+            \toprule
+            \textbf{样式名} & \textbf{样式} & \textbf{样式名} & \textbf{样式} \\
+            \midrule
+            horizontal lines & 横线 & vertical lines & 竖线 \\
+            north east lines & 斜线 & north west lines & 斜线 \\
+            grid & 网格 & crosshatch & 斜网格 \\
+            dots & 点 & crosshatch dots & 点 \\
+            fivepointed stars & 五角星 & sixpointed stars & 六芒星 \\
+            bricks & 砖型 & checkerboard & 棋盘型 \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    \item pattern color = <color>
+
+    用于指定图案颜色
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw[pattern color=red,pattern=fivepointed stars] (0,0) circle (1cm);
+                \draw[pattern color=blue,pattern=fivepointed stars] (0,0) rectangle (3,1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw[pattern color=red,pattern=fivepointed stars] (0,0) circle (1cm);
+        \draw[pattern color=blue,pattern=fivepointed stars] (0,0) rectangle (3,1);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:pattern color}
+    \end{figure}
+\end{itemize}
+
+\subsubsection{填充渐变}
+
+\begin{itemize}
+    \item shade 
+    
+    基本的渐变填充，默认产生一个从上到下的灰色渐变效果。
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \shade (0,0) circle (1ex);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \shade (0,0) circle (1ex);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:shade}
+    \end{figure}
+
+    \item shading = <name>
+    
+    比 shade 提供了过多的渐变样式，总体上由 axis，radial，ball 三种渐变样式。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \shadedraw [shading = axis] (0,0) rectangle (1,1);
+                \shadedraw [shading = radial,xshift = 1.5cm] (0,0) rectangle (1,1);
+                \shadedraw [shading = ball,xshift = 3cm] (0,0) rectangle (1,1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \shadedraw [shading = axis] (0,0) rectangle (1,1);
+    \shadedraw [shading = radial,xshift = 1.5cm] (0,0) rectangle (1,1);
+    \shadedraw [shading = ball,xshift = 3cm] (0,0) rectangle (1,1);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:shading}
+    \end{figure}
+\end{itemize}
+
+我们最常用到的是线性渐变，下面姐扫两个线性渐变中常用到的修饰。
+
+\begin{itemize}
+    \item left/right color = <color>
+
+    用来指定渐变色。
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \shadedraw [left color=red,right color=blue] (0,0) rectangle (1,1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \shadedraw [left color=red,right color=blue] (0,0) rectangle (1,1);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:left/right color}
+    \end{figure}
+
+    \item shading angle = <degrees>
+    
+    可以用来改变线性渐变的角度。
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \shadedraw [shading=axis,shading angle=90] (0,0) rectangle (1,1);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+                \shadedraw [shading=axis,shading angle=90] (0,0) rectangle (1,1);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:shading angle}
+    \end{figure}
+\end{itemize}
+
+\subsection{路径范围}
+\subsubsection{基础概念}
+
+在讲述填充图案之前，我们需要了解 TikZ 的内部点计算方法。在默认情形下，我们总是对整个图案进行填充，但有时候我们需要对图案的交集等进行处理，这就需要了解到 TikZ 对内部点的判断两种算法。
+
+\begin{itemize}
+    \item nonzero rule
+    
+    TikZ 采用如下计算方式来计算是否为内部点：从某点出发沿任何方向绘制一条射线，如果射线遇到路径，采用以下方式计数：如果路径方向为从左到右，计数加一，如果路径方向为从右到左，计数减一。最终计数若非 0 则为内部点，否则为外部点。可形象地将外部视为中空区域。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.28\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \filldraw[fill=yellow!80!black]
+                % Clockwise rectangle
+                (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle
+                % Counter-clockwise rectangle
+                (0.25,0.25) -- (0.75,0.25) -- (0.75,0.75) -- (0.25,0.75) -- cycle;
+                \draw[->] (0,1) -- (.4,1);
+                \draw[->] (0.75,0.75) -- (0.3,.75);
+                \draw[->] (0.5,0.5) -- +(0,1) node[above] {crossings: $-1+1 = 0$};
+                \begin{scope}[yshift=-3cm]
+                    \filldraw[fill=yellow!80!black]
+                    % Clockwise rectangle
+                    (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle
+                    % Clockwise rectangle
+                    (0.25,0.25) -- (0.25,0.75) -- (0.75,0.75) -- (0.75,0.25) -- cycle;
+                    \draw[->] (0,1) -- (.4,1);
+                    \draw[->] (0.25,0.75) -- (0.4,.75);
+                    \draw[->] (0.5,0.5) -- +(0,1) node[above] {crossings: $1+1 = 2$};
+                \end{scope}
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.65\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \filldraw[fill=yellow!80!black]
+        % Clockwise rectangle
+        (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle
+        % Counter-clockwise rectangle
+        (0.25,0.25) -- (0.75,0.25) -- (0.75,0.75) -- (0.25,0.75) -- cycle;
+        \draw[->] (0,1) -- (.4,1);
+        \draw[->] (0.75,0.75) -- (0.3,.75);
+        \draw[->] (0.5,0.5) -- +(0,1) node[above] {crossings: $-1+1 = 0$};
+        \begin{scope}[yshift=-3cm]
+            \filldraw[fill=yellow!80!black]
+            % Clockwise rectangle
+            (0,0) -- (0,1) -- (1,1) -- (1,0) -- cycle
+            % Clockwise rectangle
+            (0.25,0.25) -- (0.25,0.75) -- (0.75,0.75) -- (0.75,0.25) -- cycle;
+            \draw[->] (0,1) -- (.4,1);
+            \draw[->] (0.25,0.75) -- (0.4,.75);
+            \draw[->] (0.5,0.5) -- +(0,1) node[above] {crossings: $1+1 = 2$};
+        \end{scope}
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:nonzero rule}
+    \end{figure}
+
+    \item even odd rule
+    
+    另一种内部点算法：同样绘制射线，不进行减法运算，始终累计遇到的路径数，如果计算为奇数，则为内部点；否则为外部点。
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \filldraw[fill=yellow!80!black,even odd rule]
+                    (0,0) rectangle (1,1) (0.5,0.5) circle (0.4cm);
+                \draw[->] (0.5,0.5) -- +(0,1) [above] node{crossings: $1+1 = 2$};
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \filldraw[fill=yellow!80!black,even odd rule]
+            (0,0) rectangle (1,1) (0.5,0.5) circle (0.4cm);
+        \draw[->] (0.5,0.5) -- +(0,1) [above] node{crossings: $1+1 = 2$};
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:even odd rule}
+    \end{figure}
 
 \end{itemize}
 
+TikZ 还为我们提供了下面两个修饰对 path 路径创建的图形进行定位等操作。
 
+\begin{itemize}
+    \item path picture = <code>
+    
+    如果调用了修饰，那么在任何通过 \textbackslash path(及其衍生的 fill，shade 等)指令创建的图形，都会以此为基础创建一个 scope 区域，并在此区域中执行 <code>。
 
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \draw [help lines] (0,0) grid (3,2);
+                \filldraw [fill=blue!10,draw=blue,thick] (1.5,1) circle (1)
+                    [path picture={
+                        \node at (path picture bounding box.center) {
+                            This is a long text.
+                        };}
+                ];
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw [help lines] (0,0) grid (3,2);
+        \filldraw [fill=blue!10,draw=blue,thick] (1.5,1) circle (1)
+            [path picture={
+                \node at (path picture bounding box.center) {
+                    This is a long text.
+                };}
+        ];
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:path picture}
+    \end{figure}
 
+    \item path picture bounding box
+    
+    任何创建的路径都可认为被包括在一个矩形框内，通过调用 path picture bounding box 可以获得矩形框的位置。
 
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[cross/.style={path picture={
+                \draw[black]
+                    (path picture bounding box.south east) --
+                    (path picture bounding box.north west)
+                    (path picture bounding box.south west) --
+                    (path picture bounding box.north east);
+                }}]
+                \draw [help lines] (0,0) grid (3,2);
+                \filldraw [cross,fill=blue!10,draw=blue,thick] (1,1) circle (1);
+                \path [cross,top color=red,draw=red,thick] (2,0) -- (3,2) -- (3,0);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[cross/.style={path picture={
+        \draw[black]
+            (path picture bounding box.south east) --
+            (path picture bounding box.north west)
+            (path picture bounding box.south west) --
+            (path picture bounding box.north east);
+        }}]
+        \draw [help lines] (0,0) grid (3,2);
+        \filldraw [cross,fill=blue!10,draw=blue,thick] (1,1) circle (1);
+        \path [cross,top color=red,draw=red,thick] (2,0) -- (3,2) -- (3,0);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:path picture bounding box}
+    \end{figure}
 
+\end{itemize}
 
+\subsubsection{边界框}
 
+在绘制图形的过程中，TikZ 会默认将所有点都包含在图片范围内，然而有时候我们会让某些点突破图片范围。
 
+\begin{itemize}
+    \item use as bounding box
+    
+    在某个路径中启用该修饰后，图像的边界框将由该路径确定，随后的路径不再对边界框有影响。然而如果之前的路径确定了更大的边界框，该修饰并不会使得边界框变小(可以通过 \textbackslash pgfresetboundingbox 重置边界框)。
 
+    此外，该修饰因为常被用来指定边界框大小，TikZ 也提供了指令形式 \textbackslash useasboundingbox
 
+    Left of picture
+    \begin{tikzpicture}
+    \useasboundingbox (0,0) rectangle (3,1);
+    \fill (.75,.25) circle (.5cm);
+    \end{tikzpicture}
+    right of picture.
 
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    Left of picture
+        \begin{tikzpicture}
+            \useasboundingbox (0,0) rectangle (3,1);
+            \fill (.75,.25) circle (.5cm);
+        \end{tikzpicture}
+    right of picture.
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:useasboundingbox}
+    \end{figure}
 
+    \item current bounding box
+    
+    边界框不仅可以被指定，也可以被调用：
 
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \draw[red] (0,0) circle (2pt);
+                \draw[red] (2,1) circle (3pt);
+                \draw (current bounding box.south west) rectangle
+                    (current bounding box.north east);
+                \draw[red] (3,-1) circle (4pt);
+                \draw[thick] (current bounding box.south west) rectangle
+                    (current bounding box.north east);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw[red] (0,0) circle (2pt);
+        \draw[red] (2,1) circle (3pt);
+        \draw (current bounding box.south west) rectangle
+            (current bounding box.north east);
+        \draw[red] (3,-1) circle (4pt);
+        \draw[thick] (current bounding box.south west) rectangle
+            (current bounding box.north east);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:current bounding box}
+    \end{figure}
 
+    \item trim left = <dimension or coordinate>  \hfill (默认：0pt)
+    
+    该修饰将传入的值设置为边界框的左边界，如果是坐标，则只使用 x 值。
 
+    Text before image.%
+    \begin{tikzpicture}[trim left]
+    \draw (-1,-1) grid (3,2);
+    \fill (0,0) circle (5pt);
+    \end{tikzpicture}%
+    Text after image.
 
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    Text before image.%
+    \begin{tikzpicture}[trim left]
+    \draw (-1,-1) grid (3,2);
+    \fill (0,0) circle (5pt);
+    \end{tikzpicture}%
+    Text after image.
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:useasboundingbox}
+    \end{figure}
 
+    \item trim right = <dimension or coordinate>
+ 
+\end{itemize}
 
+\subsubsection{剪裁蒙版}
 
+剪裁路径是指将绘制的路径限定在一定的区域内，作用类似于 PS 的蒙版遮罩。
 
+\begin{itemize}
+    \item clip
+    
+    该修饰对应的路径将作为蒙版，在整个 scope 中起作用。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw[clip] (0,0) circle (1cm);
+                \fill[red] (1,0) circle (1cm);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw[clip] (0,0) circle (1cm);
+        \fill[red] (1,0) circle (1cm);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:clip}
+    \end{figure}
+
+    TikZ 提供了指令形式的 \textbackslash clip。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 2]
+                \draw (0,0) -- ( 0:1cm);
+                \draw (0,0) -- (10:1cm);
+                \draw (0,0) -- (20:1cm);
+                \draw (0,0) -- (30:1cm);
+                \begin{scope}[fill=red]
+                    \clip[fill] (0.2,0.2) rectangle (0.5,0.5);
+                    \draw (0,0) -- (40:1cm);
+                    \draw (0,0) -- (50:1cm);
+                    \draw (0,0) -- (60:1cm);
+                \end{scope}
+                \draw (0,0) -- (70:1cm);
+                \draw (0,0) -- (80:1cm);
+                \draw (0,0) -- (90:1cm);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 2]
+        \draw (0,0) -- ( 0:1cm);
+        \draw (0,0) -- (10:1cm);
+        \draw (0,0) -- (20:1cm);
+        \draw (0,0) -- (30:1cm);
+        \begin{scope}[fill=red]
+            \clip[fill] (0.2,0.2) rectangle (0.5,0.5);
+            \draw (0,0) -- (40:1cm);
+            \draw (0,0) -- (50:1cm);
+            \draw (0,0) -- (60:1cm);
+        \end{scope}
+        \draw (0,0) -- (70:1cm);
+        \draw (0,0) -- (80:1cm);
+        \draw (0,0) -- (90:1cm);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:\textbackslash clip}
+    \end{figure}
+\end{itemize}
+
+\subsection{复杂动作}
+
+通常 TikZ 绘制路径的顺序为: fill - draw - clip。然而有的时候我们需要对路径进行更为复杂的操作，例如多次填充图案等。
+
+\begin{itemize}
+    \item preaction = <options>
+    
+    当给 path 该修饰时，会创建一个对应的 scope。在这个 scope 中会首先强制执行 <options> 中的修饰，再执行其他修饰。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw[help lines] (0,0) grid (3,2);
+                \draw [preaction={draw,line width=4mm,blue}]
+                    [line width=2mm,red] (0,0) rectangle (2,2);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \draw[help lines] (0,0) grid (3,2);
+        \draw [preaction={draw,line width=4mm,blue}]
+            [line width=2mm,red] (0,0) rectangle (2,2);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:preaction}
+    \end{figure}
+
+    同一个 path 可以拥有多个 preaction，以达到在同一个路径上多次绘制的效果。
+    
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \draw[help lines] (0,0) grid (3,2);
+                \draw [pattern=fivepointed stars]
+                    [preaction={fill=black,opacity=.5, transform canvas={xshift=1mm,yshift=-1mm}}]
+                    [preaction={top color=blue,bottom color=white}]
+                        (0,0) rectangle (1,2)
+                        (1,2) circle (5mm);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw[help lines] (0,0) grid (3,2);
+        \draw [pattern=fivepointed stars]
+            [preaction={fill=black,opacity=.5, transform canvas={xshift=1mm,yshift=-1mm}}]
+            [preaction={top color=blue,bottom color=white}]
+                (0,0) rectangle (1,2)
+                (1,2) circle (5mm);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:multi-preaction}
+    \end{figure}
+
+    \item postaction = <options>
+    
+    postaction 与 preaction 类似，只不过再其他修饰执行后再执行 postaction 中的修饰。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \draw[help lines] (0,0) grid (3,2);
+                \draw
+                    [postaction={draw,line width=2mm,blue}]
+                    [line width=4mm,red,fill=white] (0,0) rectangle (2,2);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw[help lines] (0,0) grid (3,2);
+        \draw
+            [postaction={draw,line width=2mm,blue}]
+            [line width=4mm,red,fill=white] (0,0) rectangle (2,2);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Path Style:postaction}
+    \end{figure}
+
+\end{itemize}
 
 \newpage
