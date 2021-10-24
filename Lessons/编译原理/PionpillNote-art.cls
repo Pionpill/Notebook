@@ -166,10 +166,12 @@
 }
 
 % ========== 段落格式 ==========
-\setlength{\parskip}{0.5em}
+\setlength{\parskip}{0.3em}
 \setlength{\parindent}{2em}
-\setenumerate[1]{itemsep=0pt,itemindent=2em,partopsep=0pt,parsep=0.2em,topsep=5pt}
-\setitemize[1]{itemsep=0pt,itemindent=2em,partopsep=0pt,parsep=0.2em,topsep=5pt}
+\setlist[enumerate]{listparindent=\parindent}
+\setlist[itemize]{listparindent=\parindent}
+\setenumerate[1]{itemsep=0pt,itemindent=1em,partopsep=0pt,parsep=0.1em,topsep=1pt}
+\setitemize[1]{itemsep=0pt,itemindent=1em,partopsep=0pt,parsep=0.1em,topsep=1pt}
 
 % ========================= 代码格式 =========================
 % 设置代码的默认样式
@@ -200,6 +202,17 @@
     backgroundcolor=\color{lightgray!20},           % 背景色
     basicstyle=\footnotesize\ttfamily,                       % 字体大小
 }
+
+% 设置代码环境
+\lstnewenvironment{code}[1][]{
+	\lstset{
+		% deletekeywords={disp},                    % 可在此行去除特定关键词的语法高亮		
+		keywordstyle=\color{blue},                  % 设置关键词样式
+		stringstyle=\color[rgb]{0.75,0,0.75},       % 设置字符串样式
+		commentstyle=\songti\color[rgb]{0,0.5,0},   % 设置注释样式
+		#1
+	}
+}{}
 
 % 设置C++代码环境
 \lstnewenvironment{C++}[1][]{
