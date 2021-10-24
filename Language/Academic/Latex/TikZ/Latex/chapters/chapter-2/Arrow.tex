@@ -1,0 +1,124 @@
+\section{Arrow}
+\subsection{概述}
+
+TikZ 为我们提供了强大的 Arrow 处理功能，我们既可以使用预设的Arrow样式，自定义 Arrow，也可以自行修改预设的 Arrow。
+
+TikZ 为我们预设的 Arrow 样式在 arrows.meta 包中。
+
+绘制箭头大部分情况下需要满足两个基本条件：1.有终止点 2.不是闭合环路。除此之外遇到 clip ，cycle 等修饰也将无法绘制箭头。
+
+\begin{itemize}
+    \item arrows = <start arrow specification> - <end arrow specification>
+    
+    由于 arrows 修饰十分常用，在实际绘图中也可以省略该键，那么任何带 - 的修饰都会被认为是 arrows。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}
+                \draw[->] (0,0) -- (1,0);
+                \draw[>-Stealth] (0,0.3) -- (1,0.3);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}
+        \draw[->] (0,0) -- (1,0);
+        \draw[>-Stealth] (0,0.3) -- (1,0.3);
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Arrow:arrows}
+    \end{figure}
+
+    上述例子十分简单，如果我们需要对箭头样式进行复杂的调整，可以使用 \{\} 添加多个修饰。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \draw[-{Stealth[red]}] (0,0) -- (1,0);
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \draw[-{Stealth[red]}] (0,0) -- (1,0);
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Arrow:arrows-\{\}}
+    \end{figure}
+\end{itemize}
+
+\subsection{基本样式}
+\subsubsection{箭头大小}
+
+\begin{itemize}
+    \item length = <dimension><line width factor><outer factor>
+    
+    这个参数控制着箭头沿发射方向的长度。
+
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}{0.35\linewidth}
+            \centering
+            \begin{tikzpicture}[scale = 1]
+                \begin{scope}[yshift = 0cm]
+                    \draw [-{Stealth[length=5mm]}] (0,0) -- (2,0);
+                    \draw [|<->|] (1.5,.4) -- node[above=1mm] {5mm} (2,.4);
+                \end{scope}
+                \begin{scope}[yshift = -1.5cm]
+                    \draw [-{Latex[length=5mm]}] (0,0) -- (2,0);
+                    \draw [|<->|] (1.5,.4) -- node[above=1mm] {5mm} (2,.4);
+                \end{scope}
+            \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.55\linewidth}
+            \begin{lstlisting}[style = latex-side]
+    \begin{tikzpicture}[scale = 1]
+        \begin{scope}[yshift = 0cm]
+            \draw [-{Stealth[length=5mm]}] (0,0) -- (2,0);
+            \draw [|<->|] (1.5,.4) -- node[above=1mm] {5mm} (2,.4);
+        \end{scope}
+        \begin{scope}[yshift = -1.5cm]
+            \draw [-{Latex[length=5mm]}] (0,0) -- (2,0);
+            \draw [|<->|] (1.5,.4) -- node[above=1mm] {5mm} (2,.4);
+        \end{scope}
+    \end{tikzpicture}
+            \end{lstlisting}
+        \end{minipage}
+        \caption{Arrow:length}
+    \end{figure}
+
+    下面来深入了解一下 length 的三个参数，以 Latex arrow 为例，它的 length 对应的值为 length = 3pt 4.5 0.8。默认线宽为0.4pt，最终计算的值为 $3\text{pt} + 4.5 \times 0.4\text{pt} = 4.8\text{pt}$。也即第二个参数 <line width factor> 若存在就与线宽进行乘法运算并累计入length的值。
+
+    上面计算中第三个参数并没有起作用，原因是 <outer factor> 仅在 path 存在 double 修饰时对 inner line width 和 line width 起作用。
+
+
+
+
+
+
+
+
+
+
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
