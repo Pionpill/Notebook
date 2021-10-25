@@ -40,9 +40,9 @@
 \RequirePackage{threeparttable}         % 三线表环境
 \RequirePackage{bm}                     % 公式加粗
 \RequirePackage{indentfirst}            % 段落缩进
+\RequirePackage{subfigure}              % 子图包
 
 % 扩展的表格宏包和插图宏包
-% \RequirePackage{subfig}
 % \RequirePackage{longtable}
 % 扩展的数学宏包
 % \RequirePackage{upgreek}%用\uppi 调用正体的圆周率

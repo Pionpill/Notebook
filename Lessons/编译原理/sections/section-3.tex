@@ -78,7 +78,14 @@
 
 \subsubsection{单词符号得识别：超前搜索}
 
-词法分析器得结构如图\ref{词法分析器}所示，当词法分析器调用预处理子程序处理出一串输入字符当今扫描缓冲区之后，分析器就从此缓冲器中逐一识别单词符号。当缓冲区里得字符串被处理完之后，他又调用预处理程序装入新串。
+词法分析器得结构如图\ref{词法分析器}所示，当词法分析器调用预处理子程序处理出一串输入字符放进扫描缓冲区之后，分析器就从此缓冲器中逐一识别单词符号。当缓冲区里得字符串被处理完之后，他又调用预处理程序装入新串。
+
+下面介绍单词符号识别的一个简单方法 —— 超前搜索。
+
+\textbf{关键字的识别}\footnote{书P39-40有一个FORTRAN语言的例子}
+
+在一些关键字不加以保护(用户可以将关键字用作普通标识符)的语言中，为了识别关键字，我们必须超前扫描多个字符，超前到能够确定词性的地方为止。
+
 
 \begin{figure}[H]
     \centering
@@ -91,22 +98,86 @@
             \node[draw,text width=2em] (list) at (9,1) {列表};
         \end{scope}
         \node[draw,ellipse] (input) at (5,3) {输入};
-        \draw [-Stealth,dashed] (input) -- (input-buffer);
-        \draw [-Stealth,dashed] (input-buffer) -- (list);
+        \begin{scope}[-Stealth,dashed]
+            \draw (input) -- (input-buffer);
+            \draw (input-buffer) -- (list);
+            \draw (input-buffer.west) -- ++(0,-0.6) -- ++ (-2.2,0);
+            \draw (process) -| (scanner-buffer);
+            \draw (scanner-buffer) |- (scanner);
+        \end{scope}
+        \begin{scope}[-Stealth]
+            \draw (process.north) -- ++ (0,1) -- ++ (0,-1);
+            \draw (process.south) -- ++ (-0.5,0) -- ++ (0,-1);
+            \draw (scanner.north) -- ++ (+0.5,0) -- ++ (0,1);
+            \draw (scanner.south) -- ++ (0,-1) node[left,pos=0.5] {单词符号};
+        \end{scope}
     \end{tikzpicture}
     \caption{词法分析器}
     \label{词法分析器}
 \end{figure}
 
+\textbf{标识符的识别}
 
+多数语言的标识符时字母开头的``字母/数字''串，而且在程序中标识符的出现都后跟着算符或界符，因此识别标识符大多没有困难。
 
+\textbf{常数的识别}
 
+多数语言算术常数的表示大体相似，对它们的识别也是很直接的。但对于某些语言的常数的识别也需要超前搜索的方法。
 
+逻辑(或布尔)常数和用引用括起来的字符串常数都很容易识别。但 FORTRAN 有需格外处理。
 
+\textbf{算符和界符的识别}
 
+词法分析器应将那些由多个字符复合成的算符和界符拼合成一个单词符号。因为这些字符串是不可分的整体，在这里同样需要超前搜索。
 
+\subsubsection{状态转换图}
 
+状态转换图是设计词法分析程序的一种好途径。转换图是一张有限方向图。在状态转换图中，结点代表状态，用圆圈表示。状态之间用箭弧连结。箭弧上的标记(字符)代表在射出结点状态下可能出现的输入字符或字符类。
 
+\begin{figure}[H]
+    \centering
+    \subfigure[]{
+        \begin{minipage}{0.3\linewidth}
+            \centering
+            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick]
+                \node[draw] (1) at (0,0) {1};
+                \node[draw] (2) at (3,0) {2};
+                \node[draw] (3) at (3,-1.5) {3};
+                \draw (1) -- (2) node [pos=0.5,above] {X};
+                \draw (1) to[out = 270,in = 180] node [pos=0.5,above] {Y} (3);
+            \end{tikzpicture}
+        \end{minipage}
+    }
+    \subfigure[]{
+        \begin{minipage}{0.3\linewidth}
+            \centering
+            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick]
+                \node[draw] (0) at (0,0) {0};
+                \node[draw] (1) at (2,0) {1};
+                \node[draw,double] (2) at (4,0) {2};
+                \draw (0) -- (1) node[above=-8pt,pos=0.5] {字母};
+                \draw (1) -- (2) node[above=-8pt,pos=0.5] {其它};
+                \draw (1) ..controls +(0.5,1.2) and + (-0.5,1.2).. (1) node [above = -0.7cm,pos=0.5] {字母或数字};
+            \end{tikzpicture}
+        \end{minipage}
+
+    }
+    \subfigure[]{
+        \begin{minipage}{0.3\linewidth}
+            \centering
+            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick]
+                \node[draw] (0) at (0,0) {0};
+                \node[draw] (1) at (2,0) {1};
+                \node[draw,double] (2) at (4,0) {2};
+                \draw (0) -- (1) node[above=-8pt,pos=0.5] {数字};
+                \draw (1) -- (2) node[above=-8pt,pos=0.5] {其它};
+                \draw (1) ..controls +(0.5,1.2) and + (-0.5,1.2).. (1) node [above = -0.2cm, pos=0.5] {数字};
+            \end{tikzpicture}
+        \end{minipage}
+
+    }
+    \caption{状态转换图}
+\end{figure}
 
 
 
