@@ -139,7 +139,7 @@
     \subfigure[]{
         \begin{minipage}{0.3\linewidth}
             \centering
-            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick]
+            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick,inner sep=3pt]
                 \node[draw] (1) at (0,0) {1};
                 \node[draw] (2) at (3,0) {2};
                 \node[draw] (3) at (3,-1.5) {3};
@@ -151,10 +151,10 @@
     \subfigure[]{
         \begin{minipage}{0.3\linewidth}
             \centering
-            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick]
+            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick,inner sep=3pt]
                 \node[draw] (0) at (0,0) {0};
                 \node[draw] (1) at (2,0) {1};
-                \node[draw,double] (2) at (4,0) {2};
+                \node[draw,double,pin={[pin distance = -7,pin edge={line width=0,color=white}]45:*}] (2) at (4,0) {2};
                 \draw (0) -- (1) node[above=-8pt,pos=0.5] {字母};
                 \draw (1) -- (2) node[above=-8pt,pos=0.5] {其它};
                 \draw (1) ..controls +(0.5,1.2) and + (-0.5,1.2).. (1) node [above = -0.7cm,pos=0.5] {字母或数字};
@@ -165,19 +165,289 @@
     \subfigure[]{
         \begin{minipage}{0.3\linewidth}
             \centering
-            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick]
+            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick,inner sep=3pt]
                 \node[draw] (0) at (0,0) {0};
                 \node[draw] (1) at (2,0) {1};
-                \node[draw,double] (2) at (4,0) {2};
+                \node[draw,double,pin={[pin distance = -7,pin edge={line width=0,color=white}]45:*}] (2) at (4,0) {2};
                 \draw (0) -- (1) node[above=-8pt,pos=0.5] {数字};
                 \draw (1) -- (2) node[above=-8pt,pos=0.5] {其它};
                 \draw (1) ..controls +(0.5,1.2) and + (-0.5,1.2).. (1) node [above = -0.2cm, pos=0.5] {数字};
             \end{tikzpicture}
         \end{minipage}
-
     }
     \caption{状态转换图}
+    \label{fig:状态转换图}
 \end{figure}
+
+例如在 \ref{fig:状态转换图}(a)表示：在状态1下，若输入字符为 X，则读进 X，并转换到状态2.若输入字符为 Y，则读 Y，转换到状态3。
+
+一张在转换图只包含有限个状态(即有限个结点)，其中有一个被认为是初态，而且实际上至少要有一个终态(双圈表示)。
+
+一个状态转换图可用于识别(或接受)一定的字符串。例如，识别标识符的转换图 \ref{fig:状态转换图}(b)。终态结上打个星号*意味着多读进了一个不属于标识符部分的字符，应把它退还给输入串\footnote{书P42-44有一个完整的简单语言进行词法分析绘制状态转换图的例子}。
+
+\subsubsection{状态转换图的实现}
+
+转换图容易用程序实现。最简单的办法是让每个状态结点对应一小段程序。下面引用一组全局变量和过程，将它们作为实现转换图的基本成分：
+
+\begin{enumerate}
+    \item ch \\
+    字符变量，存放最新读进的源程序字符。
+    \item strToken \\
+    字符数组，存放构成单词符号的字符串。
+    \item  GetChar \\
+    子程序过程，将下一输入字符读到 ch 中，搜索指示器前移以字符位置。
+    \item GetBC \\
+    子程序过程，检查 ch 中的字符串是否为空白。若是，则调用 GetChar 直至 ch 中进入一个非空白字符。
+    \item Concat \\
+    子程序过程，将 ch 中的字符串连接到 strToken 之后。
+    \item IsLetter 和 IsDigit \\
+    布尔函数过程，它们分别判断ch中的字符是否为字母和数字。
+    \item Reverse \\
+    整型函数过程，对 strToken 中的字符串查找保留字表，若它是一个保留字则返回编码，否则返回0。
+    \item Retract \\
+    子程序过程，将搜索指示器回调一个字符位置，将 ch 置为空白字符。
+    \item InsertId \\
+    整型函数过程，将strToken中的标识符插入符号表，返回符号表指证。
+    \item InsertConst \\
+    整型函数过程，将 strToken 中的常数插入常数表，返回常数表指针。
+\end{enumerate}
+
+对于不含回路的分叉结点来说，可让它对应一个 switch 语句或一组 if...else...then 语句，如图\ref{fig:不含回路与含有回路的转换图}(a)；对于含回路的状态结点来说，可让它对应一个由 while 语句或 if 语句构成的程序段，如图\ref{fig:不含回路与含有回路的转换图}(b)。
+
+\begin{figure}[H]
+    \centering
+    \subfigure[]{
+        \begin{minipage}{0.3\linewidth}
+            \centering
+            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick,inner sep=3pt]
+                \node[draw] (i) at (0,0) {i};
+                \node[draw] (j) at (3,1.5) {j};
+                \node[draw] (k) at (3,0) {k};
+                \node[draw] (l) at (3,-1.5) {l};
+                \draw (i) to[out=90,in=180] node[pos=0.7,above=-5pt] {字母} (j);
+                \draw (i) to node[pos=0.6,above=-5pt] {数字} (k);
+                \draw (i) to[out=270,in=180] node[pos=0.7,above=-5pt] {/} (l);
+            \end{tikzpicture}
+        \end{minipage}
+    }
+    \subfigure[]{
+        \begin{minipage}{0.3\linewidth}
+            \centering
+            \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick,inner sep=3pt]
+                \node[draw] (i) at (0,0) {i};
+                \node[draw] (j) at (3,0) {j};
+                \draw (i) ..controls +(0.5,1.2) and + (-0.5,1.2).. node [above=-0.7cm]{字母或数字} (i);
+                \draw (i) -- (j) node [pos=0.5,above=-0.2cm] {其他};
+            \end{tikzpicture}
+        \end{minipage}
+    }
+    \caption{不含回路与含有回路的转换图}
+    \label{fig:不含回路与含有回路的转换图}
+\end{figure}
+
+\subsection{正则表达式与有限自动机}
+\subsubsection{正规式与正规集}
+
+对于字母表 $\Sigma$，我们感兴趣的是它们的一些特殊字集，即所谓正规集。我们将使用正规式这个概念来表示正规集。下面是正规式和正规集的递归定义。
+
+\begin{itemize}
+    \item $\epsilon$ 和 $\phi$ 都是 $\Sigma$ 上的正规式，它们所表示的正规集分别是 \{$\epsilon$\} 和 $\phi$。
+    \item 任何 $a\in\Sigma$，$a$是$\Sigma$上的一个正规式，它所表示的正规集为 \{$a$\}。
+    \item 假定 U 和 V 都是 $\Sigma$ 上的正规式，它们所表示的正规集分别记为 L(U) 和 L(V)，那么(U|V),(U·V),(U)$^{*}$也都是正规式。它们所表示的正规集分别为：$L(U)\cup L(V),L(U) L(V)$连续积,$(L(U))^{*}$(闭包)。
+\end{itemize}
+
+仅由有限次使用上述三步骤而得到的表达式才是 $\Sigma$ 上的正规式。仅由这些正规式所表示的字集才是 $\Sigma$ 上的正规集。
+
+正规式的运算符 ``|'' 读作``或''，``·''读作``连接''，``$^{*}$''读作``闭包''。规定运算符优先级如下：$^{*} \rightarrow \text{·} \rightarrow |$。连接符 ``·'' 可省略不写\footnote{书 P47 有几个正规集例子}。 
+
+若两个正规式所表示的正规集相同，则认为二者等价。两个等价的正规式 U，V 记为 U = V。如果 U,V,W 均为正规式，由以下关系成立：
+
+\begin{itemize}
+    \item U|V=V|U \hfill (交换律)
+    \item U|(V|W) = (U|V)|W \hfill (结合律)
+    \item U(VW) = (UV)W \hfill (结合律)
+    \item U(V|W) = UV|UW \quad (V|W)U = VU|WU  \hfill (分配律)
+    \item $\epsilon$U = U$\epsilon$ = U
+\end{itemize}
+
+\subsubsection{确定有限自动机(DFA)}
+
+一个确定有限自动机(DFA)M是一个五元式:
+\[ M = (S,\Sigma,\delta,s_0,F) \]
+
+\begin{itemize}
+    \item $S$: 一个有限集，它的每个元素称为一个状态。
+    \item $\Sigma$: 一个有穷字母表，每个元素称为一个输入字符。
+    \item $\delta$: 一个从 $S \times \Sigma$ 到 $S$ 的单值部分映射。$\delta(s,a)=s^{'}$ 表示：当前状态为 $s$,输入字符为 $a$,将转换到下一状态 $s^{'}$。称$s^{'}$为$s$的后继状态。
+    \item $s_0\in S$: 唯一初态。
+    \item $F\subseteq S$: 终态集(可空)。
+\end{itemize}
+
+显然，一个 DFA 可用一个矩阵表示，该矩阵的行表示状态，列表示输入字符，矩阵元素表示 $\delta(s,a)$ 的值。这个矩阵称为状态转换矩阵。例如如下 DFA：
+\[ M = (\{0,1,2,3\},\{a,b\},\delta,0,\{3\}) \]
+其中，$\delta$为：
+
+\begin{equation}
+    \begin{aligned}
+        \delta(0,a) = 1 \qquad \delta(0,b) = 2 \\ 
+        \delta(1,a) = 3 \qquad \delta(1,b) = 2 \\ 
+        \delta(2,a) = 1 \qquad \delta(2,b) = 3 \\ 
+        \delta(3,a) = 3 \qquad \delta(3,b) = 3 \nonumber
+    \end{aligned}
+\end{equation}
+
+他所对应的状态转换矩阵为：
+\begin{table}[H]
+    \centering
+    \caption{状态转换矩阵}
+    \label{table:状态转换矩阵}
+    \setlength{\tabcolsep}{15mm}
+    \begin{tabular}{c|ccc}
+        \toprule
+        \textbf{状态} & \textbf{a} & \textbf{b}\\
+        \midrule
+        0 & 1 & 2 \\
+        1 & 3 & 2 \\
+        2 & 1 & 3 \\
+        3 & 3 & 3 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+一个 DFA 也可表示成一张(确定的)状态转换图。假定 DFA M 含有 m 个状态和 n 个输入字符，那么，这个图含有m个状态结点，每个结点顶多有n条箭弧射出和别的结点相连接，每条监护用 $\Sigma$ 中的一个不同输入字符作为标记，整张图含有为一个一个初态结点和若干个(可以是0个)终态结点。
+
+对于 $\Sigma^*$ 中的任何字 $\alpha$，若存在一条从初始结点到终态结点的通路，且这条通路上所有弧的标记符连接成的字等于 $\alpha$，则称 $\alpha$ 可为 DFA M 所识别(读出或接受)。若 M 的初态结点同时又是终态结点，则空字 $\epsilon$ 可为 M 所识别(接受)。DFA M 所能识别的字的全体记为 L(M)。
+
+例如上面例子对应的状态转换图：
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick,inner sep=3pt]
+        \node[draw] (0) at (0,0) {0};
+        \node[draw] (1) at (2.5,1.5) {1};
+        \node[draw] (2) at (2.5,-1.5) {2};
+        \node[draw,double] (3) at (5,0) {3};
+        \draw (0) to[out=60,in=180] node[above] {a} (1);
+        \draw (0) to[out=-60,in=180] node[below] {b} (2);
+        \draw (1) to[out=240,in=120] node[left] {b} (2);
+        \draw (2) to[out=60,in=-60] node[right] {a} (1);
+        \draw (1) to[out=0,in = 120] node[above] {a} (3);
+        \draw (2) to[out=0,in = 240] node[below] {b} (3);
+        \draw (3) ..controls +(1,-0.5) and +(1,0.5) .. (3) node [right=0.8cm] {a,b};
+    \end{tikzpicture}
+    \caption{状态转换图}
+    \label{fig:状态转换图}
+\end{figure}
+
+如果 DFA M 的输入字母表为 $\Sigma$，则我们也称 M 是 $\Sigma$ 上的一个 DFA。可以证明：$\Sigma$ 上的一个字集 $V \subseteq \Sigma^*$ 是正规的，当且仅当存在 $\Sigma$ 上的 DFA M，使得 V=L(M)。
+
+DFA 的确定性表现在映射 $\delta:S\times \Sigma \rightarrow S$ 是一个单值函数。也就是说，对任何状态 $s\in S$ 和输入符号 $a\in \Sigma$，$\delta(s,a)$ 唯一地确定了下一状态。如果允许 $\delta$ 是一个多值函数\footnote{一个 x 对应多个 y}，就得到了非确定的自动机。
+
+\subsubsection{非确定的有限自动机(NFA)}
+
+一个非确定有限自动机(NFA)M是一个五元式:
+\[ M = (S,\Sigma,\delta,s_0,F) \]
+
+\begin{itemize}
+    \item $S,\Sigma,F$ 意义与 NFA 相同。
+    \item $S_0 \subseteq S$: 一个非空初态集。
+    \item $\delta$: 一个从 $S \times \Sigma^*$ 到 S 的子集映照。即 $\delta:S\times \Sigma^* \rightarrow 2^S$。
+\end{itemize}
+
+显然，一个含有 m 个状态和 n 个输入字符的 NFA 可以表示成如下状态转换图：该图含有 m 个状态结点，每个结点可射出若干条箭弧与别的结点相连，每条弧用 $\Sigma^*$ 中的一个字(不一定要不同的字而且可以是空字)做标记(称为输入字)，整张图至少含有一个初态结点以及若干个(可以是0个)终态结点。某些结点既可以是初态结点也可以是终态结点。
+
+对于 $\Sigma^*$ 中的任何字 $\alpha$，若存在一条从某一初态结点到某一终态结点的通路，且这条通路上所有弧的标记符连接成的字(忽略标记为空的弧)等于 $\alpha$，则称 $\alpha$ 可为 NFA M 所识别(读出或接受)。若 M 的某些结点既是初态结点又是终态结点，或者存在一条从某个初态结点到某个终态结点的 $\epsilon$ 通路，则空字 $\epsilon$ 可为 M 所识别(接受)。
+
+例如下图 NFA 所能识别的是所有含有相继两个 a 或相继两个 b 的字。
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick,inner sep=3pt]
+        \node[draw] (x) at (0,0) {X};
+        \node[draw] (5) at (2,0) {5};
+        \node[draw] (1) at (4,0) {1};
+        \node[draw] (2) at (6,0) {2};
+        \node[draw] (6) at (8,0) {6};
+        \node[draw,double] (y) at (10,0) {Y};
+        \node[draw] (3) at (5,1) {3};
+        \node[draw] (4) at (5,-1) {4};
+        \draw (x) -- (5) node[above,pos=0.5] {$\epsilon$};
+        \draw (5) -- (1) node[above,pos=0.5] {$\epsilon$};
+        \draw (1) -- (3) node[above,pos=0.5] {a};
+        \draw (3) -- (2) node[above,pos=0.5] {a};
+        \draw (1) -- (4) node[below,pos=0.5] {b};
+        \draw (4) -- (2) node[below,pos=0.5] {b};
+        \draw (2) -- (6) node[above,pos=0.5] {$\epsilon$};
+        \draw (6) -- (y) node[above,pos=0.5] {$\epsilon$};
+        \draw (5) ..controls +(0.5,1) and +(-0.5,1) .. (5) node[pos=0.5,above] {a};
+        \draw (6) ..controls +(0.5,1) and +(-0.5,1) .. (6) node[pos=0.5,above] {a};
+        \draw (5) ..controls +(-0.5,-1) and +(0.5,-1) .. (5) node[pos=0.5,below] {b};
+        \draw (6) ..controls +(-0.5,-1) and +(0.5,-1) .. (6) node[pos=0.5,below] {b};
+    \end{tikzpicture}
+    \caption{非确定有限自动机}
+    \label{fig:非确定有限自动机}
+\end{figure}
+
+显然，DFA 是 NFA 的特例。但是，对于每个 NFA M 存在一个 DFA $\text{M}^{''}$,使得 L(M) = L(M$^{''}$)\footnote{证明过程见书 P49-50}。
+
+将 NFA 状态转换图转换为 DFA 状态转换图时有以下替换规则：
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[font=\small,shape=circle,-Stealth,thick,inner sep=3pt]
+        \begin{scope}
+            \node[draw] (i1) at (0,0) {i};
+            \node[draw] (j1) at (2,0) {j};
+            \draw (i1) -- (j1) node [pos=0.5,above=-3pt] {AB};
+            \node at (4,0) {代之以};
+            \node[draw] (i2) at (6,0) {i};
+            \node[draw] (k2) at (8,0) {k};
+            \node[draw] (j2) at (10,0) {j};
+            \draw (i2) -- (k2) node [pos=0.5,above=-1pt] {A};
+            \draw (k2) -- (j2) node [pos=0.5,above=-1pt] {B};
+        \end{scope}
+        \begin{scope}[yshift = -1.5cm]
+            \node[draw] (i1) at (0,0) {i};
+            \node[draw] (j1) at (2,0) {j};
+            \draw (i1) -- (j1) node [pos=0.5,above=-3pt] {A/B};
+            \node at (4,0) {代之以};
+            \node[draw] (i2) at (6,0) {i};
+            \node[draw] (j2) at (10,0) {j};
+            \draw (i2) to[out = 30,in=150] node [pos=0.5,below=-1pt] {A} (j2);
+            \draw (i2) to[out=-30,in=-150] node [pos=0.5,above=-1pt] {B} (j2);
+        \end{scope}
+        \begin{scope}[yshift=-3cm]
+            \node[draw] (i1) at (0,0) {i};
+            \node[draw] (j1) at (2,0) {j};
+            \draw (i1) -- (j1) node [pos=0.5,above=-3pt] {A*};
+            \node at (4,0) {代之以};
+            \node[draw] (i2) at (6,0) {i};
+            \node[draw] (k2) at (8,0) {k};
+            \node[draw] (j2) at (10,0) {j};
+            \draw (i2) -- (k2) node [pos=0.5,above=-1pt] {$\epsilon$};
+            \draw (k2) -- (j2) node [pos=0.5,above=-1pt] {$\epsilon$};
+            \draw (k2) ..controls +(-0.5,-1) and +(0.5,-1).. (k2) node[pos=0.5,below] {A};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{替换规则}
+    \label{fig:替换规则}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
