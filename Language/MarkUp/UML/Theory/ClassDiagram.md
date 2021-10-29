@@ -138,5 +138,5 @@
     ```
 
 ### 其他
-- 关系强度：generalization &rarr; impanelment &rarr; composition &rarr; aggregation &rarr; association &rarr; dependency
-- 在java代码实现时，关联，聚合，组成关系形式一样。
+- 关系强度：generalization &rarr; implement &rarr; composition &rarr; aggregation &rarr; association &rarr; dependency
+- 在java代码实现时，关联(association)，聚合(aggregation)，组成(compositionm)关系形式一样。
