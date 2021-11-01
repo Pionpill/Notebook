@@ -101,14 +101,14 @@
         \begin{scope}[-Stealth,dashed]
             \draw (input) -- (input-buffer);
             \draw (input-buffer) -- (list);
-            \draw (input-buffer.west) -- ++(0,-0.6) -- ++ (-2.2,0);
+            \draw (input-buffer.west) ++(0,-0.6) -- ++ (-2.2,0);
             \draw (process) -| (scanner-buffer);
             \draw (scanner-buffer) |- (scanner);
         \end{scope}
         \begin{scope}[-Stealth]
-            \draw (process.north) -- ++ (0,1) -- ++ (0,-1);
-            \draw (process.south) -- ++ (-0.5,0) -- ++ (0,-1);
-            \draw (scanner.north) -- ++ (+0.5,0) -- ++ (0,1);
+            \draw (process.north) ++ (0,1) -- ++ (0,-1);
+            \draw (process.south) ++ (-0.5,0) -- ++ (0,-1);
+            \draw (scanner.north) ++ (+0.5,0) -- ++ (0,1);
             \draw (scanner.south) -- ++ (0,-1) node[left,pos=0.5] {单词符号};
         \end{scope}
     \end{tikzpicture}
@@ -533,20 +533,6 @@ DFA 的确定性表现在映射 $\delta:S\times \Sigma \rightarrow S$ 是一个�
 如果 DFA M 的两个状态 s 和 t 不等价，则称这两个状态是可区别的。例如，终态与非终态是可区别的。因为，终态能读出空字 $\epsilon$，非终态则不能。
 
 一个 DFA M 的状态最少化过程旨在将 M 的状态集分割成一些不相交的子集，使得任何不同的两子集中的状态都是可区别的，而同一子集中的任何两个状态都是等价的。最后，在每个子集中选出一个代表，同时消去其他等价状态。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 \newpage
