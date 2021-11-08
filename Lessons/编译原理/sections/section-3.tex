@@ -358,7 +358,7 @@ DFA 的确定性表现在映射 $\delta:S\times \Sigma \rightarrow S$ 是一个�
 
 对于 $\Sigma^*$ 中的任何字 $\alpha$，若存在一条从某一初态结点到某一终态结点的通路，且这条通路上所有弧的标记符连接成的字(忽略标记为空的弧)等于 $\alpha$，则称 $\alpha$ 可为 NFA M 所识别(读出或接受)。若 M 的某些结点既是初态结点又是终态结点，或者存在一条从某个初态结点到某个终态结点的 $\epsilon$ 通路，则空字 $\epsilon$ 可为 M 所识别(接受)。
 
-例如下图 NFA 所能识别的是所有含有相继两个 a 或相继两个 b 的字。
+例如下图\footnote{书上原图有误，1 $\rightarrow$ 4} NFA 所能识别的是所有含有相继两个 a 或相继两个 b 的字。
 
 \begin{figure}[H]
     \centering
