@@ -44,12 +44,13 @@
 以及输入串$\alpha$: x*y，下面构造 $\alpha$ 的语法树。 
 
 \begin{enumerate}
-    \item 首先按文法开始符号产生根结 P，并让指示器 IP 指向输入串的第一个符号 x。然后用 S 的规则(此处只有一条)绘制树。
+    \item 首先按文法开始符号产生根结 P，并让指示器 IP\footnote{IP 逐个指向输入串 $\alpha$ 中的符号} 指向输入串的第一个符号 x。然后用 S 的规则(此处只有一条)绘制树\footnote{圆圈代表当前匹配的结点}。
     \begin{figure}[H]
         \centering
         \begin{tikzpicture}[font=\small]
+            \node at (3.5,-0.75) {IP: x};
             \node (S) at (0,0) {S};
-            \node (x) at (-2,-1.5) {x};
+            \node[draw,circle,red!70,text=black] (x) at (-2,-1.5) {x};
             \node (A) at (0,-1.5) {A};
             \node (y) at (2,-1.5) {y};
             \draw[thick] (S) -- (x);
@@ -57,32 +58,185 @@
             \draw[thick] (S) -- (y);
         \end{tikzpicture}
     \end{figure}
+
+    \item 其次，需要用 S 的子结从左至右匹配整个输入串 $\alpha$，左边第一个子结为终结符 x 和 IP 指向的符号匹配，于是让 IP 调整为指向下一输入符号 *，让第二个字结 A 进行匹配。A 有两个候选，这里试着用第一个候选进行匹配，于是有新的语法树：
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[font=\small]
+            \node at (3.5,-1.5) {IP: *};
+            \node (S) at (0,0) {S};
+            \node (x) at (-2,-1.5) {x};
+            \node (A) at (0,-1.5) {A};
+            \node (y) at (2,-1.5) {y};
+            \node (1)[draw,circle,red!70,text=black] at (-1,-3) {*};
+            \node (2) at (1,-3) {*};
+            \draw[thick] (S) -- (x);
+            \draw[thick] (S) -- (A);
+            \draw[thick] (S) -- (y);
+            \draw[thick] (A) -- (1);
+            \draw[thick] (A) -- (2);
+        \end{tikzpicture}
+    \end{figure}
+
+    \item 然后，子树 A 的最左子结和 IP 所指的符号 * 相符，然后我们再把 IP 指向下一符号并让 A 的第二个子结进入工作。发现第二子结 * 和 IP 指向的 y 不匹配。因此 A 宣告失败，回溯查看 A 是否有其他候选表达式。注销之前的语法树，绘制新的语法树，IP 恢复为进入 A 时的原值，重新指向 *。
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[font=\small]
+            \node at (3.5,-1.5) {IP: *};
+            \node (S) at (0,0) {S};
+            \node (x) at (-2,-1.5) {x};
+            \node (A) at (0,-1.5) {A};
+            \node (y) at (2,-1.5) {y};
+            \node (1)[draw,circle,red!70,text=black] at (0,-3) {*};
+            \draw[thick] (S) -- (x);
+            \draw[thick] (S) -- (A);
+            \draw[thick] (S) -- (y);
+            \draw[thick] (A) -- (1);
+        \end{tikzpicture}
+    \end{figure}
+
+    \item 此时将 IP 所指的 * 与 A 的字节 * 匹配，成功匹配后，IP 指向 y，获取语法树第三个字节 y 进行匹配，成功。至此语法树匹配成功，证明是 $\alpha$ 是一个句子。
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[font=\small]
+            \node at (3.5,-1.5) {IP: y};
+            \node (S) at (0,0) {S};
+            \node (x) at (-2,-1.5) {x};
+            \node (A) at (0,-1.5) {A};
+            \node (y)[draw,circle,red!70,text=black] at (2,-1.5) {y};
+            \node (1) at (0,-3) {*};
+            \draw[thick] (S) -- (x);
+            \draw[thick] (S) -- (A);
+            \draw[thick] (S) -- (y);
+            \draw[thick] (A) -- (1);
+        \end{tikzpicture}
+    \end{figure}
 \end{enumerate}
 
+这种自上而下分析法存在许多困难和缺点。
+\begin{itemize}
+    \item \textit{文法左递归} \\
+    一个文法是含有左递归的，如果存在非终结符 P，且存在如下表达式：
+    \[P \stackrel{+}{\Rightarrow} P \alpha \]
+    那么，含有左递归的文法将使上述的分析过程陷入无限循环。因此，使用自上而下分析法必须消除文法的左递归。
+    \item \textit{回溯} \\
+    如果走了一大段错路，就必须抛弃所有的工作(中间代码，表格记录)重来，浪费时间。因此，最好应该设法消除回溯。
+    \item \textit{虚假匹配} \\
+    当某一个非终结符用某一候选项匹配成功时，这种成功可能仅是暂时的。这需要更复杂的回溯技术处理这种虚假匹配线性。一般来说，难以消除虚假匹配线性，但从最长的候选项开始匹配，会产生较少的虚假现象。
+    \item \textit{出错位置} \\
+    当最终报告分析不成功时，难以知道输入串中出错的具体位置。
+    \item \textit{穷举的代价} \\
+    可以看出，自上而下分析是一种穷举算法。这必然会导致效率低，代价高的问题。甚至严重的低效问题在实践中没有价值。
+\end{itemize}
 
+\subsection{LL(1)分析法}
 
+为了克服自上而下分析的缺陷：左递归，回溯。这节将研究递归子程序分析算法及其变种—预测分析法。
 
+\subsubsection{左递归的消除}
 
+假定关于非终结符 P 的规则为：
+\[ P \rightarrow P\alpha|\beta \]
+其中，$\beta$ 不以 P 开头，那么，我们可以把 P 的规则改写为如下的非直接左递归形式：
+\begin{equation}
+    \begin{aligned}
+        &P \rightarrow \beta P^{'} \\
+        &P^{'} \rightarrow \alpha P^{'} | \epsilon \qquad (\epsilon \text{为空字})  \nonumber
+    \end{aligned}
+\end{equation}
+这种形式和原来的形式是等价的，也即从 P 推出的符号串是相同的。
 
+举个例子：
+\begin{equation}
+    \begin{aligned}
+        E \rightarrow E+T|T \longleftrightarrow 
+        \left\{
+            \begin{aligned}
+                &E \rightarrow TE^{'} \\
+                &E^{'} \rightarrow +TE^{'}|\epsilon 
+            \end{aligned} 
+        \right. \\
+        T \rightarrow T*F|F \longleftrightarrow
+        \left\{
+            \begin{aligned}
+                &T \rightarrow FT^{'} \\
+                &T^{'} \rightarrow *FT^{'}|\epsilon 
+            \end{aligned} 
+        \right. \nonumber
+    \end{aligned}
+\end{equation}
 
+一般而言，假定 P 关于的全部产生式：
+\[ P \rightarrow P\alpha_1 | P\alpha_2 | \cdots | P\alpha_m | \beta_1 | \beta_2 | \cdots | \beta_m \]
+其中，每个 $\alpha$ 不为 $\epsilon$，每个 $\beta$ 不以 P 开头，那么消除左递归后的规则为：
+\begin{equation}
+    \begin{aligned}
+        &P \rightarrow \beta_1P^{'} | \beta_2P^{'} | \cdots | \beta_nP^{'} \\
+        &P^{'} \rightarrow \alpha_1P^{'} | \alpha_2P^{'} | \cdots | \alpha_mP^{'} | \epsilon \nonumber
+    \end{aligned}
+\end{equation}
 
+使用这个办法，可以将见诸于表面上的直接左递归消除(即把直接左递归改成直接右递归)。但这并不能消除整个文法的左递归性。
 
+如果一个文法不含回路(形如 $P \stackrel{+}{\Rightarrow} P 的推导$ )，也不含以 $\epsilon$ 为右部的产生式，那么，下列算法将保证删除左递归。
 
+\begin{enumerate}
+    \item 把文法 G 的所有非终结符按任一种顺序排列成 $P_1,P_2,\cdots,P_n$；按此顺序执行。
+    \item 把形如 $P_i \rightarrow P_j \gamma$ 的规则改写成 $P_i \rightarrow \delta_1\gamma | \delta_2\gamma | \cdots | \delta_k\gamma$。\\
+    其中 $P_j \rightarrow \delta_1 | \delta_2 | \cdots | \delta_k$ 是关于 $P_j$ 的所有规则。消除关于 $P_i$ 规则的直接左递归性。
+    \item 化简上一步得到的文法。即去除那些从开始符号触发永远无法到达的非终结符的产生规则。
+\end{enumerate}
 
+\subsubsection{消除回溯，提左因子}
 
+为了消除回溯就必须保证候选项获得成功的匹配。假设任务 A 有 n 个候选项 $\alpha_1,\alpha_2,\cdots,\alpha_n$。A 所面临的第一个输入符号为 a，如果 A 能够根据不同的输入符号指派相应的候选 $\alpha_i$去匹配，就没有回溯了。
 
+令 G 是一个不含左递归的文法，对 G 的所有非终结符的每个候选 $\alpha$ 定义它的终结首符集 FIRST($\alpha$) 为：
+\[\text{FIRST}(\alpha) = \{ a | \alpha \stackrel{*}{\Rightarrow} a \cdots, a \in V_{T} \}\]
+特别的，若 $\alpha \stackrel{*}{\Rightarrow} \epsilon$，则规定 $\epsilon \in \text{FIRST}(\alpha)$。换句话说，$\text{FIRST}(\alpha)$是 $\alpha$ 的所有可能推导的开头终结符或 $\epsilon$。
 
+如果非终结符 A 的所有候选首符集两两不相交，那么，当要求 A 匹配输入串时，A就能根据它所面临的第一个输入符号 a，准确地指派某一个候选前去执行任务。这个候选就是那个终结首符集含 a 的 $\alpha$。
 
+并非所有enfant的候选的终结首符集都两两不相交。其解决方案是：提取公共左因子。例如，假定关于 A 的规则是：
+\[ A \rightarrow \delta \beta_1 | \delta \beta_2 | \cdots | \delta \beta_n | \gamma_1 | \gamma_2 | \cdots | \gamma_m \quad (\text{每个} \gamma \text{不以} \delta \text{开头}) \]
+那么，可以把这些规则改写成：
+\begin{equation}
+    \begin{aligned}
+        &A \rightarrow \delta A^{'} | \gamma_1 | \gamma_2 | \cdots | \gamma_m \\
+        &A^{'} \rightarrow \beta_1 | \beta_2 | \cdots | \beta_n \nonumber
+    \end{aligned}
+\end{equation}
+经过反复提取左因子，就能够把每个非终结符的所有候选首符集变成两两不相交。
 
+\subsubsection{LL(1)分析条件}
 
+假定 S 是文法 G 的开始符号，对于 G 的任何非终结符 A，我们定义
+\[ \text{FOLLOW}(A) = \{ a|S\stackrel{*}{\Rightarrow} \cdots Aa \cdots, a\in V_T \} \]
+特别是，若 $S\stackrel{*}{\Rightarrow} \cdots A$，则规定 $\# \in \text{FOLLOW}(A)$。换句话说，$\text{FOLLOW}(A)$ 是所有句型中出现在紧接 A 之后的终结符或 \#。
 
+因此，当非终结符 A 面临输入符号 a，且 a 不属于 A 的任意候选首符集但 A 的某个候选首符集包含 $\epsilon$ 时，只有当 $a \in \text{FOLLOW}(A)$，才可能允许 A 自动匹配。
 
+通过上面一系列讨论，我们可以找出满足构造不带回溯的自上而下分析的文法条件。
+\begin{enumerate}
+    \item 文法不含左递归。
+    \item 文法中每一个非终结符 A 的各个产生式的候选首符集两两不相交。
+    \item 对文法中的每个非终结符A，若它存在某个候选首符集包含 $\epsilon$，则
+    \[ \text{FIRST(A)} \cap \text{FOLLOW(A)} = \phi \]
+\end{enumerate}
+如果一个文法 G 满足以上条件，则称该文法 G 为 LL(1) 文法。LL(1) 中第一个 L 表示从左到右扫描输入串，第二个 L 表示最左推导，1 表示分析时每一步只需向前查看一个符号。 
 
-
-
-
-
-
+对于一个 LL(1) 文法，可以对其输入串进行有效的无回溯的自上而下分析。假设要用非终结符 A 进行匹配，面临的输入符号为 a,A 的所有产生式为
+\[ A \rightarrow \alpha_1 | \alpha_2 | \cdots | \alpha_n \]
+\begin{itemize}
+    \item 若 $a\in \text{FIRST}(\alpha_1)$，则指派 $\alpha_i$ 去执行匹配任务。
+    \item 若 a 不属于任何一个候选首符集，则：
+    \begin{itemize}
+        \item 若 $\epsilon$ 属于某个 $\text{FIRST}(\alpha_i)$，且 $a\in \text{FOLLOW(A)}$，则让 A 与 $\epsilon$ 自动匹配；
+        \item 否则，a的出现是一种语法错误。
+    \end{itemize}
+\end{itemize}
 
 
 \newpage
