@@ -39,5 +39,7 @@ public static void main(args[]){
     if punch:
         Tom.flee();
 }
-
 ```
+
+- WBS(work,breakdown,structure)
+- pie chart, gantt chart
