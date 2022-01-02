@@ -20,21 +20,21 @@
 一个程序的层次结构大体上如下：
 
 \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[scale = 0.8,thick,every node/.style = {font = \small}]
-        \node (程序) at (0,0) {程序};
-        \node (子程序) at (0,-1.5) {子程序 \quad 或 \quad 分程序};
-        \node (语句) at (0,-3) {语句};
-        \node (表达式) at (0,-4.5) {表达式};
-        \node (数据引用) at (-2,-6) {数据引用};
-        \node (算符) at (0,-6) {算符};
-        \node (函数调用) at (2,-6) {函数调用};
-        \draw (程序) -- (子程序) -- (语句) -- (表达式) -- (算符);
-        \draw (0,-5.2) -| (数据引用);
-        \draw (0,-5.2) -| (函数调用);
-    \end{tikzpicture}
-    \caption{程序的层次结构}
-    \label{程序的层次结构}
+	\centering
+	\begin{tikzpicture}[scale = 0.8,thick,every node/.style = {font = \small}]
+		\node (程序) at (0,0) {程序};
+		\node (子程序) at (0,-1.5) {子程序 \quad 或 \quad 分程序};
+		\node (语句) at (0,-3) {语句};
+		\node (表达式) at (0,-4.5) {表达式};
+		\node (数据引用) at (-2,-6) {数据引用};
+		\node (算符) at (0,-6) {算符};
+		\node (函数调用) at (2,-6) {函数调用};
+		\draw (程序) -- (子程序) -- (语句) -- (表达式) -- (算符);
+		\draw (0,-5.2) -| (数据引用);
+		\draw (0,-5.2) -| (函数调用);
+	\end{tikzpicture}
+	\caption{程序的层次结构}
+	\label{程序的层次结构}
 \end{figure}
 
 \subsection{高级语言的一般特性}
@@ -42,44 +42,44 @@
 
 从语言范型分类，当今的大多数程序设计语言可分为四类。
 \begin{itemize}
-    \item 强制式语言
-    
-    强制式语言也称过程式语言。其特点是命令驱动，面向语句。一个强制式语言程序由一系列的语句组成，每个语句的执行引起若干存储单元中的值得改变。
-    
-    \begin{C++}
-        语句1;
-        语句2;
-        ......
-        语句n;
-    \end{C++}
+\item 强制式语言
 
-    这类语言有：C，Pascal，FORTRAN，Ada
+强制式语言也称过程式语言。其特点是命令驱动，面向语句。一个强制式语言程序由一系列的语句组成，每个语句的执行引起若干存储单元中的值得改变。
 
-    \item 应用式语言
-    
-    应用式语言更注重程序所表示的功能，而不是一个语句接着一个语句地执行。程序的开发过程从前面已有的函数出发构造出更复杂的函数。
+\begin{C++}
+语句1;
+语句2;
+......
+语句n;
+\end{C++}
 
-    \begin{C++}
-        函数n(...函数2(函数1(数据))...)
-    \end{C++}
+这类语言有：C，Pascal，FORTRAN，Ada
 
-    这类语言有：LISP，ML
-    \item 基于规则的语言
-    
-    基于规则的语言程序的执行过程式：检查一定的条件，当它满足值，则执行适当的动作。也称逻辑程序设计语言。
+\item 应用式语言
 
-    \begin{C++}
-        条件1 -> 动作1
-        条件2 -> 动作2
-        ......
-        条件n -> 动作n
-    \end{C++}
+应用式语言更注重程序所表示的功能，而不是一个语句接着一个语句地执行。程序的开发过程从前面已有的函数出发构造出更复杂的函数。
 
-    \item 面向对象语言
-    
-    面向对象语言如今已成为最流行、最重要的语言。它主要的特征是支持封装性、继承性和多态性等。把复杂的数据和用于这些数据的操作封装在一起，构成对象；对简单对象进行扩充继承简单对象的特性，从而设计出复杂的对象。通过对象的构造可以使面向对象程序获得强制式语言的有效性，通过作用于规定数据的函数的构造可以获得应用式语言的灵活性和可靠性。
+\begin{C++}
+函数n(...函数2(函数1(数据))...)
+\end{C++}
 
-    这类语言有：JAVA，C++
+这类语言有：LISP，ML
+\item 基于规则的语言
+
+基于规则的语言程序的执行过程式：检查一定的条件，当它满足值，则执行适当的动作。也称逻辑程序设计语言。
+
+\begin{C++}
+条件1 -> 动作1
+条件2 -> 动作2
+......
+条件n -> 动作n
+\end{C++}
+
+\item 面向对象语言
+
+面向对象语言如今已成为最流行、最重要的语言。它主要的特征是支持封装性、继承性和多态性等。把复杂的数据和用于这些数据的操作封装在一起，构成对象；对简单对象进行扩充继承简单对象的特性，从而设计出复杂的对象。通过对象的构造可以使面向对象程序获得强制式语言的有效性，通过作用于规定数据的函数的构造可以获得应用式语言的灵活性和可靠性。
+
+这类语言有：JAVA，C++
 \end{itemize}
 
 \subsubsection{程序结构}
@@ -94,19 +94,19 @@ JAVA 是一种面向对象的高级语言，它很重要的方面是类及继承
 
 一个数据类型通常包括以下三种要素。
 \begin{itemize}
-    \item 用于区别这种类型的数据对象的属性。
-    \item 这种类型的数据对象可以具有的值。
-    \item 可以作用于这种类型的数据对象的操作。
+	\item 用于区别这种类型的数据对象的属性。
+	\item 这种类型的数据对象可以具有的值。
+	\item 可以作用于这种类型的数据对象的操作。
 \end{itemize}
 
 \noindent\textbf{初等数据类型}
 
 一个程序语言必须提供一定的初等类型数据成分，并定义对于这些数据成分的运算。常见的初等数据类型有：
 \begin{itemize}
-    \item \textbf{数值数据}：如整数，实数，复数以及这些类型的双长(或多倍长)精度数，对他们可施行算数运算(+,-,*,/等)。
-    \item \textbf{逻辑数据}：多数语言有逻辑型(布尔型)数据，对它们可施行逻辑运算(and,or,not 等)。
-    \item \textbf{字符数据}：字符型或字符串型数据。
-    \item \textbf{指针类型}：指针的值指向另一些数据。
+	\item \textbf{数值数据}：如整数，实数，复数以及这些类型的双长(或多倍长)精度数，对他们可施行算数运算(+,-,*,/等)。
+	\item \textbf{逻辑数据}：多数语言有逻辑型(布尔型)数据，对它们可施行逻辑运算(and,or,not 等)。
+	\item \textbf{字符数据}：字符型或字符串型数据。
+	\item \textbf{指针类型}：指针的值指向另一些数据。
 \end{itemize}
 
 标识符：由字母或数字组成的以字母为开头的一个字符串。
@@ -138,46 +138,46 @@ $\Sigma^*$ 的子集 U 和 V 的(连接)积定义为:
 例如我们将下面自然语言进行文法分析并绘制分析树。
 
 \begin{center}
-    He gave me a book.
+	He gave me a book.
 \end{center}
 
 \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[font = {\small}]
-        \node (1-1) at (0,0) {<句子>};
-        \node (2-1) at (-4,-1.5) {<主语>};
-        \node (2-2) at (-1.5,-1.5) {<谓语>};
-        \node (2-3) at (1,-1.5) {<间接宾语>};
-        \node (2-4) at (3.5,-1.5) {<直接宾语>};
-        \node (3-1) at (-4,-3) {<代词>};
-        \node (3-2) at (-1.5,-3) {<动词>};
-        \node (3-3) at (1,-3) {<代词>};
-        \node (3-4) at (2.6,-3) {<冠词>};
-        \node (3-5) at (4.4,-3) {<名词>};
-        \node (4-1) at (-4,-4.5) {He};
-        \node (4-2) at (-1.5,-4.5) {gave};
-        \node (4-3) at (1,-4.5) {me};
-        \node (4-4) at (2.6,-4.5) {a};
-        \node (4-5) at (4.4,-4.5) {book};
-        \foreach \x in {1,2,3,4}
-            \draw (1-1) -- (2-\x) -- (3-\x) -- (4-\x);
-        \draw (2-4) -- (3-5) -- (4-5);
-    \end{tikzpicture}
-    \caption{语法树：He gave me a book.}
-    \label{语法树：He gave me a book.}
+	\centering
+	\begin{tikzpicture}[font = {\small}]
+		\node (1-1) at (0,0) {<句子>};
+		\node (2-1) at (-4,-1.5) {<主语>};
+		\node (2-2) at (-1.5,-1.5) {<谓语>};
+		\node (2-3) at (1,-1.5) {<间接宾语>};
+		\node (2-4) at (3.5,-1.5) {<直接宾语>};
+		\node (3-1) at (-4,-3) {<代词>};
+		\node (3-2) at (-1.5,-3) {<动词>};
+		\node (3-3) at (1,-3) {<代词>};
+		\node (3-4) at (2.6,-3) {<冠词>};
+		\node (3-5) at (4.4,-3) {<名词>};
+		\node (4-1) at (-4,-4.5) {He};
+		\node (4-2) at (-1.5,-4.5) {gave};
+		\node (4-3) at (1,-4.5) {me};
+		\node (4-4) at (2.6,-4.5) {a};
+		\node (4-5) at (4.4,-4.5) {book};
+		\foreach \x in {1,2,3,4}
+		\draw (1-1) -- (2-\x) -- (3-\x) -- (4-\x);
+		\draw (2-4) -- (3-5) -- (4-5);
+	\end{tikzpicture}
+	\caption{语法树：He gave me a book.}
+	\label{语法树：He gave me a book.}
 \end{figure}
 
 一个上下文无关法包括四个组成部分：一组终结符号，一组非终结符号，一个开始符号，一组产生式。在上例中，它们分别是：
 
 \begin{itemize}
-    \item 终结符号：组成语言的基本符号 \\
-    He,gave,me,a,book
-    \item 非终结符号：代表语法范畴，语法概念 \\
-    <句子>,<主语>,<代词> 等 
-    \item 开始符号：代表所定义语言中我们最感兴趣的语法范畴 \\
-    <句子>
-    \item 产生式：定义语法范畴的一种书写规范\\
-    <直接宾语> $\rightarrow$ <冠词> <名词>
+	\item 终结符号：组成语言的基本符号 \\
+	      He,gave,me,a,book
+	\item 非终结符号：代表语法范畴，语法概念 \\
+	      <句子>,<主语>,<代词> 等
+	\item 开始符号：代表所定义语言中我们最感兴趣的语法范畴 \\
+	      <句子>
+	\item 产生式：定义语法范畴的一种书写规范\\
+	      <直接宾语> $\rightarrow$ <冠词> <名词>
 \end{itemize}
 
 下面重点介绍产生式，一个产生式的形式是：
@@ -186,12 +186,12 @@ $\Sigma^*$ 的子集 U 和 V 的(连接)积定义为:
 
 为了书写方便，若干个左部相同的产生式，如:
 \begin{equation}
-    \begin{aligned}
-        P \rightarrow \alpha_1 \\
-        P \rightarrow \alpha_2 \\
-        \vdots \\
-        P \rightarrow \alpha_n \nonumber
-    \end{aligned}
+	\begin{aligned}
+		P \rightarrow \alpha_1 \\
+		P \rightarrow \alpha_2 \\
+		\vdots                 \\
+		P \rightarrow \alpha_n \nonumber
+	\end{aligned}
 \end{equation}
 可合并为一个，缩写成
 \[ P \rightarrow \alpha_1 | \alpha_2 | \cdots | \alpha_n \]
@@ -199,7 +199,7 @@ $\Sigma^*$ 的子集 U 和 V 的(连接)积定义为:
 
 后面的讨论中，通常将大写字母 A,B,C... 或汉语词组代表非终结符号，a,b,c...小写字母代表终结符,用 $\alpha,\beta,\gamma$ 代表由终结符和非终结符组成的符号串。
 
-当表示推导一步时，可以使用 $\Rightarrow$ 代替 $\rightarrow$。例如 
+当表示推导一步时，可以使用 $\Rightarrow$ 代替 $\rightarrow$。例如
 \[ E \Rightarrow (E) \Rightarrow (E+E) \Rightarrow (E+i) \Rightarrow (i+i) \]
 如果存在：
 \[ \alpha_1 \Rightarrow \alpha_2 \cdots \alpha_n \]
@@ -209,7 +209,7 @@ $\Sigma^*$ 的子集 U 和 V 的(连接)积定义为:
 
 为了对句子的结构进行确定性分析，我们往往只考虑最左推导和最右推导。所谓最左推导是指：任何一步 $\alpha \Rightarrow \beta$ 都是对 $\alpha$ 中的最左非终结符进行替换的。最右推导同样。
 
-\subsubsection{语法分析树和二义性} 
+\subsubsection{语法分析树和二义性}
 
 可以用一张图表示一个句型的推导，这种表示称为语法分析树，或简称为语法树。语法树的根结由开始符号所标记。随着推导的展开，当某个非终结符被它的某个候选式所替换时，这个非终结符的相应结就产生出下一代新结，候选式中自左至右的每个符号对应一个新结，并用这些符号标记其相应的新结。每个新结和服结间都有一条连线。在一棵语法树生长过程中的任何时刻，所有那些没有后代的端末结自左至右排列起来就是一个句型。
 
@@ -217,31 +217,31 @@ $\Sigma^*$ 的子集 U 和 V 的(连接)积定义为:
 \[E \Rightarrow (E) \Rightarrow (E+E) \Rightarrow (E*E+E) \Rightarrow (i*E+E) \Rightarrow (i*i+E) \Rightarrow (i*i+i) \]
 
 \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[scale = 0.8]
-        \node (1-1) at (0,0) {E(根)};
-        \node (2-1) at (-3,-1.5) {(}; 
-        \node (2-2) at (3,-1.5) {)}; 
-        \node (3-1) at (0,-3) {E}; 
-        \node (4-1) at (-2.5,-4.5) {E};
-        \node (4-2) at (0,-4.5) {+};
-        \node (4-3) at (2.5,-4.5) {E};
-        \node (5-1) at (-3.5,-6) {E};
-        \node (5-2) at (-2.5,-6) {*};
-        \node (5-3) at (-1.5,-6) {E};
-        \node (5-4) at (2.5,-6) {i};
-        \node (6-1) at (-3.5,-7.5) {i};
-        \node (6-2) at (-1.5,-7.5) {i};
-        \node at (5,1) {代次};
-        \node at (5,0) {1};
-        \node at (5,-3) {2};
-        \node at (5,-4.5) {3};
-        \node at (5,-6) {4};
-        \node at (5,-7) {5};
-        \draw [thick] (1-1) -- (2-1) (1-1) -- (2-2) (1-1) -- (3-1) (3-1) -- (4-1) (3-1) -- (4-2) (3-1)-- (4-3) (4-1) -- (5-1) (4-1) -- (5-2) (4-1) -- (5-3) (4-3) -- (5-4) (5-1) -- (6-1) (5-3) -- (6-2);
-    \end{tikzpicture}
-    \caption{分析树示例}
-    \label{分析树示例}
+	\centering
+	\begin{tikzpicture}[scale = 0.8]
+		\node (1-1) at (0,0) {E(根)};
+		\node (2-1) at (-3,-1.5) {(};
+		\node (2-2) at (3,-1.5) {)};
+		\node (3-1) at (0,-3) {E};
+		\node (4-1) at (-2.5,-4.5) {E};
+		\node (4-2) at (0,-4.5) {+};
+		\node (4-3) at (2.5,-4.5) {E};
+		\node (5-1) at (-3.5,-6) {E};
+		\node (5-2) at (-2.5,-6) {*};
+		\node (5-3) at (-1.5,-6) {E};
+		\node (5-4) at (2.5,-6) {i};
+		\node (6-1) at (-3.5,-7.5) {i};
+		\node (6-2) at (-1.5,-7.5) {i};
+		\node at (5,1) {代次};
+		\node at (5,0) {1};
+		\node at (5,-3) {2};
+		\node at (5,-4.5) {3};
+		\node at (5,-6) {4};
+		\node at (5,-7) {5};
+		\draw [thick] (1-1) -- (2-1) (1-1) -- (2-2) (1-1) -- (3-1) (3-1) -- (4-1) (3-1) -- (4-2) (3-1)-- (4-3) (4-1) -- (5-1) (4-1) -- (5-2) (4-1) -- (5-3) (4-3) -- (5-4) (5-1) -- (6-1) (5-3) -- (6-2);
+	\end{tikzpicture}
+	\caption{分析树示例}
+	\label{分析树示例}
 \end{figure}
 
 一棵语法树表示了一个句型种种可能的(未必是所有)不同推导过程，这样一棵语法树是这些不同推导过程的共性抽象，是它们的代表。但一个句型不唯一对应一棵语法树。值得注意的是，我们可以用完全不同的方法生成同一个句子。
@@ -253,51 +253,51 @@ $\Sigma^*$ 的子集 U 和 V 的(连接)积定义为:
 作为描述程序语言的上下文无关法，有以下限制。
 
 \begin{itemize}
-    \item 文法中不含任何下面形式的产生式(除了引起二义性没有任何用处)：
-    \[P \rightarrow P\]
-    \item 每个非终结符 P 必须有用处，也即必须存在含 P 的句型。对 P 不存在永不终结的回路。
+	\item 文法中不含任何下面形式的产生式(除了引起二义性没有任何用处)：
+	      \[P \rightarrow P\]
+	\item 每个非终结符 P 必须有用处，也即必须存在含 P 的句型。对 P 不存在永不终结的回路。
 \end{itemize}
 
 \subsubsection{形式语言鸟瞰}
 
 乔姆斯基\footnote{1956年建立形式语言的描述}将文法定义为四元组：$G=(V_T,V_N,S,\mathcal{P})$，各部分意义如下：
 \begin{itemize}
-    \item $V_N$: 非空有限集，其中每个元素都为非终结符，也称为非终结符集。
-    \item $V_T$: 也是非空有限集，其中每个元素均为终结符，也称终结符集。
-    \item $\mathcal{P}$: 产生式的有限集。
-    \item $S$: 文法的开始符号，至少要在一条产生式的左部中出现。
+	\item $V_N$: 非空有限集，其中每个元素都为非终结符，也称为非终结符集。
+	\item $V_T$: 也是非空有限集，其中每个元素均为终结符，也称终结符集。
+	\item $\mathcal{P}$: 产生式的有限集。
+	\item $S$: 文法的开始符号，至少要在一条产生式的左部中出现。
 \end{itemize}
 
 乔姆斯基把文法分成四种类型：0型，1型，2型，3型。数值越低强度越高。这几类文法的差别在于对产生式施加不同的限制。
 
 
 \begin{itemize}
-    \item \textbf{0 型文法}
-    
-    0 型文法满足以下条件：对于 $G=(V_T,V_N,S,\mathcal{P})$，如果它的每个产生式：
-    \[\alpha \rightarrow \beta\]
-    是这样一种结构：$\alpha \in (V_N \cup V_T)^*$ 且至少含有一个非终结符，而 $\beta \in (V_N \cup V_T)^*$
-    
-    0 型文法也称短语文法。0型文法的能力相当于图灵机。或者说，任何0型语言都是递归可枚举的；反之，递归可枚举集必定是一个0型语言。
+	\item \textbf{0 型文法}
 
-    如果对 0 型文法分别施加以下第 i 条限制，也就获得 i 型文法。
-    \begin{enumerate}
-        \item G 的任何产生式 $\alpha \rightarrow \beta$ 均满足 $|\alpha| \leq |\beta|$ (||表长度);仅 $S \rightarrow \epsilon$ 例外，但S不得出现在任何产生式的右部。
-        \item G 的任何产生式为 $A\rightarrow \beta,A\in V_N,\beta \in (V_N \cup V_T)^*$。
-        \item G 的任何产生式为 $A\rightarrow\alpha B$ 或 $A \rightarrow \alpha$, 其中 $\alpha \in V_T^*,A、B\in V_N$。
-    \end{enumerate}
+	      0 型文法满足以下条件：对于 $G=(V_T,V_N,S,\mathcal{P})$，如果它的每个产生式：
+	      \[\alpha \rightarrow \beta\]
+	      是这样一种结构：$\alpha \in (V_N \cup V_T)^*$ 且至少含有一个非终结符，而 $\beta \in (V_N \cup V_T)^*$
 
-    \item \textbf{1型文法}
-    
-    1 型文法也称为上下文有关文法。这意味着对非终结符进行替换时务必考虑上下文，且一般不允许替换成空串 $\epsilon$。
+	      0 型文法也称短语文法。0型文法的能力相当于图灵机。或者说，任何0型语言都是递归可枚举的；反之，递归可枚举集必定是一个0型语言。
 
-    例如，若存在 $\alpha A \beta \rightarrow \alpha \gamma \beta$ 是1型文法 G 的一个产生式，$\alpha,\beta$不为空，那么非终结符A只有在 $\alpha,\beta$ 这样一个上下文环境总才能被替换为 $\gamma$。
+	      如果对 0 型文法分别施加以下第 i 条限制，也就获得 i 型文法。
+	      \begin{enumerate}
+		      \item G 的任何产生式 $\alpha \rightarrow \beta$ 均满足 $|\alpha| \leq |\beta|$ (||表长度);仅 $S \rightarrow \epsilon$ 例外，但S不得出现在任何产生式的右部。
+		      \item G 的任何产生式为 $A\rightarrow \beta,A\in V_N,\beta \in (V_N \cup V_T)^*$。
+		      \item G 的任何产生式为 $A\rightarrow\alpha B$ 或 $A \rightarrow \alpha$, 其中 $\alpha \in V_T^*,A、B\in V_N$。
+	      \end{enumerate}
 
-    \item \textbf{2型文法}
-    
-    2 型文法也称上下文无关文法。也即不用考虑上下文。上下文无关法对于非确定的下推自动机\footnote{将在后文讲到，这里仅提及。}，是形式语言中的一条重要定理。
+	\item \textbf{1型文法}
 
-    \item \textbf{3 型文法}
-    
-    3 型文法也称右线性文法。对应的另一种形式被称为左线性文法。由于3型文法等价于正规式，所以也称正规文法。
+	      1 型文法也称为上下文有关文法。这意味着对非终结符进行替换时务必考虑上下文，且一般不允许替换成空串 $\epsilon$。
+
+	      例如，若存在 $\alpha A \beta \rightarrow \alpha \gamma \beta$ 是1型文法 G 的一个产生式，$\alpha,\beta$不为空，那么非终结符A只有在 $\alpha,\beta$ 这样一个上下文环境总才能被替换为 $\gamma$。
+
+	\item \textbf{2型文法}
+
+	      2 型文法也称上下文无关文法。也即不用考虑上下文。上下文无关法对于非确定的下推自动机\footnote{将在后文讲到，这里仅提及。}，是形式语言中的一条重要定理。
+
+	\item \textbf{3 型文法}
+
+	      3 型文法也称右线性文法。对应的另一种形式被称为左线性文法。由于3型文法等价于正规式，所以也称正规文法。
 \end{itemize}
