@@ -1,0 +1,14 @@
+@startuml
+    left to right direction
+    :user:
+    rectangle HouseWare-System{
+        (withdraw money)
+        (save money)
+        (modify password)
+        (report the loss)
+        (pay the fee)
+        (pay the fee) <.. (pay the telephone fee):<<extend>>
+        (pay the fee) <.. (pay the water fee):<<extend>>
+        (pay the fee) <.. (pay the other fee):<<extend>>
+    }
+@enduml
